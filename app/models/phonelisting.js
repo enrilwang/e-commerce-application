@@ -1,18 +1,25 @@
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 
-const phoneSchema = new mongoose.Schema({
+
+
+var phoneSchema = new mongoose.Schema({
     title: String,
     brand: String,
     image: String,
     stock: Number,
     seller: String,
     price: Number,
-    reviews: Object
+    reviews:  [{reviewer:String,
+                rating: Number,
+                comment:String}]
+      
     
 })
 
-phoneSchema.methods.findPhoneWithTitle = function(callback){
-    return this.model('Phonelisting').find({title: this.title}, callback)
+
+
+phoneSchema.statics.findPhoneWithTitle = function(title, callback){
+    return this.find({title: /title/i}).exec(callback)
   }
 
-module.exports = mongoose.model("Phonelisting", phoneSchema, "phonelisting");
+module.exports = mongoose.model("Phonelisting", phoneSchema, "phoneListing");
