@@ -1,6 +1,6 @@
- import axios from 'axios';
+import axios from 'axios';
 
- const url='http://localhost:3000/api/phones';
+const url='http://localhost:3000/api/phones';
 
 class PostService{
 
@@ -31,11 +31,12 @@ class PostService{
 static getPosts(){
     axios(url).then(response=>{
         console.log('response',response.data)
+        
     })
     .catch(error=>{
         console.log('error',error)
     })
-
+    
 }
 }
 export default PostService

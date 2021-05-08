@@ -12,13 +12,12 @@
 
 <script>
 import PostComponent from './components/PostComponent';
-// import HelloWorld from './components/HelloWorld';
 
 
 export default {
   name: 'App',
   components: {
-    PostComponent,
+    PostComponent
     // HelloWorld
   }
  

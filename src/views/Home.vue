@@ -12,10 +12,12 @@
       <li><input v-model="search"  placeholder="Search"></li>
       <li><button v-on:click="SendSearch">Search</button></li>
     </ul>
+
   
     <div class="row" v-show="homeState">
       <div class="column">
         <h2>Sold out soon</h2>
+        
       </div>
       <div class="column">
         <h2>Best sellers</h2>
@@ -25,27 +27,36 @@
 </template>
 
 <script>
+
 export default {
   name: "Home",
   components: {
     
   },
 
-data:function(){
-  {
-    return{
-  homeState:true
-  }
-  }
-},
- methods: {
-    SendSearch: function () {
-        this.homeState=false
-      alert('Hello ' + this.search + '!')
-    }
+  data:function(){
+    
+      return{
+        homeState:true,
+        search:""
+        // orders:[]
+      
+      }
   },
-};
+// mounted:function(){
+//   this.getFive();
+// },
+  methods: {
+      SendSearch: function () {
+        this.homeState=false;
+        alert('Hello ' + this.search + '!')
+      }
+      
+  }
+}
+
 </script>
+
 <style scoped lang="stylus">
 .home 
   background-color:	#FFFFE0
@@ -55,11 +66,7 @@ data:function(){
    display: table;
    clear: both;
  }
-.column {
-  float: left;
-  width: 50%;
-  // padding: 15px;
-}
+
   li {
     float: left;
   }
