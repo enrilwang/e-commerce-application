@@ -2,8 +2,8 @@
   <div id="app">
     
     <router-view></router-view>
-    <!-- <HelloWorld /> -->
-    <PostComponent />
+    
+    <!-- <PostComponent /> -->
 
   </div>
   
@@ -11,14 +11,14 @@
 
 
 <script>
-import PostComponent from './components/PostComponent';
+// import PostComponent from './components/PostComponent';
 
 
 export default {
   name: 'App',
   components: {
-    PostComponent
-    // HelloWorld
+    // PostComponent
+    
   }
  
   

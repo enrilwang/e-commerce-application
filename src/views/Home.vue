@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    
-    <!-- <hello-world/> -->
+
     <ul>
       <h1>Phone Zone</h1>
       <li><router-link to="/">Home</router-link></li>
@@ -15,23 +14,28 @@
 
   
     <div class="row" v-show="homeState">
-      <div class="column">
-        <h2>Sold out soon</h2>
+      <div class="left" >
+        <h2><center>Sold out soon</center></h2>
+        <!-- <PostComponent /> -->
         
       </div>
-      <div class="column">
-        <h2>Best sellers</h2>
+      <div class="right">
+        <h2><center>Best sellers</center></h2>
       </div>
     </div>
+    <PostComponent />
   </div>
 </template>
 
 <script>
+import PostComponent from '../components/PostComponent'
+import axios from 'axios';
+
 
 export default {
   name: "Home",
   components: {
-    
+    PostComponent
   },
 
   data:function(){
@@ -43,13 +47,24 @@ export default {
       
       }
   },
-// mounted:function(){
-//   this.getFive();
-// },
+
   methods: {
       SendSearch: function () {
         this.homeState=false;
+        // var data = this.search
         alert('Hello ' + this.search + '!')
+            let url ='api/phones';
+
+        axios.post(url
+        ,{
+          title:this.search
+        },
+        ).then(response=>
+          console.log(response.data)
+        ).catch(error=>{
+          console.log(error)
+        })
+        
       }
       
   }
@@ -57,15 +72,26 @@ export default {
 
 </script>
 
-<style scoped lang="stylus">
-.home 
-  background-color:	#FFFFE0
 
- .row:after {
+<style>
+.home {
+  background-color:	#FFFFE0
+}
+.row:after {
    content: "";
    display: table;
    clear: both;
  }
+ .right {
+  float: left;
+  width: 50%;
+  
+}
+.left {
+  float: left;
+  width: 50%;
+  
+}
 
   li {
     float: left;
@@ -81,7 +107,5 @@ export default {
     padding: 14px 16px;
     text-decoration: none;
   }
-
-
 
 </style>

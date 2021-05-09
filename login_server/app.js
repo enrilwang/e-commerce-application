@@ -14,8 +14,7 @@ const bestSeller=require('./routes/api/bestseller')
 app.use('/api/phones',phones)
 app.use('/api/search',phones)
 app.use('/api/bestSeller',bestSeller)
-// const posts=require('./routes/api/posts')
-// app.use('/api/posts',posts)
+
 const port = process.env.PORT || 3000
 
 app.listen(port)

@@ -2,23 +2,36 @@
 
 <template>
   <div class="hello">
+        <p class="error" v-if="error">{{error}}</p>
+    <div class="phones">
+      <div  class="cardid">
+        <div  class="post" v-for="(post,index) in posts"
+
+          v-bind:item="post"
+          v-bind:index="index"
+          v-bind:key="post.id"
+        >
+          <img :src="require('../../public/image/'+post.image)" style="width:80%"   alt="">
+          <!-- <div class="container"> -->
+            <p>------{{post.price}}</p>
+          <!-- </div> -->
+        </div>
+      </div>
+      <div  class="cardid">
+        <div  class="bestSeller" v-for="(post,index) in bestSeller"
+          v-bind:item="post"
+          v-bind:index="index"
+          v-bind:key="post.id"
+        >
     
-    <p class="error" v-if="error">{{error}}</p>
-    <div style = "width:408px;height:400px" class="post" v-for="(post,index) in posts"
-    v-bind:item="post"
-    v-bind:index="index"
-    v-bind:key="post.id"
-    >
-    <p><img :src="require('../../public/image/'+post.image)" alt="">------{{post.price}}</p>
+          <img :src="require('../../public/image/'+post._id.image)"  style="width:80%" alt="">
+          <!-- <div class="container"> -->
+            <p>------{{post.avgRating}}</p>
+          <!-- </div> -->
+        </div>
+      </div>
     </div>
 
-    <div  class="bestSeller" v-for="(post,index) in bestSeller"
-    v-bind:item="post"
-    v-bind:index="index"
-    v-bind:key="post.id"
-    >
-    <p><img :src="require('../../public/image/'+post._id.image)" alt="">------{{post.avgRating}}</p>
-    </div>
 
 
 
@@ -30,10 +43,13 @@
 import axios from 'axios';
 
 
-// import PostService from '../PostService'
+// import Home from '../views/Home'
 
 export default {
   name: "PostComponent",
+  components: {
+    // Home
+  },
   data(){
     return{
       posts:[],
@@ -47,8 +63,8 @@ export default {
   
   async created(){
     
-    let url ='http://localhost:3000/api/phones';
-    let urlSeller ='http://localhost:3000/api/bestSeller';
+    let url ='api/phones';
+    let urlSeller ='api/bestSeller';
     const reqOne =  axios.get(url)
     const reqTwo = axios.get(urlSeller)
     axios.all([reqOne, reqTwo]).then(axios.spread((...responses)=>{
@@ -73,31 +89,31 @@ export default {
     })).catch(error=>{
       console.log(error)
     });
-
-    
-   
-    
   }
 };
-
-
-
 </script>
-<style >
-.post{
-  
-  left:0;
-  background:blue;
-  margin:0;
-},
-.bestSeller{
-
-  float: left;
-  width: 50%;
-  
-
+<style>
+.phones {
+  column-count: 2;
+}
+.cardid {
+  width: 60%;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+  margin-left: 120px;
 }
 
+.post{
+  margin-left: 80px;
+}
+.bestSeller{
+  margin-left: 80px;
+}
+
+.container {
+  text-align: center;
+  padding: 10px 20px;
+}
 
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

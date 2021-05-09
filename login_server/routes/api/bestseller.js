@@ -2,6 +2,7 @@ const express=require('express')
 const phone = require('../../models/phonelisting')
 const router=express.Router()
 
+
 router.get('/',async (req,res)=>{
     
     res.send(await phone.aggregate([
