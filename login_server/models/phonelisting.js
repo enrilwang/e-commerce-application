@@ -19,7 +19,8 @@ var phoneSchema = new mongoose.Schema({
 
 
 phoneSchema.statics.findPhoneWithTitle = function(title, callback){
-    return this.find({title: /title/i}).exec(callback)
+    var str = eval("/" + title +"/i")
+    return this.find({'title': {$regex:str}}).exec(callback)
   }
 
 var phone = mongoose.model("Phonelisting", phoneSchema, "phones");

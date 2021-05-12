@@ -63,8 +63,8 @@ export default {
   
   async created(){
     
-    let url ='api/phones';
-    let urlSeller ='api/bestSeller';
+    let url = "http://localhost:3000/all";
+    let urlSeller ='http://localhost:3000/seller';
     const reqOne =  axios.get(url)
     const reqTwo = axios.get(urlSeller)
     axios.all([reqOne, reqTwo]).then(axios.spread((...responses)=>{

@@ -51,19 +51,14 @@ export default {
   methods: {
       SendSearch: function () {
         this.homeState=false;
-        // var data = this.search
-        alert('Hello ' + this.search + '!')
-            let url ='api/phones';
-
-        axios.post(url
-        ,{
-          title:this.search
-        },
-        ).then(response=>
-          console.log(response.data)
-        ).catch(error=>{
-          console.log(error)
-        })
+        let url =`http://localhost:3000/search/${this.search}`;
+        let searchData = []
+        axios.get(url)
+              .then(function(res) {
+                  searchData = res.data;
+                  
+                  console.log(searchData);
+              }).catch(err=>console.log(err))
         
       }
       

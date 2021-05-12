@@ -12,20 +12,6 @@ var userSchema = new mongoose.Schema({
 
 
 
-// var phone = mongoose.model("Userlisting", userSchema, "userListing");
-
-// phone.find()
-// 	.limit(10)
-// 	.exec(function(err,result){
-// 	if (err){
-// 		console.log("Query error!")
-// 	}else{
-// 		console.log("The earliest revision in CNN is:");
-// 		console.log(result)
-// 	}	
-// });
-
-
 
 userSchema.methods.findUsersWithSameEmail = function(callback){
   return this.model('Userlisting').find({email: this.email}, callback)
