@@ -13,7 +13,7 @@
         >
           <img :src="require('../../public/image/'+post.image)" style="width:80%"   alt="">
           <!-- <div class="container"> -->
-            <p>------{{post.price}}</p>
+            <p>Price: ${{post.price}}</p>
           <!-- </div> -->
         </div>
       </div>
@@ -26,7 +26,7 @@
     
           <img :src="require('../../public/image/'+post._id.image)"  style="width:80%" alt="">
           <!-- <div class="container"> -->
-            <p>------{{post.avgRating}}</p>
+            <p>Average rating: {{post.avgRating}}</p>
           <!-- </div> -->
         </div>
       </div>

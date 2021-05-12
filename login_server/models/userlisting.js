@@ -13,12 +13,12 @@ var userSchema = new mongoose.Schema({
 
 
 
-userSchema.methods.findUsersWithSameEmail = function(callback){
+userSchema.methods.checkSameEmail = function(callback){
   return this.model('Userlisting').find({email: this.email}, callback)
 }
 
 
-userSchema.methods.findUserbyEmailandPassword = function(callback){
+userSchema.methods.checkEmailandPassword = function(callback){
   return this.model('Userlisting').find({email: this.email, password: this.password}, callback)
 }
 
