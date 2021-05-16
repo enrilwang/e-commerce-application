@@ -4,9 +4,17 @@ const jwt = require("jsonwebtoken")
 
 module.exports ={
 
+  getAllUser:function(req,res,next) {
+    user.find().exec()
+        .then(data => res.json(data))
+        .catch()
+  },
+
+
+
   //sign up function
   signUp:function(req, res, next) {
-      console.log(req.body);
+      console.log("hello" + req.body);
       let data = req.body;
       var newUser = new user();
       let password = crypto.createHash("md5").update(data.password).digest("hex")

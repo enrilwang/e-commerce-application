@@ -30,11 +30,20 @@ module.exports ={
       {
           $group:{
               _id:{Title:"$title",image:"$image"},
+              //data:{$first:"$$ROOT"},
+              title:{$first : "$title"},
+              price:{$first : "$price"},
+              brand:{$first : "$brand"},
+              image:{$first : "$image"},
+              stock:{$first : "$stock"},
+              reviews:{"$push" : "$reviews"},
+              seller:{$first : "$seller"},
               avgRating:{$avg:'$reviews.rating'}
           }
           
          
       },
+      
       {$match:{avgRating:{$gte:2}}},
       {$sort:{avgRating:-1}},
       {$limit:5}

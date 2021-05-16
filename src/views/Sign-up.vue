@@ -27,7 +27,7 @@
       <!-- <button type="button" class="cancelbtn" >Cancel</button> -->
       <el-button type="danger" plain>Cancel</el-button>
 
-      </router-link>
+      </router-link >
       <el-button type="success" plain v-on:click="Signup">Sign Up</el-button>
       <!-- <button type="submit" class="signinbtn">Sign Up</button> -->
     </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
       return {
@@ -49,10 +50,69 @@ export default {
     },
     methods:{
       Signup:function(){
-        if(this.email==""||this.pwd==""){
+        var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+        var emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        console.log(emailReg.test(this.email))
+        
+        if(this.fname=="" || this.lname==""||this.email==""||this.pwd==""){
           alert('Please fill in all the fields.')
+        }else if(emailReg.test(this.email) == flase){
+          alert("email format is not correct! ");
+        }else if (passwordReg.test(this.pwd) == flase) {
+          alert("Password must contain 6 characters, at least one letter and one number ");
+        }else {
 
+          const user = {firstName:this.fname,
+                        lastName:this.lname,
+                        email:this.email,
+                        password:this.pwd
+                        }
+          axios.post("http://localhost:3000/signUp",Json.stringify(user))
+            .then(res => {
+              console.log("check"+res.data)
+            if(res.status === 200){
+              
+              alert("Sign up successfully! Please sign in")
+            }else if(res.status ===201){
+              alert("Email has already existed! Please sign up with different email")
+            }else {
+              const error = new Error(res.error);
+              throw error;
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            alert('Error registering please try again');
+          })
+
+
+
+          // fetch('/signUp', {
+          //   method: 'POST',
+          //   body: JSON.stringify(this.state),
+          //   headers: {
+          //     'Accept': 'application/json',
+          //     'Content-Type': 'application/json'
+          //   },
+          //   credentials: 'include'
+          // })
+          // .then(res => {
+          //   if(res.status === 200){
+          //     this.props.history.push("/")
+          //     alert("Sign up successfully! Please sign in")
+          //   }else if(res.status ===201){
+          //     alert("Email has already existed! Please sign up with different email")
+          //   }else {
+          //     const error = new Error(res.error);
+          //     throw error;
+          //   }
+          // })
+          // .catch(err => {
+          //   console.log(err)
+          //   alert('Error registering please try again');
+          // })
         }
+        
       }
     }
   }

@@ -7,14 +7,14 @@
           <el-col :span="14" v-for="(post,index) in posts" 
             v-bind:item="post"
             v-bind:index="index"
-            v-bind:key="post.id">
+            v-bind:key="post.id" >
             <el-card :body-style="{ padding: '0px' }">
               <div style="padding: 14px;">
                 <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
                 <span>Price: ${{post.price}}</span> 
                 <div class="bottom clearfix">
                   <el-button type="warning" icon="el-icon-star-off" circle >Add to Cart</el-button>
-                  <el-button type="text" class="button" v-on:click="detail">More details</el-button>
+                  <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
                 </div>
               </div>
             </el-card>
@@ -22,17 +22,17 @@
         </el-row>
         
         <el-row>
-          <el-col :span="14" v-for="(post,index) in bestSeller" 
+          <el-col :span="14" v-for="(post,index) in bestSeller"
             v-bind:item="post"
             v-bind:index="index"
-            v-bind:key="post.id" class="card">
+            v-bind:key="post.id" class="card" >
             <el-card :body-style="{ padding: '0px' }" >
               <div style="padding: 14px;">
                 <img :src="require('../../public/image/'+post._id.image)"  style="width:100%"  class="image" alt="">
                 <span>Average rating: {{post.avgRating}}</span>
                 <div class="bottom clearfix">
                   <el-button type="warning" icon="el-icon-star-off" circle >Add to Cart</el-button>
-                  <el-button type="text" class="button" v-on:click="detail">More details</el-button>
+                  <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
                 </div>
               </div>
             </el-card> 
@@ -60,6 +60,7 @@ export default {
     return{
       posts:[],
       bestSeller:[],
+      user:[],
       error:'',
       text:'',
       hcState:true,
@@ -72,11 +73,14 @@ export default {
     
     let url = "http://localhost:3000/all";
     let urlSeller ='http://localhost:3000/seller';
+    let urlUser = 'http://localhost:3000/user';
     const reqOne =  axios.get(url)
     const reqTwo = axios.get(urlSeller)
-    axios.all([reqOne, reqTwo]).then(axios.spread((...responses)=>{
+    const reqThree = axios.get(urlUser);
+    axios.all([reqOne, reqTwo,reqThree]).then(axios.spread((...responses)=>{
       const responsesOne = responses[0]
       const responsesTwo = responses[1]
+      const responsesThree = responses[2]
       responsesOne.data.sort(function(a,b){return a.stock-b.stock})
       let num = 0;
       let ls = [];
@@ -92,6 +96,7 @@ export default {
       this.posts = ls;
       //handle the bestSeller data
       this.bestSeller = responsesTwo.data;
+      this.user = responsesThree.data;
       
     })).catch(error=>{
       console.log(error)
@@ -99,9 +104,20 @@ export default {
   },
   methods:{
 
-    detail: function(){
-        // const url ='http://localhost:3000/all'
-        this.hcState=false
+  
+      detail(post){
+        console.log("right")
+        console.log(post);
+        let name = "";
+        
+        
+        for(let i = 0; i < this.user.length; i++) {
+            if (post.seller == this.user[i]._id) {
+              
+              name = this.user[i].firstname +" "+ this.user[i].lastname;
+            }
+        }
+        console.log(name);
       }
 
   }

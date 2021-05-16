@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home" >
 
-    <ul>
+    <ul v-show="topBar">
       <h1>Phone Zone</h1>
       <li><router-link to="/">Home</router-link></li>
       <li><router-link to="/checkout">Checkout</router-link></li>
@@ -22,14 +22,15 @@
             <div style="padding: 14px;">
               <img :src="require('../../public/image/'+post.image)"  style="width:100%"  class="image" alt="">
               <span>Title: {{post.title}}</span>
-              <span>Price: {{post.price}}</span>
+              <br/>
+              <span>Price: ${{post.price}}</span>
 
               <div class="bottom clearfix">
-                <el-button type="warning" icon="el-icon-star-off" circle v-on:click="detail">Add to Cart</el-button>
-
-                <el-button type="text" class="button" v-on:click="detail">More details</el-button>
+              
+                <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
               </div>
             </div>
+            
           </el-card> 
         </el-col>
       </el-row>
@@ -69,42 +70,53 @@ export default {
         homeState:true,
         columnState:true,
         searchState:true,
+        topBar:true,
         search:"",
         // orders:[]
         searchItem:[],
-        rating:''
-
+        rating:'',
+        user:[]
       
       }
   },
 
   methods: {
       SendSearch: function () {
-        
+        this.topBar = false;
         this.homeState=false;
         this.columnState=false;
         const url =`http://localhost:3000/search/${this.search}`;
+        let urlUser = 'http://localhost:3000/user';
         let searchData = []
         let i=0
         axios.get(url)
               .then((res) => {
                   searchData = res.data;
                   for(i=0;i<searchData.length;i++){
-                    this.rating=searchData[i].image
                     this.searchItem=searchData
-                    console.log(this.rating)
-                    
+              
                   }
-                  console.log(this.searchItem);
+          
 
               }).catch(err=>console.log(err))
-              
+        axios.get(urlUser).then(res=>{this.user = res.data;})    
         
       },
-      detail: function(){
-        this.searchState=false;
 
-        // alert("hhh")
+      
+
+      detail(post){
+
+        this.topBar = false;
+        let name = "";
+  
+        for(let i = 0; i < this.user.length; i++) {
+            if (post.seller == this.user[i]._id) {
+              
+              name = this.user[i].firstname +" "+ this.user[i].lastname;
+            }
+        }
+        console.log(name);
       }
       
   }
