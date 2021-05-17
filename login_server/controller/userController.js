@@ -3,7 +3,8 @@ const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
 
 module.exports ={
-
+  
+  //get all user information 
   getAllUser:function(req,res,next) {
     user.find().exec()
         .then(data => res.json(data))
@@ -14,46 +15,44 @@ module.exports ={
 
   //sign up function
   signUp:function(req, res, next) {
-      console.log("hello" + req.body);
-      let data = req.body;
       var newUser = new user();
-      let password = crypto.createHash("md5").update(data.password).digest("hex")
-      newUser.password = password
-      newUser.email = body.email
-      newUser.firstName = body.firstName
-      newUser.lastName = body.lastName
-      console.log("succesfully signUp")
+      let data = req.body;
+      let password = crypto.createHash("md5").update(data.password).digest("hex");
+      newUser.firstName = data.firstName;
+      newUser.lastName = data.lastName;
+      newUser.email = data.email;
+      newUser.password = password;
+      
+      // check the user with the same email
       newUser.checkSameEmail(function(err,result){
         if(err){
-            console.log("Query error!")
+            console.log("error!");
         }else if(result[0]){
-            console.log("has the same email")
-            console.log(result)
-            res.sendStatus(201)
+            
+            res.sendStatus(201);
         }else{
-            console.log("new account")
             newUser.save().then(() => {res.sendStatus(200)})
             .catch(err => next(err))
         }
       })  
-
   },
   
 
 
   //login function
   login: function(req, res, next){
-    let body = req.body
-    var user = new User();
-    email = body.email
-    let passwordEncrypt = crypto.createHash('md5').update(body.password).digest("hex")
-    user.email = email
-    user.password = passwordEncrypt
-    user.checkEmailandPassword(function(err, result){
+    let data = req.body
+    var currentUser = new user();
+    
+    let password = crypto.createHash('md5').update(data.password).digest("hex")
+    currentUser.email = data.email
+    currentUser.password = password
+    currentUser.checkEmailandPassword(function(err, result){
       if(err){
           console.log("Query error!")
       }else if(result[0]){
         let loginUser = result[0]
+        console.log(loginUser)
         const payload = {email}
         const token = jwt.sign(payload, secret,{
           expiresIn: "1h"
@@ -64,6 +63,7 @@ module.exports ={
           .sendStatus(200)
       }else{
         console.log("wrong email and password")
+        //wrong email and password
         res.sendStatus(201);
       }
     })

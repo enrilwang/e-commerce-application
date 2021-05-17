@@ -56,9 +56,9 @@ export default {
         
         if(this.fname=="" || this.lname==""||this.email==""||this.pwd==""){
           alert('Please fill in all the fields.')
-        }else if(emailReg.test(this.email) == flase){
+        }else if(emailReg.test(this.email) == false){
           alert("email format is not correct! ");
-        }else if (passwordReg.test(this.pwd) == flase) {
+        }else if (passwordReg.test(this.pwd) == false) {
           alert("Password must contain 6 characters, at least one letter and one number ");
         }else {
 
@@ -67,7 +67,7 @@ export default {
                         email:this.email,
                         password:this.pwd
                         }
-          axios.post("http://localhost:3000/signUp",Json.stringify(user))
+          axios.post("http://localhost:3000/signUp",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
             .then(res => {
               console.log("check"+res.data)
             if(res.status === 200){
@@ -80,37 +80,12 @@ export default {
               throw error;
             }
           })
-          .catch(err => {
-            console.log(err)
-            alert('Error registering please try again');
+          .catch(error => {
+            console.error(error.response.data);
+            alert('Error sign up, please try again');
           })
 
 
-
-          // fetch('/signUp', {
-          //   method: 'POST',
-          //   body: JSON.stringify(this.state),
-          //   headers: {
-          //     'Accept': 'application/json',
-          //     'Content-Type': 'application/json'
-          //   },
-          //   credentials: 'include'
-          // })
-          // .then(res => {
-          //   if(res.status === 200){
-          //     this.props.history.push("/")
-          //     alert("Sign up successfully! Please sign in")
-          //   }else if(res.status ===201){
-          //     alert("Email has already existed! Please sign up with different email")
-          //   }else {
-          //     const error = new Error(res.error);
-          //     throw error;
-          //   }
-          // })
-          // .catch(err => {
-          //   console.log(err)
-          //   alert('Error registering please try again');
-          // })
         }
         
       }
