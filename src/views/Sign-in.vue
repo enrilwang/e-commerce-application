@@ -6,7 +6,7 @@
       <h2 class="text">Sign in</h2>
       <hr>
     
-      <label for="email"><b>Email</b></label>
+      <label for="email"><b>Email(userName)</b></label>
       <el-input placeholder="Please enter Email" v-model="email" clearable></el-input>
 
       <label for="psw"><b>Password</b></label>
@@ -29,6 +29,7 @@
   
 </template>
 <script>
+import axios from 'axios';
 export default {
     data() {
       return {
@@ -42,6 +43,37 @@ export default {
           alert('Please fill in all the fields.')
 
         }
+
+        const user = {email:this.email,
+                      password:this.pwd
+                      }
+          axios.post("http://localhost:3000/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"}},{withCredentials:true})
+            .then(res => {
+              console.log(res)
+              
+              console.log(document.cookies)
+            if(res.status === 200){
+              //console.log(req.cookies.userEmail);
+              alert("Login successfully!")
+            }else if(res.status ===201){
+              alert("Email and/or password incorrect")
+            }else {
+              const error = new Error(res.error);
+              throw error;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            alert('Error login, please try again');
+          })
+
+
+          axios.get("http://localhost:3000/cookie").then(res=> console.log(res))
+          console.log("finish")
+
+
+
+         
       }
     }
   }
