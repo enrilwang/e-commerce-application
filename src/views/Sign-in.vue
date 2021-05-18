@@ -20,8 +20,9 @@
         <el-button type="success" plain v-on:click="Signin">Sign in</el-button>
         
       </div>
-      <p>——————————————— New to Phone Zone? ———————————————</p>
+      <el-divider content-position="center">New to Phone Zone?</el-divider>
       <router-link to="/sign-up">
+      <br>
       <button type="create" class="createbtn">Create your Phone Zone account</button>
       </router-link>
     </div>
@@ -82,7 +83,7 @@ export default {
 
 <style>
 .sign-in {
-  background-color:	#FFFFE0
+  background-color:	#f5e29f
 }
 .text{
   text-align: left;
@@ -119,6 +120,9 @@ button:hover {
 .createbtn {
   
   margin-left: 203px
+}
+.el-divider {
+    background-color: #d0991f;
 }
 
 </style>

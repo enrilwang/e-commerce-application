@@ -24,12 +24,10 @@
     <div class="clearfix">
       
       <router-link to="/">
-      <!-- <button type="button" class="cancelbtn" >Cancel</button> -->
       <el-button type="danger" plain>Cancel</el-button>
 
       </router-link >
       <el-button type="success" plain v-on:click="Signup">Sign Up</el-button>
-      <!-- <button type="submit" class="signinbtn">Sign Up</button> -->
     </div>
   
     </div>
@@ -51,14 +49,16 @@ export default {
     methods:{
       Signup:function(){
         var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-        var emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-        console.log(emailReg.test(this.email))
+        // var emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+        // console.log(emailReg.test(this.email))
         
         if(this.fname=="" || this.lname==""||this.email==""||this.pwd==""){
           alert('Please fill in all the fields.')
-        }else if(emailReg.test(this.email) == false){
-          alert("email format is not correct! ");
-        }else if (passwordReg.test(this.pwd) == false) {
+        }
+        // else if(emailReg.test(this.email) == false){
+        //   alert("email format is not correct! ");
+        // }
+        else if (passwordReg.test(this.pwd) == false) {
           alert("Password must contain 6 characters, at least one letter and one number ");
         }else {
 
@@ -95,6 +95,6 @@ export default {
 </script>
 <style>
 .sign-up {
-  background-color:	#FFFFE0
+  background-color:	#f5e29f
 }
 </style>

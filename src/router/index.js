@@ -33,7 +33,7 @@ const routes = [
     path: "/userInfo",
     name: "UserInfo",
     component: () =>
-      import( "../views/Checkout.vue"),
+      import( "../views/UserInfo.vue"),
   },
   
   
