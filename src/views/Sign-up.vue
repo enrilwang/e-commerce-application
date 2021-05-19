@@ -49,15 +49,14 @@ export default {
     methods:{
       Signup:function(){
         var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-        // var emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-        // console.log(emailReg.test(this.email))
+        var emailReg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
         
         if(this.fname=="" || this.lname==""||this.email==""||this.pwd==""){
           alert('Please fill in all the fields.')
         }
-        // else if(emailReg.test(this.email) == false){
-        //   alert("email format is not correct! ");
-        // }
+        else if(emailReg.test(this.email) == false){
+          alert("email format is not correct! ");
+        }
         else if (passwordReg.test(this.pwd) == false) {
           alert("Password must contain 6 characters, at least one letter and one number ");
         }else {
@@ -72,7 +71,7 @@ export default {
               console.log("check"+res.data)
             if(res.status === 200){
               
-              alert("Sign up successfully! Please sign in")
+              alert("Sign up successfully!")
             }else if(res.status ===201){
               alert("Email has already existed! Please sign up with different email")
             }else {

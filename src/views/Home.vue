@@ -249,17 +249,24 @@ export default {
           cancelButtonText: 'Cancel',
           
         }).then(({ value }) => {
-          if(this.Item[0].stock >= value) {
-            this.$message({
-              type: 'success',
-              essage: 'Your quantity is:' + value,
-                        
-            });
-            
-            this.quantity=value
-          } else {
-            alert("quantity cannot exceed stock");
+          if(value != null) {
+              this.quantity+= parseInt(value);
+              if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
+                this.$message({
+                  type: 'success',
+                  essage: 'Your quantity is:' + value,
+                            
+                });
+              
+                
+              } else {
+                this.quantity -= parseInt(value);
+                alert("quantity cannot exceed stock");
+              }
+          }else{
+            alert("type quanitity that you need")
           }
+         
          
         }).catch(() => {
           this.$message({

@@ -54,19 +54,19 @@ module.exports ={
       if(err){
           console.log("error!")
       }else if(users[0]){
-        // let userNow = users[0];
+        let userNow = users[0];
       
         //max age is 10 mins
         
-        // res.cookie('userToken', jwt.sign({data:data.email} , "shhhhh",{expiresIn: "10h"}) ,{maxAge: 600000})
-        // res.cookie('userName',userNow.firstName + " " + userNow.lastName,{maxAge: 600000})
-        // res.cookie('userEmail', userNow.email,{maxAge: 600000})
+        res.cookie('userToken', jwt.sign({data:data.email} , "shhhhh",{expiresIn: "10h"}) ,{maxAge: 600000})
+        res.cookie('userName',userNow.firstName + " " + userNow.lastName,{maxAge: 600000})
+        res.cookie('userEmail', userNow.email,{maxAge: 600000})
         
         // res.sendStatus(200)
-        res.writeHead(200, {
-          "Set-Cookie":"token=dsdsd;HttpOnly",
-          "Access-Control-Allow-Credentials":"true"
-        }).send();
+        // res.writeHead(200, {
+        //   "Set-Cookie":"token=dsdsd;HttpOnly",
+        //   "Access-Control-Allow-Credentials":"true"
+        // }).send();
         
         
         

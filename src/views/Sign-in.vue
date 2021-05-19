@@ -52,9 +52,9 @@ export default {
             .then(res => {
               console.log(res)
               
-              console.log(document.cookies)
+              console.log(res.cookies)
             if(res.status === 200){
-              //console.log(req.cookies.userEmail);
+              
               alert("Login successfully!")
             }else if(res.status ===201){
               alert("Email and/or password incorrect")
@@ -69,9 +69,14 @@ export default {
           })
 
 
-          axios.get("http://localhost:3000/cookie").then(res=> console.log(res))
-          console.log("finish")
-
+          // axios.get("http://localhost:3000/cookie").then(
+          //   res=> console.log(res)
+          //   )
+          // console.log("finish")
+          // axios.get("http://localhost:3000/cookie", (req,res,next) => {
+          //   console.log(req.cookies)
+          //   res.send(`cookie : ${JSON.stringify(req.cookies)}`)
+          // })
 
 
          

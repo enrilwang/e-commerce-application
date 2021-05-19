@@ -19,11 +19,6 @@ app.use(bodyParser.json())
 const router = require('./routes/router')
 app.use('/',router);
 
-app.get('/cookie',(req,res,next) => {
-    console.log(req.cookies)
-})
-
-
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log('app is listening on port: ' + port)
