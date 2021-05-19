@@ -211,6 +211,8 @@ export default {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;
             }
         }
+
+        
       },
 
       handleSelect(key, keyPath) {
@@ -247,12 +249,18 @@ export default {
           cancelButtonText: 'Cancel',
           
         }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: 'Your quantity is:' + value,
+          if(this.Item[0].stock >= value) {
+            this.$message({
+              type: 'success',
+              essage: 'Your quantity is:' + value,
+                        
+            });
             
-          });
-          this.quantity=value
+            this.quantity=value
+          } else {
+            alert("quantity cannot exceed stock");
+          }
+         
         }).catch(() => {
           this.$message({
             type: 'info',

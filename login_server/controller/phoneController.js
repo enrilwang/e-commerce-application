@@ -18,7 +18,7 @@ module.exports ={
 
   //get phoneListing data
   getAllPhone:function(req,res,next) {
-    phone.find().exec()
+    phone.find({stock:{$gt:0}}).exec()
         .then(data => res.json(data))
         .catch()
   },
