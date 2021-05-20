@@ -11,7 +11,11 @@
   "dependencies": {
     "axios": "^0.21.1",
     "common": "^0.2.5",
+<<<<<<< HEAD
     "cookie_js": "^1.4.2",
+=======
+    "cookie-parser": "^1.4.5",
+>>>>>>> b6da5ed8d1c2390e14dded46fffafd768824767d
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "element-ui": "^2.15.1",

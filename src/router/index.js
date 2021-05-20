@@ -10,12 +10,12 @@ const routes = [
     name: "Home",
     component: Home,
   },
-  {
-    path: "/checkout",
-    name: "Checkout",
-    component: () =>
-      import( "../views/Checkout.vue"),
-  },
+  // {
+  //   path: "/checkout",
+  //   name: "Checkout",
+  //   component: () =>
+  //     import( "../views/Checkout.vue"),
+  // },
   {
     path: "/sign-in",
     name: "Sign-in",
@@ -27,6 +27,12 @@ const routes = [
     name: "Sign-up",
     component: () =>
       import( "../views/Sign-up.vue"),
+  },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: () =>
+      import( "../views/Cart.vue"),
   },
   
   {

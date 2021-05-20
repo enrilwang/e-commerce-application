@@ -26,10 +26,12 @@
       <button type="create" class="createbtn">Create your Phone Zone account</button>
       </router-link>
     </div>
+
   </div>
   
 </template>
 <script>
+<<<<<<< HEAD
 // var Vue = require ('vue')
 
 // Vue.$cookies.config('7d')
@@ -37,7 +39,14 @@ import axios from 'axios'
 
 axios.default.withCredentials = true
 axios.withCredentials = true
+=======
+import axios from 'axios';
+
+>>>>>>> b6da5ed8d1c2390e14dded46fffafd768824767d
 export default {
+  name: "signin",
+   components: {
+  },
     data() {
       return {
         pwd: '',
@@ -140,7 +149,7 @@ button:hover {
 
 }
 .createbtn {
-  
+  cursor: pointer;
   margin-left: 203px
 }
 .el-divider {

@@ -25,10 +25,12 @@
       
       <router-link to="/">
       <el-button type="danger" plain>Cancel</el-button>
-
-      </router-link >
+      </router-link>
+      
+      <a href="javascript:history.go(-1)">
       <el-button type="success" plain v-on:click="Signup">Sign Up</el-button>
-    </div>
+      </a>
+      </div>
   
     </div>
     
@@ -43,7 +45,8 @@ export default {
         fname: '',
         lname:'',
         pwd: '',
-        email:''
+        email:'',
+        
       }
     },
     methods:{
