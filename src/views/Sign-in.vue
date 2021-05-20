@@ -26,12 +26,17 @@
       <button type="create" class="createbtn">Create your Phone Zone account</button>
       </router-link>
     </div>
+
   </div>
   
 </template>
 <script>
 import axios from 'axios';
+
 export default {
+  name: "signin",
+   components: {
+  },
     data() {
       return {
         pwd: '',
@@ -123,7 +128,7 @@ button:hover {
 
 }
 .createbtn {
-  
+  cursor: pointer;
   margin-left: 203px
 }
 .el-divider {

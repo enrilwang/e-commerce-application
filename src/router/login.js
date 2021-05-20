@@ -6,7 +6,6 @@ Vue.component("counter",{
 			},
  
 
-	template:'<button v-on:click="count++">点击计算点击次数：{{count}}次</button>'
 })
  
 

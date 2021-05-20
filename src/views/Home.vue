@@ -2,11 +2,14 @@
   <div class="home" >
     <div class="topBar" v-show="topState">
       <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
-       background-color="#f5bc62" text-color="black" active-text-color="white">
+       background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
       <h1>Phone Zone</h1>
       <el-menu-item index="1">Home</el-menu-item>
       <el-menu-item index="2"><router-link to="/sign-in">Sign-in/Sign-up</router-link></el-menu-item>
-      <el-menu-item index="3"><router-link to="/checkout">Checkout</router-link></el-menu-item>
+      <el-menu-item index="3"><el-button type="text" class="button"@click="cart()">Checkout</el-button></el-menu-item>  
+      <!-- <el-button type="text" class="button"@click="cart()">Checkout</el-button>     -->
+      <!-- <el-menu-item index="3"><router-link to="/cart" @click="cart">Checkout</router-link></el-menu-item> -->
+
       <el-menu-item index="4"><router-link to="/userInfo">User</router-link></el-menu-item>  
       <el-menu-item index="5"><input v-model="search"  placeholder="Search"></el-menu-item>
       <el-menu-item index="6"><button class="search" v-on:click="SendSearch">Search</button></el-menu-item>
@@ -51,6 +54,7 @@
       </el-row>
     </div>
     <div class="itemcomp" v-show="itemState">
+      <!-- <HomeComponent @itemInfo="getItemInfo"></HomeComponent> -->
       <el-row>
           <el-col :span="10" v-for="(post,index) in Item" 
             v-bind:item="post"
@@ -77,7 +81,7 @@
                 <br>————{{review.reviewer}}
                 (rating:{{review.rating}})<br></span>
                 <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
-                <p style="color:orange; font-size:18px">Show more comment</p>
+                <p style="color:orange; font-size:18px">Show full comment</p>
                 </a>
 
                 <!-- Show all comment -->
@@ -91,16 +95,20 @@
                 <br>————{{review.reviewer}}
                 (rating:{{review.rating}})<br></span>
 
-
+                
                 <div class="bottom clearfix">
-                  <el-badge :value="2" class="item" v-model="quantity">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="add" >Add to Cart</el-button>
+                  <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
+                  <el-badge  class="item" v-model="quantity">
+                  <el-button type="warning" icon="el-icon-star-off" circle @click="add()" >Add to Cart</el-button>
                   </el-badge>  
                 </div>
               </div>
             </el-card>
           </el-col>
         </el-row> 
+        <!-- <router-link :to="'../views/Cart'+{{cart}}">
+        
+        </router-link> -->
     </div>    
 
 
@@ -108,6 +116,7 @@
       <HomeComponent />
     </div>
     <div style="display: none;">{{beforeFilter}}</div>
+    <div style="display: none;">{{cartList}}</div>
     
 
   </div>
@@ -117,6 +126,7 @@
 
 import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
+import CartVue from '../router/Cart'
 
 export default {
   name: "Home",
@@ -156,7 +166,11 @@ export default {
       MaxPrice:799.98,
       reviewList:[],
       readMoreActivated: false,
-      showMoreActivated: false
+      showMoreActivated: false,
+      cartList:[],
+      // product:[],
+      // cartItem:{title:'',price:'',quantity:''}
+      cartItem:{}
 
       
       }
@@ -185,6 +199,7 @@ export default {
       },
 
       detail(post){
+        this.Item=[]
         this.homeState=false;
         this.searchState=false;
         this.itemState=true;
@@ -193,12 +208,13 @@ export default {
         for(i=0;i<1;i++){
           this.Item.push(post)
         }
-                // console.log(this.Item);
+        // console.log(post)
+        // console.log(this.Item);
         for(i=0;i<this.Item[0].reviews.length;i++){
           for(m=0; m < this.user.length; m++) {
             if (this.Item[0].reviews[i].reviewer == this.user[m]._id) {
               this.Item[0].reviews[i].reviewer = this.user[m].firstname +" "+ this.user[i].lastname;
-              console.log(this.Item[0].reviews[i].reviewer)
+              // console.log(this.Item[0].reviews[i].reviewer)
             }
         }
           this.reviewList.push(this.Item[0].reviews[i])
@@ -216,7 +232,7 @@ export default {
       },
 
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        // console.log(key, keyPath);
       },
       handleCommand(command) {
         let i=0
@@ -241,20 +257,35 @@ export default {
           }
         }   
         // console.log(afterFilter)
-        this.searchItem=afterFilter        
+        this.searchItem=afterFilter  
+        // console.log(this.searchItem)      
       },
       add() {
+
         this.$prompt('Please enter the quantity',  {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           
         }).then(({ value }) => {
           if(value != null) {
+            
               this.quantity+= parseInt(value);
+              // this.$emit('cartInfo',post)
               if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
+                // let product=[]
+                this.cartItem.quantity=value
+                this.cartItem.price=this.Item[0].price
+                this.cartItem.title=this.Item[0].title
+                // product.push(this.cartItem)
+              // console.log(this.cartItem)
+
+              this.cartList.push(this.cartItem)
+              // this.cartList=this.cartList.concat(product)
+              console.log(this.cartList)
+              
                 this.$message({
                   type: 'success',
-                  essage: 'Your quantity is:' + value,
+                  message: 'Your quantity is:' + value,
                             
                 });
               
@@ -282,7 +313,22 @@ export default {
       activateShowMore(){
         this.showMoreActivated = true;
       },
+      back(){
+        this.searchState=true;
+        this.itemState=false;
+      },
+      cart(){
+        // alert("1")
+        // console.log(this.cartList)
+        this.$router.push({
+              name: 'Cart',
+              query: {cartList:this.cartList}
+              
+              })
+
+      }
       
+
   }
 }
 
@@ -317,6 +363,10 @@ export default {
 
 .bottom .el-button--warning{
   margin-left: 350px;
+}
+.bottom .el-button--success{
+  margin-left: 10px;
+  margin-bottom: 0px;
 }
 
 .el-dropdown-link {

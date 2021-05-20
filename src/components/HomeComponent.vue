@@ -14,7 +14,6 @@
                 <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
                 <span>Price: ${{post.price}}</span> 
                 <div class="bottom clearfix">
-                  <!-- <el-button type="warning" icon="el-icon-star-off" circle >Add to Cart</el-button> -->
                   <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
                 </div>
               </div>
@@ -70,7 +69,7 @@
                 <br>————{{review.reviewer}}
                 (rating:{{review.rating}})<br></span>
                 <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
-                <p style="color:orange; font-size:18px">Show more comment</p>
+                <p style="color:orange; font-size:18px">Show full comment</p>
                 </a>
 
                 <!-- Show all comment -->
@@ -82,11 +81,12 @@
                 </a>
                 <span v-if="readMoreActivated">{{review.comment}}</span>
                 <br>————{{review.reviewer}}
-                (rating:{{review.rating}})<br></span>
+                (rating:{{review.rating}})<br></span><br>
                 
                 <div class="bottom clearfix">
+                  <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
                   <el-badge :value="2" class="item" v-model="quantity">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="add" >Add to Cart</el-button>
+                  <el-button type="warning"  circle @click="add" >Add to Cart</el-button>
                   </el-badge>  
                 </div>
               </div>
@@ -167,6 +167,9 @@ export default {
   },
   methods:{
       detail(post){
+        // this.$emit('itemInfo',post)
+
+        this.Item=[]
         this.hcState=false;
         this.icState=true;
         let i=0
@@ -208,7 +211,7 @@ export default {
               if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
                 this.$message({
                   type: 'success',
-                  essage: 'Your quantity is:' + value,
+                  message: 'Your quantity is:' + value,
                             
                 });
               
@@ -235,6 +238,10 @@ export default {
       activateShowMore(){
         this.showMoreActivated = true;
       },
+      back(){
+        this.hcState=true;
+        this.icState=false;
+      }
 
   }
   
@@ -260,7 +267,7 @@ export default {
 
 .button {
   padding: 0;
-  float: right;
+  /* float: right; */
   margin-bottom:0px
 }
 .homecomp .el-col {
@@ -291,7 +298,7 @@ export default {
 }
 .homecomp .el-card{
   border:4px;
-  height: 400px
+  /* height: 400px */
   }
 .readMore{
     cursor: pointer;
@@ -300,6 +307,11 @@ export default {
     cursor: pointer;
     margin-bottom:0px
   }  
+.bottom .el-button--text {
+  padding: 0;
+  /* float: right; */
+  margin-bottom:0px
+}
 
 
 
