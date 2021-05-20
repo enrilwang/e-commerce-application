@@ -25,6 +25,9 @@
       <br>
       <button type="create" class="createbtn">Create your Phone Zone account</button>
       </router-link>
+      <div style:none>
+        {{cookie}}
+      </div>
     </div>
 
   </div>
@@ -43,7 +46,8 @@ export default {
     data() {
       return {
         pwd: '',
-        email:''
+        email:'',
+        cookie:{}
       }
     },
     methods:{
@@ -61,6 +65,8 @@ export default {
 
             if(res.status === 200){
               console.log(res.data)
+              this.cookie = res.data.result
+              console.log(this.cookie)
               alert("Login successfully!")
             }else if(res.status ===201){
               alert("Email and/or password incorrect")
