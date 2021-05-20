@@ -261,16 +261,16 @@ export default {
         // console.log(this.searchItem)      
       },
       add(){
-        console.log("come in")
-        axios.get("http://localhost:3000",{
-                    headers:{"Content-Type":"application/json",
-                              "Access-Control-Allow-Origin":"http://localhost:8080"
-                    },withCredentials:true},
-                    {crossdomain:true})
-              .then(res =>{
+        // console.log("come in")
+        // axios.get("http://localhost:3000",{
+        //             headers:{"Content-Type":"application/json",
+        //                       "Access-Control-Allow-Origin":"http://localhost:8080"
+        //             },withCredentials:true},
+        //             {crossdomain:true})
+        //       .then(res =>{
             
-                  if(Object.keys(res.data.result.cookie).length > 0) {
-                      console.log(res.data.result.cookie.userName)
+        //           if(Object.keys(res.data.result.cookie).length > 0) {
+        //               console.log(res.data.result.cookie.userName)
 
                       this.$prompt('Please enter the quantity',  {
                       confirmButtonText: 'OK',
@@ -316,15 +316,15 @@ export default {
                       });       
                     });
                                   
-                  }else {
+              //     }else {
                     
-                      this.$router.push("sign-in")
+              //         this.$router.push("sign-in")
                       
-                  }
+              //     }
                 
            
          
-              }) 
+              // }) 
          
       
 

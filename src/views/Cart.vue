@@ -3,29 +3,33 @@
     <h1>Shopping cart</h1>
       
       <!-- <Home @cartInfo="getCartInfo"></Home> -->
-    <el-table :data="carts"  style="width: 100%" > 
-      <!-- <template slot-scope="scope"> -->
-      <el-table-column type="selection" @change="handleSelection" width="55">
-      </el-table-column>
-      <!-- </template> -->
-      <el-table-column  prop="title" label="Title" width="800">        
-      </el-table-column>
-      <el-table-column  prop="price" label="Price" width="100">
-      </el-table-column>
-      <el-table-column  prop="quantity" label="Quantity" width="100">
-      </el-table-column>
-      <el-table-column fixed="right" label="Operations" width="180">
-      <template slot-scope="scope">
-        <el-button
-          @click.native.prevent="deleteRow(scope.$index, carts)" type="text" size="small">
-          Remove
-        </el-button>
-        <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">Edit</el-button>
-          <el-input
-          v-model="amount" size="mini" placeholder="Please input quantity"/>
-      </template>
-      </el-table-column>
-    </el-table>
+    
+
+  <table class="shoppingcart">
+    <tr>
+      <th>Title<th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr v-for="(product,index) in carts" :key="index">
+      <!-- <td></td> -->
+       <td>{{ product.title}}</td>  
+       <td></td>
+       <td>{{ product.price}}</td> 
+       <td>{{ product.quantity}}</td> 
+       <td><el-button @click="editRow(index, scope.row)" type="text" size="small">Edit</el-button>
+       <el-input
+          v-model="amount" size="mini" />
+       </td>
+       <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
+
+
+
+    </tr>
+</table>
+<!-- </div> -->
     {{Total}}
     <a href="javascript:history.go(-1)">
     <el-button type="primary" icon="el-icon-arrow-left" >Previous Page</el-button></a>
@@ -50,8 +54,6 @@ export default {
   data(){
       return{
         product:'111',
-        // homeState:false
-        // homeState:true
         visible:true,
         carts:[],
         Total:'',
@@ -63,9 +65,7 @@ export default {
   created() {
     this.getRouterData()
   },
-  // created() {
-  //   this.selection()
-  // },
+  
  
   methods:{
             // getCartInfo(data){
@@ -75,28 +75,30 @@ export default {
             getRouterData() {
               this.carts = this.$route.query.cartList
               this.product=this.carts
-              // console.log(this.cart)
+              console.log(this.carts)
             //   console.log('code', this.code)
             },
-            deleteRow(index, rows) {
-                rows.splice(index, 1);
-            },
-            handleSelectionChange(cart) {
-              this.multipleSelection = cart;
-            },
-            handleEdit(index,row) {
-              if(this.amount==''){
-                alert("please input quantity first")
-              }else if(this.amount=='0'){
-                this.carts.splice(index,1)
+           
+            // handleEdit(index,row) {
+            //   if(this.amount==''){
+            //     alert("please input quantity first")
+            //   }else if(this.amount=='0'){
+            //     this.carts.splice(index,1)
 
-              }
-              else{
-                row.quantity=this.amount
-                console.log(row.quantity);
-              }
+            //   }
+            //   else{
+            //     row.quantity=this.amount
+            //     console.log(row.quantity);
+            //   }
+            // },
+            deleteRow(index){
+              this.carts.splice(index, 1)
+
             },
-            
+            editRow(index){
+              this.carts.splice(index, 1)
+
+            },
         }
  
   
@@ -124,4 +126,26 @@ export default {
 .el-button--success {
   float:right
   }
+.shoppingcart {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.shoppingcart td, .shoppingcart th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.shoppingcart tr:nth-child(even){background-color: #f2f2f2;}
+
+.shoppingcart tr:hover {background-color: #ddd;}
+
+.shoppingcart th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
 </style>
