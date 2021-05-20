@@ -274,7 +274,7 @@ export default {
             message: 'Input canceled'
           });       
         });
-        // this.quantity=value
+      
       },
       activateReadMore(){
         this.readMoreActivated = true;

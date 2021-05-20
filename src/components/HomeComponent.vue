@@ -14,7 +14,7 @@
                 <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
                 <span>Price: ${{post.price}}</span> 
                 <div class="bottom clearfix">
-                  <!-- <el-button type="warning" icon="el-icon-star-off" circle >Add to Cart</el-button> -->
+                   
                   <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
                 </div>
               </div>

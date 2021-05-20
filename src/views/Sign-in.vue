@@ -18,7 +18,7 @@
         </router-link>
   
         <el-button type="success" plain v-on:click="Signin">Sign in</el-button>
-        
+          <el-button type="success" plain v-on:click="getf">get in</el-button>
       </div>
       <el-divider content-position="center">New to Phone Zone?</el-divider>
       <router-link to="/sign-up">
@@ -30,7 +30,13 @@
   
 </template>
 <script>
-import axios from 'axios';
+// var Vue = require ('vue')
+
+// Vue.$cookies.config('7d')
+import axios from 'axios'
+
+axios.default.withCredentials = true
+axios.withCredentials = true
 export default {
     data() {
       return {
@@ -48,13 +54,15 @@ export default {
         const user = {email:this.email,
                       password:this.pwd
                       }
-          axios.post("http://localhost:3000/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"}},{withCredentials:true})
+        let response = axios.post("http://localhost:3000/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res => {
-              console.log(res)
               
-              console.log(res.cookies)
+              
+              
             if(res.status === 200){
+             
               
+              console.log(res.data)
               alert("Login successfully!")
             }else if(res.status ===201){
               alert("Email and/or password incorrect")
@@ -68,19 +76,28 @@ export default {
             alert('Error login, please try again');
           })
 
-
-          // axios.get("http://localhost:3000/cookie").then(
-          //   res=> console.log(res)
-          //   )
-          // console.log("finish")
-          // axios.get("http://localhost:3000/cookie", (req,res,next) => {
-          //   console.log(req.cookies)
-          //   res.send(`cookie : ${JSON.stringify(req.cookies)}`)
-          // })
-
-
+      },
+      getf:function(){
+       
+          axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"http://localhost:8080"},withCredentials:true},{crossdomain:true}).then(response1 =>{
+            
+            if(Object.keys(response1.data.result.cookie).length > 0) {
+                console.log(response1.data.result.cookie.userName)
+                alert("okay")
+            }else {
+              // ../Sign-up.vue
+                //window.location.assign()
+                this.$router.push("sign-up")
+                //response1.redirect("http://localhost:8080")
+                alert("nonono")
+            }
+           
+           
+         
+          }) 
          
       }
+
     }
   }
 </script>

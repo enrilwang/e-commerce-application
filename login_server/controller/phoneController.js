@@ -52,6 +52,15 @@ module.exports ={
     ]).exec()
     .then(data => res.json(data))
     .catch() ;
-  }
+  },
 
+  //update stock after puchase
+  updateStock:function(req,res,next) {
+    let data = req.body
+    console.log(data)
+    //phone.update()
+
+
+
+  }
 }

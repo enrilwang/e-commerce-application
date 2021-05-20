@@ -12,7 +12,8 @@ router.get('/search/:title',phoneController.getByTitle)
 router.get('/user', userController.getAllUser);
 router.post('/signUp', userController.signUp);
 router.post('/login', userController.login);
-router.get('/cookie',userController.getCookie);
+
+router.get('/',userController.getCookie);
 
 
 
