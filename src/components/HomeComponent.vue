@@ -14,10 +14,6 @@
                 <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
                 <span>Price: ${{post.price}}</span> 
                 <div class="bottom clearfix">
-<<<<<<< HEAD
-                   
-=======
->>>>>>> b6da5ed8d1c2390e14dded46fffafd768824767d
                   <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
                 </div>
               </div>
@@ -204,37 +200,74 @@ export default {
             }
         }
       },
-      add() {
-        this.$prompt('Please enter the quantity',  {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          
-        }).then(({ value }) => {
-            if(value != null) {
-              this.quantity+= parseInt(value);
-              if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
-                this.$message({
-                  type: 'success',
-                  message: 'Your quantity is:' + value,
-                            
-                });
-              
-                
-              } else {
-                this.quantity -= parseInt(value);
-                alert("quantity cannot exceed stock");
-              }
-          }else{
-            alert("type quanitity that you need")
-          }
+      add(){
+        console.log("come in")
+        axios.get("http://localhost:3000",{
+                    headers:{"Content-Type":"application/json",
+                              "Access-Control-Allow-Origin":"http://localhost:8080"
+                    },withCredentials:true},
+                    {crossdomain:true})
+              .then(res =>{
+            
+                  if(Object.keys(res.data.result.cookie).length > 0) {
+                      console.log(res.data.result.cookie.userName)
 
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Input canceled'
-          });       
-        });
-        // this.quantity=value
+                      this.$prompt('Please enter the quantity',  {
+                      confirmButtonText: 'OK',
+                      cancelButtonText: 'Cancel',
+                      
+                      }).then(({ value })=>{
+                        if(value != null) {
+                        
+                          this.quantity+= parseInt(value);
+                          // this.$emit('cartInfo',post)
+                          if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
+                            // let product=[]
+                            this.cartItem.quantity=value
+                            this.cartItem.price=this.Item[0].price
+                            this.cartItem.title=this.Item[0].title
+                            // product.push(this.cartItem)
+                          // console.log(this.cartItem)
+
+                          this.cartList.push(this.cartItem)
+                          // this.cartList=this.cartList.concat(product)
+                          console.log(this.cartList)
+                          
+                            this.$message({
+                              type: 'success',
+                              message: 'Your quantity is:' + value,
+                                        
+                            });
+                          
+                            
+                          } else {
+                            this.quantity -= parseInt(value);
+                            alert("quantity cannot exceed stock");
+                          }
+                      }else{
+                        alert("type quanitity that you need")
+                      }
+                    
+                    
+                    }).catch(() => {
+                      this.$message({
+                        type: 'info',
+                        message: 'Input canceled'
+                      });       
+                    });
+                                  
+                  }else {
+                    
+                      this.$router.push("sign-in")
+                      
+                  }
+                
+           
+         
+              }) 
+         
+
+      
       },
       activateReadMore(){
         this.readMoreActivated = true;

@@ -126,6 +126,8 @@
 
 import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
+axios.default.withCredentials = true
+axios.withCredentials = true
 import CartVue from '../router/Cart'
 
 export default {
@@ -211,8 +213,8 @@ export default {
         // console.log(post)
         // console.log(this.Item);
         for(i=0;i<this.Item[0].reviews.length;i++){
-          for(m=0; m < this.user.length; m++) {
-            if (this.Item[0].reviews[i].reviewer == this.user[m]._id) {
+          for(m=0; m < this.user.length; m++){
+            if(this.Item[0].reviews[i].reviewer == this.user[m]._id){
               this.Item[0].reviews[i].reviewer = this.user[m].firstname +" "+ this.user[i].lastname;
               // console.log(this.Item[0].reviews[i].reviewer)
             }
@@ -222,7 +224,7 @@ export default {
         }
 
   
-        for(let i = 0; i < this.user.length; i++) {
+        for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;
             }
@@ -231,10 +233,10 @@ export default {
         
       },
 
-      handleSelect(key, keyPath) {
+      handleSelect(key, keyPath){
         // console.log(key, keyPath);
       },
-      handleCommand(command) {
+      handleCommand(command){
         let i=0
         let afterFilter = []
         this.searchItem=this.beforeFilter
@@ -260,51 +262,75 @@ export default {
         this.searchItem=afterFilter  
         // console.log(this.searchItem)      
       },
-      add() {
-
-        this.$prompt('Please enter the quantity',  {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          
-        }).then(({ value }) => {
-          if(value != null) {
+      add(){
+        console.log("come in")
+        axios.get("http://localhost:3000",{
+                    headers:{"Content-Type":"application/json",
+                              "Access-Control-Allow-Origin":"http://localhost:8080"
+                    },withCredentials:true},
+                    {crossdomain:true})
+              .then(res =>{
             
-              this.quantity+= parseInt(value);
-              // this.$emit('cartInfo',post)
-              if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
-                // let product=[]
-                this.cartItem.quantity=value
-                this.cartItem.price=this.Item[0].price
-                this.cartItem.title=this.Item[0].title
-                // product.push(this.cartItem)
-              // console.log(this.cartItem)
+                  if(Object.keys(res.data.result.cookie).length > 0) {
+                      console.log(res.data.result.cookie.userName)
 
-              this.cartList.push(this.cartItem)
-              // this.cartList=this.cartList.concat(product)
-              console.log(this.cartList)
-              
-                this.$message({
-                  type: 'success',
-                  message: 'Your quantity is:' + value,
+                      this.$prompt('Please enter the quantity',  {
+                      confirmButtonText: 'OK',
+                      cancelButtonText: 'Cancel',
+                      
+                      }).then(({ value })=>{
+                        if(value != null) {
+                        
+                          this.quantity+= parseInt(value);
+                          // this.$emit('cartInfo',post)
+                          if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
+                            // let product=[]
+                            this.cartItem.quantity=value
+                            this.cartItem.price=this.Item[0].price
+                            this.cartItem.title=this.Item[0].title
+                            // product.push(this.cartItem)
+                          // console.log(this.cartItem)
+
+                          this.cartList.push(this.cartItem)
+                          // this.cartList=this.cartList.concat(product)
+                          console.log(this.cartList)
+                          
+                            this.$message({
+                              type: 'success',
+                              message: 'Your quantity is:' + value,
+                                        
+                            });
+                          
                             
-                });
-              
+                          } else {
+                            this.quantity -= parseInt(value);
+                            alert("quantity cannot exceed stock");
+                          }
+                      }else{
+                        alert("type quanitity that you need")
+                      }
+                    
+                    
+                    }).catch(() => {
+                      this.$message({
+                        type: 'info',
+                        message: 'Input canceled'
+                      });       
+                    });
+                                  
+                  }else {
+                    
+                      this.$router.push("sign-in")
+                      
+                  }
                 
-              } else {
-                this.quantity -= parseInt(value);
-                alert("quantity cannot exceed stock");
-              }
-          }else{
-            alert("type quanitity that you need")
-          }
+           
          
+              }) 
          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Input canceled'
-          });       
-        });
+      
+
+        
       
       },
       activateReadMore(){

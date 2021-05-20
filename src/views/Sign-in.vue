@@ -18,7 +18,7 @@
         </router-link>
   
         <el-button type="success" plain v-on:click="Signin">Sign in</el-button>
-          <el-button type="success" plain v-on:click="getf">get in</el-button>
+        
       </div>
       <el-divider content-position="center">New to Phone Zone?</el-divider>
       <router-link to="/sign-up">
@@ -31,18 +31,11 @@
   
 </template>
 <script>
-<<<<<<< HEAD
-// var Vue = require ('vue')
 
-// Vue.$cookies.config('7d')
-import axios from 'axios'
+import axios from "axios"
 
 axios.default.withCredentials = true
 axios.withCredentials = true
-=======
-import axios from 'axios';
-
->>>>>>> b6da5ed8d1c2390e14dded46fffafd768824767d
 export default {
   name: "signin",
    components: {
@@ -65,12 +58,8 @@ export default {
                       }
         let response = axios.post("http://localhost:3000/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res => {
-              
-              
-              
+
             if(res.status === 200){
-             
-              
               console.log(res.data)
               alert("Login successfully!")
             }else if(res.status ===201){
@@ -85,28 +74,8 @@ export default {
             alert('Error login, please try again');
           })
 
-      },
-      getf:function(){
-       
-          axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"http://localhost:8080"},withCredentials:true},{crossdomain:true}).then(response1 =>{
-            
-            if(Object.keys(response1.data.result.cookie).length > 0) {
-                console.log(response1.data.result.cookie.userName)
-                alert("okay")
-            }else {
-              // ../Sign-up.vue
-                //window.location.assign()
-                this.$router.push("sign-up")
-                //response1.redirect("http://localhost:8080")
-                alert("nonono")
-            }
-           
-           
-         
-          }) 
-         
       }
-
+     
     }
   }
 </script>
