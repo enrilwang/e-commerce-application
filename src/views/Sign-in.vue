@@ -56,7 +56,7 @@ export default {
         const user = {email:this.email,
                       password:this.pwd
                       }
-        let response = axios.post("http://localhost:3000/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
+        let response = axios.post("api/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res => {
 
             if(res.status === 200){

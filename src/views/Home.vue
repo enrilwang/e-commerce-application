@@ -106,9 +106,7 @@
             </el-card>
           </el-col>
         </el-row> 
-        <!-- <router-link :to="'../views/Cart'+{{cart}}">
         
-        </router-link> -->
     </div>    
 
 
@@ -128,7 +126,7 @@ import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
-import CartVue from '../router/Cart'
+// import CartVue from '../router/Cart'
 
 export default {
   name: "Home",

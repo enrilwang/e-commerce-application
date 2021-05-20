@@ -4,6 +4,7 @@ const phoneController = require("../controller/phoneController")
 const userController = require("../controller/userController")
 
 
+
 router.get('/all', phoneController.getAllPhone)
 
 router.get('/seller', phoneController.getBestSeller)
