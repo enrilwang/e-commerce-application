@@ -25,7 +25,7 @@
       <br>
       <button type="create" class="createbtn">Create your Phone Zone account</button>
       </router-link>
-      <div style:none>
+      <div style="display: none;">
         {{cookie}}
       </div>
     </div>
@@ -66,6 +66,13 @@ export default {
             if(res.status === 200){
               console.log(res.data)
               this.cookie = res.data.result
+
+              this.$router.push({
+              name: 'Home',
+              query: {cookie:this.cookie}
+              
+              })
+
               console.log(this.cookie)
               alert("Login successfully!")
             }else if(res.status ===201){

@@ -151,6 +151,7 @@ export default {
         value: 0,
         beforeFilter:[],
         quantity:0,
+        cookie:{},
         
         dropdownList:[
           {id:"1",name:"Apple"},
@@ -174,6 +175,10 @@ export default {
 
       
       }
+  },
+
+  created() {
+    this.getRouterData()
   },
 
   methods: {
@@ -260,12 +265,24 @@ export default {
         this.searchItem=afterFilter  
         // console.log(this.searchItem)      
       },
+
+      getRouterData() {
+              this.cookie = this.$route.query.cookie
+              console.log(this.cookie)
+            //   console.log('code', this.code)
+            },
+
+
+
       add(){
-       axios.get("http://localhost:3000")
-              .then(res =>{
-                  console.log(res)
-                  if(Object.keys(res.data.result.cookie).length > 0) {
+      //  axios.get("http://localhost:3000")
+      //         .then(res =>{
+      //             console.log(res)
+      //             if(Object.keys(res.data.result.cookie).length > 0) {
                       //console.log(res.data.result.cookie.userName)
+                      if (this.cookie!=undefined){
+
+                      console.log(this.cookie)
 
                       this.$prompt('Please enter the quantity',  {
                         confirmButtonText: 'OK',
@@ -311,6 +328,7 @@ export default {
                         message: 'Input canceled'
                       });       
                     });
+                      
                                   
                   }else {
                       this.$router.push("sign-in")
@@ -319,7 +337,7 @@ export default {
                 
            
          
-              }) 
+              // }) 
       
 
         
