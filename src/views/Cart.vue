@@ -19,9 +19,8 @@
        <td></td>
        <td>{{ product.price}}</td> 
        <td>{{ product.quantity}}</td> 
-       <td><el-button @click="editRow(index, scope.row)" type="text" size="small">Edit</el-button>
-       <el-input
-          v-model="amount" size="mini" />
+       <td><el-button @click="editRow(index,row)" type="text" size="small">Edit</el-button>
+       <el-input v-model="amount" size="mini" />
        </td>
        <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
 
@@ -79,24 +78,20 @@ export default {
             //   console.log('code', this.code)
             },
            
-            // handleEdit(index,row) {
-            //   if(this.amount==''){
-            //     alert("please input quantity first")
-            //   }else if(this.amount=='0'){
-            //     this.carts.splice(index,1)
-
-            //   }
-            //   else{
-            //     row.quantity=this.amount
-            //     console.log(row.quantity);
-            //   }
-            // },
+            
             deleteRow(index){
               this.carts.splice(index, 1)
 
             },
             editRow(index){
-              this.carts.splice(index, 1)
+              if(this.amount=0){
+                this.carts.splice(index, 1)
+              }else if(this.amount=''){
+                alert("please enter the quantity")
+              }else{
+                this.product.quantity=this.amount
+              }
+              
 
             },
         }

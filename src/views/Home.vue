@@ -261,44 +261,40 @@ export default {
         // console.log(this.searchItem)      
       },
       add(){
-        // console.log("come in")
-        // axios.get("http://localhost:3000",{
-        //             headers:{"Content-Type":"application/json",
-        //                       "Access-Control-Allow-Origin":"http://localhost:8080"
-        //             },withCredentials:true},
-        //             {crossdomain:true})
-        //       .then(res =>{
-            
-        //           if(Object.keys(res.data.result.cookie).length > 0) {
-        //               console.log(res.data.result.cookie.userName)
+       axios.get("http://localhost:3000")
+              .then(res =>{
+                  console.log(res)
+                  if(Object.keys(res.data.result.cookie).length > 0) {
+                      //console.log(res.data.result.cookie.userName)
 
                       this.$prompt('Please enter the quantity',  {
-                      confirmButtonText: 'OK',
-                      cancelButtonText: 'Cancel',
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
                       
                       }).then(({ value })=>{
                         if(value != null) {
-                        
+                          
                           this.quantity+= parseInt(value);
                           // this.$emit('cartInfo',post)
                           if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
                             // let product=[]
+                            
                             this.cartItem.quantity=value
                             this.cartItem.price=this.Item[0].price
                             this.cartItem.title=this.Item[0].title
                             // product.push(this.cartItem)
-                          // console.log(this.cartItem)
+                            console.log(this.cartItem)
 
-                          this.cartList.push(this.cartItem)
-                          // this.cartList=this.cartList.concat(product)
-                          console.log(this.cartList)
+                            this.cartList.push(this.cartItem)
+                            // this.cartList=this.cartList.concat(product)
+                            console.log(this.cartList)
                           
                             this.$message({
                               type: 'success',
                               message: 'Your quantity is:' + value,
                                         
                             });
-                          
+                         
                             
                           } else {
                             this.quantity -= parseInt(value);
@@ -316,16 +312,14 @@ export default {
                       });       
                     });
                                   
-              //     }else {
-                    
-              //         this.$router.push("sign-in")
+                  }else {
+                      this.$router.push("sign-in")
                       
-              //     }
+                  }
                 
            
          
-              // }) 
-         
+              }) 
       
 
         
