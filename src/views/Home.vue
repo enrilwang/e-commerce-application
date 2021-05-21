@@ -152,6 +152,7 @@ export default {
         beforeFilter:[],
         quantity:0,
         cookie:{},
+        userName:"",
         
         dropdownList:[
           {id:"1",name:"Apple"},
@@ -268,7 +269,10 @@ export default {
 
       getRouterData() {
               this.cookie = this.$route.query.cookie
-              console.log(this.cookie)
+              this.userName = this.cookie.userName
+              console.log(this.$route.query.cookie)
+              console.log(this.userName)
+
             //   console.log('code', this.code)
             },
 
@@ -280,6 +284,7 @@ export default {
       //             console.log(res)
       //             if(Object.keys(res.data.result.cookie).length > 0) {
                       //console.log(res.data.result.cookie.userName)
+                      console.log(this.cookie)
                       if (this.cookie!=undefined){
 
                       console.log(this.cookie)

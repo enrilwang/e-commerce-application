@@ -202,8 +202,13 @@ export default {
         }
       },
       add(){
-        
-        axios.get("http://localhost:3000")
+        // fetch("http://localhost:3000",{credentials:'include'}).then(function(res) {
+        //   return res.json();
+        // }).then(function(my) {
+        //   console.log(my)
+        // })
+
+        axios.get("http://localhost:3000",{withCredentials:true})
               .then(res =>{
                   console.log(res)
                   if(Object.keys(res.data.result.cookie).length > 0) {

@@ -5,10 +5,23 @@ const app = new express()
 const cookieParser = require('cookie-parser');
 
 app.use(cors({
-    // origin: true,
-    // credentials: true,
+    origin: true,
+    credentials: true,
     
 }));
+app.use((req, res, next) => {
+    
+      if(req.path !== '/' && !req.path.includes('.')){
+        res.set({
+          'Access-Control-Allow-Credentials': true, 
+          'Access-Control-Allow-Origin': req.headers.origin || '*', 
+          'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type', 
+          'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',
+          'Content-Type': 'application/json; charset=utf-8'
+        })
+      }
+      req.method === 'OPTIONS' ? res.status(204).end() : next()
+    })
 app.use(bodyParser.urlencoded({extended : true}))
 app.use(bodyParser.json())
 

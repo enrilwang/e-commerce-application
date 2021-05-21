@@ -11,7 +11,7 @@ module.exports ={
         .then(data => res.json(data))
         .catch()
   },
-
+  
   //get the user cookie
   getCookie: function(req,res) {
     // res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
