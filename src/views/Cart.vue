@@ -1,46 +1,45 @@
 <template>
-  <div class="cart"> 
-    <h1>Shopping cart</h1>
+  <body>
+    <div class="cart"> 
+      <!-- <body> -->
+      <h1>Shopping cart</h1>  
+        <!-- <Home @cartInfo="getCartInfo"></Home> -->
+      <table class="shoppingcart">
+        <tr>
+          <th></th>
+          <th>Title<th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr v-for="(product,index) in carts" :key="index">
+          <td><input type="checkbox" v-model="checked" @click="myCheck(product)"></td>
+          <!-- <span class="checkmark"></span> -->
+          <td>{{ product.title}}</td>  
+          <td></td>
+          <td>{{ product.price}}</td> 
+          <td>{{ product.quantity}}</td> 
+          <td><el-button @click="editRow(index,product)" type="text" size="small">Edit</el-button>
+          <input type="text" v-model="amount" placeholder="new quantity">
+          </td>
+          <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
+        </tr>
+      </table>
+      <br><br>
+      {{Total}}
+      <a href="javascript:history.go(-1)">
+      <el-button type="primary" icon="el-icon-arrow-left" >Previous Page</el-button></a>
+      <router-link to="/">
+      <el-button type="success" plain >Confirm</el-button>
+      </router-link>
       
-      <!-- <Home @cartInfo="getCartInfo"></Home> -->
-    
-
-  <table class="shoppingcart">
-    <tr>
-      <th>Title<th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th></th>
-      <th></th>
-    </tr>
-    <tr v-for="(product,index) in carts" :key="index">
-      <!-- <td></td> -->
-       <td>{{ product.title}}</td>  
-       <td></td>
-       <td>{{ product.price}}</td> 
-       <td>{{ product.quantity}}</td> 
-       <td><el-button @click="editRow(index,row)" type="text" size="small">Edit</el-button>
-       <el-input v-model="amount" size="mini" />
-       </td>
-       <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
+        
+        <!-- {{product}} -->
 
 
-
-    </tr>
-</table>
-<!-- </div> -->
-    {{Total}}
-    <a href="javascript:history.go(-1)">
-    <el-button type="primary" icon="el-icon-arrow-left" >Previous Page</el-button></a>
-    <router-link to="/">
-    <el-button type="success" plain >Confirm</el-button>
-    </router-link>
-    
-      
-      <!-- {{product}} -->
-
-
-  </div>
+    </div>
+  </body>
 </template>
 <script>
 import Home from "../views/Home"
@@ -56,7 +55,8 @@ export default {
         visible:true,
         carts:[],
         Total:'',
-        amount:''
+        amount:'',
+        checked:false
 
 
       }
@@ -75,7 +75,6 @@ export default {
               this.carts = this.$route.query.cartList
               this.product=this.carts
               console.log(this.carts)
-            //   console.log('code', this.code)
             },
            
             
@@ -83,17 +82,33 @@ export default {
               this.carts.splice(index, 1)
 
             },
-            editRow(index){
-              if(this.amount=0){
+            editRow(product,index){
+              
+              this.amount=parseInt(this.amount)
+              console.log(typeof(amount))
+              if(this.amount==0){
                 this.carts.splice(index, 1)
-              }else if(this.amount=''){
+                console.log(product)
+              }else if(this.amount==''){
                 alert("please enter the quantity")
+                console.log(product)
               }else{
-                this.product.quantity=this.amount
+                product.quantity=this.amount
+                console.log(product.quantity)
               }
               
 
             },
+
+            myCheck(product){
+              if(this.checked==true){
+                // this.Total=product.price+this.Total
+                this.Total=parseInt(this.Total)
+                this.Total+= product.price
+                console.log(typeof(this.Total))
+
+              }
+            }
         }
  
   
@@ -102,21 +117,14 @@ export default {
 };
 </script>
 <style>
-.cart {
+
+body {
   background-color:	#f5e29f
 }
 
-/* .el-table__empty-block .el-table__empty-text {
-   display: none;
-   color:white
-} */
-.el-input--mini .el-input__inner {
-    height: 28px;
-    line-height: 28px;
-    width: 20px;
-}
+
 .el-button--primary {
-  float:right
+  float:left
   }
 .el-button--success {
   float:right
@@ -143,4 +151,9 @@ export default {
   background-color: #4CAF50;
   color: white;
 }
+.cart input[type=text] {
+  width: 35%;
+}
+
+
 </style>
