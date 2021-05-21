@@ -43,7 +43,6 @@
 </template>
 <script>
 import Home from "../views/Home"
-
 export default {
   name: 'Cart',
   components: {
@@ -57,8 +56,6 @@ export default {
         Total:'',
         amount:'',
         checked:false
-
-
       }
   },
   created() {
@@ -80,7 +77,6 @@ export default {
             
             deleteRow(index){
               this.carts.splice(index, 1)
-
             },
             editRow(product,index){
               
@@ -97,32 +93,25 @@ export default {
                 console.log(product.quantity)
               }
               
-
             },
-
             myCheck(product){
               if(this.checked==true){
                 // this.Total=product.price+this.Total
                 this.Total=parseInt(this.Total)
                 this.Total+= product.price
                 console.log(typeof(this.Total))
-
               }
             }
         }
  
   
   
-
 };
 </script>
 <style>
-
 body {
   background-color:	#f5e29f
 }
-
-
 .el-button--primary {
   float:left
   }
@@ -134,16 +123,12 @@ body {
   border-collapse: collapse;
   width: 100%;
 }
-
 .shoppingcart td, .shoppingcart th {
   border: 1px solid #ddd;
   padding: 8px;
 }
-
 .shoppingcart tr:nth-child(even){background-color: #f2f2f2;}
-
 .shoppingcart tr:hover {background-color: #ddd;}
-
 .shoppingcart th {
   padding-top: 12px;
   padding-bottom: 12px;
@@ -154,6 +139,4 @@ body {
 .cart input[type=text] {
   width: 35%;
 }
-
-
 </style>

@@ -32,9 +32,7 @@
   
 </template>
 <script>
-
 import axios from "axios"
-
 axios.default.withCredentials = true
 axios.withCredentials = true
 export default {
@@ -52,15 +50,12 @@ export default {
       Signin:function(){
         if(this.email==""||this.pwd==""){
           alert('Please fill in all the fields.')
-
         }
-
         const user = {email:this.email,
                       password:this.pwd
                       }
         let response = axios.post("api/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res => {
-
             if(res.status === 200){
               console.log(res.data)
               alert("Login successfully!")
@@ -75,7 +70,6 @@ export default {
             console.log(error);
             alert('Error login, please try again');
           })
-
       }
      
     }
@@ -96,20 +90,13 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
-
 hr {
   border: 1px solid #f1f1f1;
   margin-bottom: 25px;
 }
-
-
-
 button:hover {
   opacity:1;
 }
-
-
 .el-button--danger {
   margin-top: 50px;
   margin-left: 100px
@@ -117,7 +104,6 @@ button:hover {
 .el-button--success {
   margin-top: 50px;
   margin-left: 200px
-
 }
 .createbtn {
   cursor: pointer;
@@ -126,5 +112,4 @@ button:hover {
 .el-divider {
     background-color: #d0991f;
 }
-
 </style>

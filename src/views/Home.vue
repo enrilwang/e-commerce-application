@@ -1,142 +1,176 @@
 <template>
-  <div class="home" >
-    <div class="topBar" v-show="topState">
-      <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
-       background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
-      <h1>Phone Zone</h1>
-      <el-menu-item index="1">Home</el-menu-item>
-      <el-menu-item index="2"><router-link to="/sign-in">Sign-in/Sign-up</router-link></el-menu-item>
-      <el-menu-item index="3"><el-button type="text" class="button"@click="cart()">Checkout</el-button></el-menu-item>  
-      <!-- <el-button type="text" class="button"@click="cart()">Checkout</el-button>     -->
-      <!-- <el-menu-item index="3"><router-link to="/cart" @click="cart">Checkout</router-link></el-menu-item> -->
-
-      <el-menu-item index="4"><router-link to="/userInfo">User</router-link></el-menu-item>  
-      <el-menu-item index="5"><input v-model="search"  placeholder="Search"></el-menu-item>
-      <el-menu-item index="6"><button class="search" v-on:click="SendSearch">Search</button></el-menu-item>
-      </el-menu>
-    </div>
-    <div class="searchComp" v-show="searchState">
-      <el-dropdown :hide-on-click="false" @command="handleCommand">
-        
-        <span class="el-dropdown-link" >Filter by Brand<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>        
-        <el-dropdown-menu slot="dropdown"  >
-        <el-dropdown-item
-         v-for="(brand,index) in dropdownList"
-        v-bind:item="brand"
-        v-bind:index="index"
-        v-bind:key="brand.id"
-        :command="{value:brand.name}"
-        >{{brand.name}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <div class="slidecontainer">
-        <input type="range" min="13.33" max="799.98" value="24" class="slider" v-on:input="priceInput" id="mySlider" v-model="MaxPrice">
-        <p class="maxprice">Maximum Price: {{MaxPrice}}</span></p>
+  <body>
+    <div class="home" >
+      <div class="topBar" v-show="topState">
+        <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
+        background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
+        <h1>Phone Zone</h1>
+        <el-menu-item index="1">Home</el-menu-item>
+        <el-menu-item index="2"><router-link to="/sign-in">Sign-in/Sign-up</router-link></el-menu-item>
+        <el-menu-item index="3"><el-button type="text" class="button"@click="cart()">Checkout</el-button></el-menu-item>  
+        <el-menu-item index="4"><router-link to="/userInfo">User</router-link></el-menu-item>  
+        <el-menu-item index="5"><input v-model="search"  placeholder="Search"></el-menu-item>
+        <el-menu-item index="6"><button class="search" v-on:click="SendSearch">Search</button></el-menu-item>
+        </el-menu>
       </div>
-      <el-row>
-        <el-col :span="6" v-for="(post,index) in searchItem" 
-          v-bind:item="post"
+      <div class="searchComp" v-show="searchState">
+        <el-dropdown :hide-on-click="false" @command="handleCommand">
+          <span class="el-dropdown-link" >Filter by Brand<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>        
+          <el-dropdown-menu slot="dropdown"  >
+          <el-dropdown-item
+          v-for="(brand,index) in dropdownList"
+          v-bind:item="brand"
           v-bind:index="index"
-          v-bind:key="post.id" class="card">
-          <el-card :body-style="{ padding: '0px' }" >
-            <div style="padding: 14px;">
-              <img :src="require('../../public/image/'+post.image)"  style="width:100%"  class="image" alt="">
-              <span><h3>Title:</h3> {{post.title}}</span><br>
-              <span><h3>Price:</h3> ${{post.price}}</span><br>
-
-              <div class="bottom clearfix">
-                <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
-              </div>
-            </div>
-          </el-card> 
-        </el-col>
-      </el-row>
-    </div>
-    <div class="itemcomp" v-show="itemState">
-      <!-- <HomeComponent @itemInfo="getItemInfo"></HomeComponent> -->
-      <el-row>
-          <el-col :span="10" v-for="(post,index) in Item" 
+          v-bind:key="brand.id"
+          :command="{value:brand.name}"
+          >{{brand.name}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <div class="slidecontainer">
+          <input type="range" min="13.33" max="799.98" value="24" class="slider" v-on:input="priceInput" id="mySlider" v-model="MaxPrice">
+          <p class="maxprice">Maximum Price: {{MaxPrice}}</span></p>
+        </div>
+        <el-row>
+          <el-col :span="6" v-for="(post,index) in searchItem" 
             v-bind:item="post"
             v-bind:index="index"
-            v-bind:key="post.id" >
-            <el-card :body-style="{ padding: '0px' }">
-              <div style="padding: 14px;">  
-                <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
+            v-bind:key="post.id" class="card">
+            <el-card :body-style="{ padding: '0px' }" >
+              <div style="padding: 14px;">
+                <img :src="require('../../public/image/'+post.image)"  style="width:100%"  class="image" alt="">
                 <span><h3>Title:</h3> {{post.title}}</span><br>
-                <span><h3>Brand:</h3> {{post.brand}}</span><br>
-                <span><h3>Stock:</h3> {{post.stock}}</span><br>
-                <span><h3>Seller:</h3> {{name}}</span><br>
                 <span><h3>Price:</h3> ${{post.price}}</span><br>
-                <span><h3>Reviews:</h3></span>
-                <span v-if="!showMoreActivated" v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
-                <h4>Comment:{{index+1}}</h4>
-                <br>
-                <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
-                
-                <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
-                <p style="color:#409EFF;">Read more</p>
-                </a>
-                <span v-if="readMoreActivated">{{review.comment}}</span>
-                <br>————{{review.reviewer}}
-                (rating:{{review.rating}})<br></span>
-                <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
-                <p style="color:orange; font-size:18px">Show full comment</p>
-                </a>
 
-                <!-- Show all comment -->
-                <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
-                <h4>Comment:{{index+1}}</h4>
-                <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
-                <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
-                <p style="color:#409EFF;">Read more</p>
-                </a>
-                <span v-if="readMoreActivated">{{review.comment}}</span>
-                <br>————{{review.reviewer}}
-                (rating:{{review.rating}})<br></span>
-
-                
                 <div class="bottom clearfix">
-                  <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-                  <el-badge  class="item" v-model="quantity">
-                  <el-button type="warning" icon="el-icon-star-off" circle @click="add()" >Add to Cart</el-button>
-                  </el-badge>  
+                  <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
                 </div>
               </div>
-            </el-card>
+            </el-card> 
           </el-col>
-        </el-row> 
-        
-    </div>    
+        </el-row>
+      </div>
+      <div class="itemcomp" v-show="itemState">
+        <el-row>
+            <el-col :span="10" v-for="(post,index) in Item" 
+              v-bind:item="post"
+              v-bind:index="index"
+              v-bind:key="post.id" >
+              <el-card :body-style="{ padding: '0px' }">
+                <div style="padding: 14px;">  
+                  <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
+                  <span><h3>Title:</h3> {{post.title}}</span><br>
+                  <span><h3>Brand:</h3> {{post.brand}}</span><br>
+                  <span><h3>Stock:</h3> {{post.stock}}</span><br>
+                  <span><h3>Seller:</h3> {{name}}</span><br>
+                  <span><h3>Price:</h3> ${{post.price}}</span><br>
+                  <span><h3>Reviews:</h3></span>
+                  <span v-if="!showMoreActivated" v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
+                  <h4>Comment:{{index+1}}</h4>
+                  <br>
+                  <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
+                  
+                  <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
+                  <p style="color:#409EFF;">Read more</p>
+                  </a>
+                  <span v-if="readMoreActivated">{{review.comment}}</span>
+                  <br>————{{review.reviewer}}
+                  (rating:{{review.rating}})<br></span>
+                  <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
+                  <p style="color:orange; font-size:18px">Show full comment</p>
+                  </a>
+
+                  <!-- Show all comment -->
+                  <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
+                  <h4>Comment:{{index+1}}</h4>
+                  <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
+                  <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
+                  <p style="color:#409EFF;">Read more</p>
+                  </a>
+                  <span v-if="readMoreActivated">{{review.comment}}</span>
+                  <br>————{{review.reviewer}}
+                  (rating:{{review.rating}})<br></span>
+
+                  
+                  <div class="bottom clearfix">
+                    <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
+                    <el-badge  class="item" v-model="quantity">
+                    <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
+                    </el-badge>  
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row> 
+          
+      </div>    
 
 
-    <div class="row" v-show="homeState">
-      <HomeComponent />
+      <div class="row" v-show="homeState">
+        <!-- <HomeComponent />
+        -->
+        <div class="phones">
+          <el-row>
+            <h2><center>Sold out soon</center></h2>
+            <el-col :span="14" v-for="(post,index) in posts" 
+              v-bind:item="post"
+              v-bind:index="index"
+              v-bind:key="post.id" >
+              <el-card :body-style="{ padding: '0px' }">
+                <div style="padding: 14px;">
+                  <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
+                  <span>Price: ${{post.price}}</span> 
+                  <div class="bottom clearfix">
+                    <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>     
+          <el-row>
+          <h2><center>Best sellers</center></h2>
+            <el-col :span="14" v-for="(post,index) in bestSeller"
+              v-bind:item="post"
+              v-bind:index="index"
+              v-bind:key="post.id" class="card" >
+              <el-card :body-style="{ padding: '0px' }" >
+                <div style="padding: 14px;">
+                  <img :src="require('../../public/image/'+post._id.image)"  style="width:100%"  class="image" alt="">
+                  <span>Average rating: {{post.avgRating}}</span>
+                  <div class="bottom clearfix">
+                    <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
+                  </div>
+                </div>
+              </el-card> 
+            </el-col>
+          </el-row>
+        </div>
+      </div>
+      <div style="display: none;">{{beforeFilter}}</div>
+      <div style="display: none;">{{cartList}}</div>    
+      <!-- <div style="display: none;">{{Cookie}}</div> -->
+
+      
+
     </div>
-    <div style="display: none;">{{beforeFilter}}</div>
-    <div style="display: none;">{{cartList}}</div>
-    
-
-  </div>
+  </body>
 </template>
 
 <script>
-
-import HomeComponent from '../components/HomeComponent'
+// import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
-// import CartVue from '../router/Cart'
-
 export default {
   name: "Home",
   components: {
-    HomeComponent
+    // HomeComponent
   },
-
   data:function(){
     
       return{
+        posts:[],
+        bestSeller:[],
         homeState:true,
         searchState:false,
         itemState:false,
@@ -151,8 +185,7 @@ export default {
         value: 0,
         beforeFilter:[],
         quantity:0,
-        cookie:{},
-        userName:"",
+        // Cookie:{},
         
         dropdownList:[
           {id:"1",name:"Apple"},
@@ -173,17 +206,46 @@ export default {
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
       cartItem:{}
-
       
       }
   },
-
   created() {
     this.getRouterData()
   },
-
+  async created(){
+    
+    let url = "http://localhost:3000/all";
+    let urlSeller ='http://localhost:3000/seller';
+    let urlUser = 'http://localhost:3000/user';
+    const reqOne =  axios.get(url)
+    const reqTwo = axios.get(urlSeller)
+    const reqThree = axios.get(urlUser);
+    axios.all([reqOne, reqTwo,reqThree]).then(axios.spread((...responses)=>{
+      const responsesOne = responses[0]
+      const responsesTwo = responses[1]
+      const responsesThree = responses[2]
+      responsesOne.data.sort(function(a,b){return a.stock-b.stock})
+      let num = 0;
+      let ls = [];
+      for (let i = 0; i < responsesOne.data.length; i++) {
+          if (responsesOne.data[i].stock == 0) continue;
+          else {
+            ls.push(responsesOne.data[i]);
+            num ++;
+            if (num == 5) break;
+          }
+      }
+      //handle the sold out soon data
+      this.posts = ls;
+      //handle the bestSeller data
+      this.bestSeller = responsesTwo.data;
+      this.user = responsesThree.data;
+      
+    })).catch(error=>{
+      console.log(error)
+    });
+  },
   methods: {
-
       SendSearch: function () {
         this.homeState=false;
         this.searchState=true
@@ -203,7 +265,6 @@ export default {
         axios.get(urlUser).then(res=>{this.user = res.data;})
         
       },
-
       detail(post){
         this.Item=[]
         this.homeState=false;
@@ -224,19 +285,15 @@ export default {
             }
         }
           this.reviewList.push(this.Item[0].reviews[i])
-
         }
-
   
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;
             }
         }
-
         
       },
-
       handleSelect(key, keyPath){
         // console.log(key, keyPath);
       },
@@ -266,49 +323,31 @@ export default {
         this.searchItem=afterFilter  
         // console.log(this.searchItem)      
       },
-
-      getRouterData() {
-              this.cookie = this.$route.query.cookie
-              this.userName = this.cookie.userName
-              console.log(this.$route.query.cookie)
-              console.log(this.userName)
-
-            //   console.log('code', this.code)
-            },
-
-
-
-      add(){
-       axios.get("http://localhost:3000")
+      
+      add(post){
+       axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   console.log(res)
                   if(Object.keys(res.data.result.cookie).length > 0) {
                       console.log(res.data.result.cookie.userName)
-                      console.log(this.cookie)
-                      if (this.cookie!=undefined){
-
-                      console.log(this.cookie)
-
-                      this.$prompt('Please enter the quantity',  {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
+                      
+                        this.$prompt('Please enter the quantity',  {
+                          confirmButtonText: 'OK',
+                          cancelButtonText: 'Cancel',
                       
                       }).then(({ value })=>{
                         if(value != null) {
                           
                           this.quantity+= parseInt(value);
                           // this.$emit('cartInfo',post)
-                          if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
-                            // let product=[]
+                          if(post.stock >= value && post.stock >= this.quantity) {
+                            this.quantity+= parseInt(value);
+                            this.cartItem=post
+                            this.cartItem["quantity"] = value;
+                            console.log(this.cartItem.quantity)
                             
-                            this.cartItem.quantity=value
-                            this.cartItem.price=this.Item[0].price
-                            this.cartItem.title=this.Item[0].title
-                            // product.push(this.cartItem)
                             console.log(this.cartItem)
-
                             this.cartList.push(this.cartItem)
-                            // this.cartList=this.cartList.concat(product)
                             console.log(this.cartList)
                           
                             this.$message({
@@ -342,9 +381,8 @@ export default {
                 
            
          
-              // }) 
+              }) 
       
-
         
       
       },
@@ -355,36 +393,35 @@ export default {
         this.showMoreActivated = true;
       },
       back(){
-        this.searchState=true;
+        this.homeState=true;
         this.itemState=false;
       },
       cart(){
-        // alert("1")
-        // console.log(this.cartList)
+        
         this.$router.push({
               name: 'Cart',
               query: {cartList:this.cartList}
               
               })
-
       }
       
-
   }
 }
-
 </script>
 
 
 <style>
+body {
+  background-color:	#f5e29f
+}
 .home h1{
   color:white;
   font-family: "Times New Roman";
   font-weight: bold;
 }
-.home {
+/* .home {
   background-color:	#f5e29f
-}
+} */
 .row:after {
    content: "";
    display: table;
@@ -401,7 +438,6 @@ export default {
 .el-menu-item {
     font-size: 17px;
 }
-
 .bottom .el-button--warning{
   margin-left: 350px;
 }
@@ -409,18 +445,15 @@ export default {
   margin-left: 10px;
   margin-bottom: 0px;
 }
-
 .el-dropdown-link {
     cursor: pointer;
     color: #66b1ff;
     margin-top: 10px;
     font-weight: bold;
-
 }
 .slidecontainer {
   width: 100%;
 }
-
 .slider {
   -webkit-appearance: none;
   width: 25%;
@@ -436,13 +469,10 @@ export default {
   margin-top: 0px;
   
   color:#66b1ff
-
 }
-
 .slider:hover {
   opacity: 1;
 }
-
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -451,7 +481,6 @@ export default {
   background: #04AA6D;
   cursor: pointer;
 }
-
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
@@ -461,13 +490,67 @@ export default {
 .el-dropdown{
     float: right;
     font-size: 16px;
-
 }
 .searchComp .el-card {
   height: 600px
   
 }
-
-
-
+.row .el-col {
+  margin-left: 125px;
+  margin-top: 15px;
+}
+.phones {
+  column-count: 2;
+}
+.post{
+  margin-left: 80px;
+}
+.bestSeller{
+  margin-left: 80px;
+}
+.bottom {
+   margin-top: 13px;
+  line-height: 12px;
+}
+.button {
+  padding: 0;
+  margin-bottom:0px
+}
+.homecomp .el-col {
+  margin-left: 125px;
+  margin-top: 15px;
+}
+  
+.itemcomp .el-col {
+  margin-left: 360px;
+  margin-top: 15px;
+}
+  
+.image {
+  width: 100%;
+  display: block;
+}
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+  
+.clearfix:after {
+    clear: both
+}
+.homecomp .el-card{
+  border:4px;
+  }
+.readMore{
+    cursor: pointer;
+  }
+.showMore{
+    cursor: pointer;
+    margin-bottom:0px
+  }  
+.bottom .el-button--text {
+  padding: 0;
+  margin-bottom:0px
+}
 </style>
