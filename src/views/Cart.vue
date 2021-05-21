@@ -39,11 +39,9 @@
   </body>
 </template>
 <script>
-import Home from "../views/Home"
 export default {
   name: 'Cart',
   components: {
-    Home
   },
   data(){
       return{
