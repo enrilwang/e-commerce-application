@@ -44,7 +44,8 @@ export default {
         username:[],
         currentpwd:'',
         newpwd:'',
-        id:""
+        id:"",
+        newList:[]
       }
   },
   created() {
@@ -154,6 +155,45 @@ export default {
       },
       
       add(){
+        if (this.currentpwd=="" || this.newpwd=="" ){
+          alert("password cannot be null")
+        }else{
+          var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+         
+          if(passwordReg.test(this.currentpwd) == true && passwordReg.test(this.newpwd) == true) {
+            const passwords = {
+              current:this.currentpwd,
+              new:this.newpwd,
+              id:this.user[0].id
+            }
+        
+            axios.post("http://localhost:3000/updatePassword",JSON.stringify(passwords),{headers:{"Content-Type":"application/json"}})
+              .then(res => {
+              if(res.status === 200){
+                
+                alert("Your password has been updated successfully")
+                
+              }else if(res.status ===201){
+                alert("Sorry, current password is not correct")
+              }else {
+                const error = new Error(res.error);
+                throw error;
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              alert('Error, please try again');
+            })
+            
+          }else{
+            alert("password must contain 6 characters, at least one letter and one number")
+          }
+
+
+
+
+        }
+
 
       }
 
