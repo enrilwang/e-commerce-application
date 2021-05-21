@@ -73,9 +73,9 @@ export default {
             .then(res => {
               
             if(res.status === 200){
-            
+              
               alert("Sign up successfully!")
-              window.history.back();
+              this.$router.push("sign-in")
             }else if(res.status ===201){
               alert("Email has already existed! Please sign up with different email")
             }else {
