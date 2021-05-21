@@ -30,7 +30,7 @@ module.exports ={
       {
           $group:{
               _id:{Title:"$title",image:"$image"},
-              //data:{$first:"$$ROOT"},
+              
               title:{$first : "$title"},
               price:{$first : "$price"},
               brand:{$first : "$brand"},
@@ -40,7 +40,7 @@ module.exports ={
               seller:{$first : "$seller"},
               avgRating:{$avg:'$reviews.rating'}
           }
-          
+         
          
       },
       
@@ -57,8 +57,18 @@ module.exports ={
   //update stock after puchase
   updateStock:function(req,res,next) {
     let data = req.body
+    console.log(data.length())
+    console.log("here")
     console.log(data)
-    //phone.update()
+    // phone.update({title: data.title},{stock: data.stock}, function(err,res){
+    //   if(err){
+    //     console.log(err)
+    //   }else{
+    //     console.log("update successfully")
+    //     console.log(res)
+    //     res.sendStatus(200)
+    //   }
+    // })
 
 
 

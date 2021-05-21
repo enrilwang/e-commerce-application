@@ -76,9 +76,9 @@ module.exports ={
       
         //max age is 10 mins
         //set the cookie
-        res.cookie('userToken', jwt.sign({data:data.email} , "shhhhh",{expiresIn: "10h"}) ,{maxAge: 600000})
-        res.cookie('userName',userNow.firstName + " " + userNow.lastName,{maxAge: 600000})
-        res.cookie('userEmail', userNow.email,{maxAge: 600000})
+        res.cookie('userToken', jwt.sign({data:data.email} , "shhhhh",{expiresIn: "10h"}) ,{maxAge: 3600000})
+        res.cookie('userName',userNow.firstName + " " + userNow.lastName,{maxAge: 3600000})
+        res.cookie('userEmail', userNow.email,{maxAge: 3600000})
         res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
         res.setHeader("Access-Control-Allow-Credentials","true")
         

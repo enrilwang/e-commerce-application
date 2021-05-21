@@ -327,7 +327,7 @@ export default {
       add(post){
        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
-                  console.log(res)
+                  
                   if(Object.keys(res.data.result.cookie).length > 0) {
                       console.log(res.data.result.cookie.userName)
                       
@@ -341,14 +341,14 @@ export default {
                           this.quantity+= parseInt(value);
                           // this.$emit('cartInfo',post)
                           if(post.stock >= value && post.stock >= this.quantity) {
-                            this.quantity+= parseInt(value);
+                            
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
-                            console.log(this.cartItem.quantity)
+                            //console.log(this.cartItem.quantity)
                             
-                            console.log(this.cartItem)
+                            //console.log(this.cartItem)
                             this.cartList.push(this.cartItem)
-                            console.log(this.cartList)
+                            //console.log(this.cartList)
                           
                             this.$message({
                               type: 'success',

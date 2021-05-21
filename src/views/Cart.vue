@@ -31,7 +31,7 @@
       <a href="javascript:history.go(-1)">
       <el-button type="primary" icon="el-icon-arrow-left" >Previous Page</el-button></a>
       <router-link to="/">
-      <el-button type="success" plain >Confirm</el-button>
+      <el-button type="success" plain @click="confirm">Confirm</el-button>
       </router-link>
       
         
@@ -43,6 +43,7 @@
 </template>
 <script>
 import Home from "../views/Home"
+import axios from "axios"
 export default {
   name: 'Cart',
   components: {
@@ -71,7 +72,7 @@ export default {
             getRouterData() {
               this.carts = this.$route.query.cartList
               this.product=this.carts
-              console.log(this.carts)
+        
             },
            
             
@@ -101,8 +102,33 @@ export default {
                 this.Total+= product.price
                 console.log(typeof(this.Total))
               }
+            },
+
+
+            confirm:function() {
+              console.log(this.carts.length)
+              console.log(this.carts[0])
+              const carts = {carts:this.carts,
+                              quantity:this.carts.quantity}
+              axios.post("http://localhost:3000/updateStock",JSON.stringify(carts))
+                  .then(res => {
+                  if(res.status === 200){
+                    console.log(res.data)
+                    alert("Thanks for puchasing")
+                  }else if(res.status ===201){
+                    alert("stock not enough, go to check the stock now")
+                  }else {
+                    const error = new Error(res.error);
+                    throw error;
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                  alert('Error login, please try again');
+                })
             }
-        }
+  }
+        
  
   
   
