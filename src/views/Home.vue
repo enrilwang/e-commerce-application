@@ -157,18 +157,15 @@
 </template>
 
 <script>
-
 // import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
-
 export default {
   name: "Home",
   components: {
     // HomeComponent
   },
-
   data:function(){
     
       return{
@@ -209,15 +206,12 @@ export default {
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
       cartItem:{}
-
       
       }
   },
-
   created() {
     this.getRouterData()
   },
-
   async created(){
     
     let url = "http://localhost:3000/all";
@@ -251,9 +245,7 @@ export default {
       console.log(error)
     });
   },
-
   methods: {
-
       SendSearch: function () {
         this.homeState=false;
         this.searchState=true
@@ -273,7 +265,6 @@ export default {
         axios.get(urlUser).then(res=>{this.user = res.data;})
         
       },
-
       detail(post){
         this.Item=[]
         this.homeState=false;
@@ -294,19 +285,15 @@ export default {
             }
         }
           this.reviewList.push(this.Item[0].reviews[i])
-
         }
-
   
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;
             }
         }
-
         
       },
-
       handleSelect(key, keyPath){
         // console.log(key, keyPath);
       },
@@ -336,11 +323,7 @@ export default {
         this.searchItem=afterFilter  
         // console.log(this.searchItem)      
       },
-
       
-
-
-
       add(post){
        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
@@ -348,7 +331,6 @@ export default {
                   if(Object.keys(res.data.result.cookie).length > 0) {
                       console.log(res.data.result.cookie.userName)
                       
-
                         this.$prompt('Please enter the quantity',  {
                           confirmButtonText: 'OK',
                           cancelButtonText: 'Cancel',
@@ -365,7 +347,6 @@ export default {
                             console.log(this.cartItem.quantity)
                             
                             console.log(this.cartItem)
-
                             this.cartList.push(this.cartItem)
                             console.log(this.cartList)
                           
@@ -402,7 +383,6 @@ export default {
          
               }) 
       
-
         
       
       },
@@ -423,13 +403,10 @@ export default {
               query: {cartList:this.cartList}
               
               })
-
       }
       
-
   }
 }
-
 </script>
 
 
@@ -461,7 +438,6 @@ body {
 .el-menu-item {
     font-size: 17px;
 }
-
 .bottom .el-button--warning{
   margin-left: 350px;
 }
@@ -469,18 +445,15 @@ body {
   margin-left: 10px;
   margin-bottom: 0px;
 }
-
 .el-dropdown-link {
     cursor: pointer;
     color: #66b1ff;
     margin-top: 10px;
     font-weight: bold;
-
 }
 .slidecontainer {
   width: 100%;
 }
-
 .slider {
   -webkit-appearance: none;
   width: 25%;
@@ -496,13 +469,10 @@ body {
   margin-top: 0px;
   
   color:#66b1ff
-
 }
-
 .slider:hover {
   opacity: 1;
 }
-
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -511,7 +481,6 @@ body {
   background: #04AA6D;
   cursor: pointer;
 }
-
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
@@ -521,7 +490,6 @@ body {
 .el-dropdown{
     float: right;
     font-size: 16px;
-
 }
 .searchComp .el-card {
   height: 600px
@@ -534,20 +502,16 @@ body {
 .phones {
   column-count: 2;
 }
-
 .post{
   margin-left: 80px;
 }
 .bestSeller{
   margin-left: 80px;
 }
-
-
 .bottom {
    margin-top: 13px;
   line-height: 12px;
 }
-
 .button {
   padding: 0;
   margin-bottom:0px
@@ -560,15 +524,12 @@ body {
 .itemcomp .el-col {
   margin-left: 360px;
   margin-top: 15px;
-
 }
   
-
 .image {
   width: 100%;
   display: block;
 }
-
 .clearfix:before,
 .clearfix:after {
     display: table;
@@ -592,9 +553,4 @@ body {
   padding: 0;
   margin-bottom:0px
 }
-
-
-
-
-
 </style>
