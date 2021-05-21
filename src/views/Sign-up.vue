@@ -45,8 +45,8 @@ export default {
         fname: '',
         lname:'',
         pwd: '',
-        email:'',
-        
+        email:''
+       
       }
     },
     methods:{
@@ -71,10 +71,11 @@ export default {
                         }
           axios.post("http://localhost:3000/signUp",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
             .then(res => {
-              console.log("check"+res.data)
-            if(res.status === 200){
               
+            if(res.status === 200){
+            
               alert("Sign up successfully!")
+              window.history.back();
             }else if(res.status ===201){
               alert("Email has already existed! Please sign up with different email")
             }else {

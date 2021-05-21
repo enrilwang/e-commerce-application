@@ -48,7 +48,9 @@ module.exports ={
             res.sendStatus(201);
         }else{
             newUser.save().then(() => {
+              console.log(newUser._id)
               res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+              
               res.sendStatus(200)
             })
             .catch(err => next(err))
@@ -79,15 +81,17 @@ module.exports ={
         res.cookie('userToken', jwt.sign({data:data.email} , "shhhhh",{expiresIn: "10h"}) ,{maxAge: 3600000})
         res.cookie('userName',userNow.firstName + " " + userNow.lastName,{maxAge: 3600000})
         res.cookie('userEmail', userNow.email,{maxAge: 3600000})
+        res.cookie('id',userNow.id,{maxAge: 3600000})
         res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
         res.setHeader("Access-Control-Allow-Credentials","true")
-        
+        console.log(userNow.id)
         res.json({
           status:'0',
           msg:"",
           result:{
             userName:userNow.firstName + " " + userNow.lastName,
-            userEmail:userNow.email
+            userEmail:userNow.email,
+            
           }
         })
     
@@ -110,43 +114,59 @@ module.exports ={
   updatePassword:function(req, res){
     
     let data = req.body
-    let password = crypto.createHash('md5').update(data.password).digest("hex")
-    user.update({email: data.email},{password: password}, function(err,res){
+    console.log(data)
+    let currentPassword = crypto.createHash('md5').update(data.current).digest("hex")
+    let newPassword = crypto.createHash('md5').update(data.new).digest("hex")
+    var currentUser = new user();
+    
+    currentUser._id = data.id
+    currentUser.password = currentPassword;
+    currentUser.checkPassword(function(err,doc){
       if(err){
-        console.log(err)
-      }else{
-        console.log("update successfully")
-        console.log(res)
+        res.sendStatus(201)
+      }else if(doc[0]){
+        //let userNow = users[0];
+       
+        user.update({_id: data.id},{password: newPassword}, function(err,res){
+          if(err){
+            console.log(err)
+          }else{
+            console.log("update successfully")
+          }
+        })
         res.sendStatus(200)
+      }else {
+        res.sendStatus(201)
       }
     })
+    
   },
+
 
   //update the profile
   updateProfile:function(req, res){
     
     let data = req.body
+    console.log(data)
     let password = crypto.createHash('md5').update(data.password).digest("hex")
     var currentUser = new user();
     
-    currentUser.email = data.email;
+    currentUser._id = data.id
     currentUser.password = password;
-    currentUser.checkSameEmail(function(err,doc){
+    currentUser.checkPassword(function(err,doc){
       if(err){
-        res.json({status:"1"})
-        console.log("error!")
+        res.sendStatus(201)
       }else if(doc[0]){
         //let userNow = users[0];
        
-        user.update({email: data.email},{email: data.email,firstName:data.firstName,lastName:data.lastName}, function(err,res){
+        user.update({_id: data.id},{email: data.email,firstName:data.firstName,lastName:data.lastName}, function(err,res){
           if(err){
             console.log(err)
           }else{
             console.log("update successfully")
-            console.log(res)
-            res.sendStatus(200)
           }
         })
+        res.sendStatus(200)
       }else {
         res.sendStatus(201)
       }
@@ -154,6 +174,4 @@ module.exports ={
     
   }
 
-
-  
 }

@@ -43,7 +43,8 @@ export default {
       return {
         pwd: '',
         email:'',
-        cookie:{}
+        cookie:{},
+       
       }
     },
     methods:{
@@ -57,7 +58,7 @@ export default {
         axios.post("api/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res => {
             if(res.status === 200){
-              console.log(res.data)
+           
               alert("Login successfully!")
               // this.$router.push("/")
               window.history.back();

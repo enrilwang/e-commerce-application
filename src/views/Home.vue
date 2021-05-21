@@ -299,8 +299,7 @@ export default {
           }
         }      
             this.searchItem=afterFilter  
-            // this.FilterData=afterFilter
-            // console.log(this.searchItem)
+      
       },
       priceInput(){
         let i=0
@@ -337,8 +336,7 @@ export default {
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
                             this.cartList.push(this.cartItem)
-                            //console.log(this.cartList)
-                          
+                        
                             this.$message({
                               type: 'success',
                               message: 'Your quantity is:' + value,
