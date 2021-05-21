@@ -45,7 +45,6 @@ import qs from 'qs'
 export default {
   name: 'Cart',
   components: {
-    Home
   },
   data(){
       return{

@@ -6,9 +6,10 @@
         background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
         <h1>Phone Zone</h1>
         <el-menu-item index="1">Home</el-menu-item>
-        <el-menu-item index="2"><router-link to="/sign-in">Sign-in/Sign-up</router-link></el-menu-item>
+        <el-menu-item index="2"><router-link to="/sign-in">Sign-in/Sign-up</router-link></el-menu-item> 
         <el-menu-item index="3"><el-button type="text" class="button"@click="cart()">Checkout</el-button></el-menu-item>  
-        <el-menu-item index="4"><router-link to="/userInfo">User</router-link></el-menu-item>  
+        <el-menu-item index="4"><el-button type="text" class="button"@click="userInfo()">User</el-button></el-menu-item> 
+        <!-- <el-menu-item index="4"><router-link to="/userInfo">User</router-link></el-menu-item>   -->
         <el-menu-item index="5"><input v-model="search"  placeholder="Search"></el-menu-item>
         <el-menu-item index="6"><button class="search" v-on:click="SendSearch">Search</button></el-menu-item>
         </el-menu>
@@ -205,7 +206,8 @@ export default {
       cartList:[],
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
-      cartItem:{}
+      cartItem:{},
+      userList:[]
       
       }
   },
@@ -334,9 +336,6 @@ export default {
                             
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
-                            //console.log(this.cartItem.quantity)
-                            
-                            //console.log(this.cartItem)
                             this.cartList.push(this.cartItem)
                             //console.log(this.cartList)
                           
@@ -359,7 +358,7 @@ export default {
                     }).catch(() => {
                       this.$message({
                         type: 'info',
-                        message: 'Input canceled'
+                        message: 'Input cancelled'
                       });       
                     });
                       
@@ -393,6 +392,26 @@ export default {
               query: {cartList:this.cartList}
               
               })
+      },
+      userInfo(){
+        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
+              .then(res =>{
+                  console.log(res)
+                  if(Object.keys(res.data.result.cookie).length > 0) {
+                      console.log(res.data.result.cookie.userName)
+                      this.userList.push(res.data.result.cookie)
+                      console.log(this.userList[0].userName)
+                      this.$router.push({
+                        name:'UserInfo',
+                        query:{userList:this.userList}
+                      })}else {
+                      alert("Please log in to your account first")
+                      
+                  }
+                
+           
+         
+              }) 
       }
       
   }

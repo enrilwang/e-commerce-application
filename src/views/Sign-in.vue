@@ -59,7 +59,10 @@ export default {
             if(res.status === 200){
               console.log(res.data)
               alert("Login successfully!")
-              this.$router.push("/")
+              // this.$router.push("/")
+              window.history.back();
+              // history.pushState(searchState,null,"/")
+              
               
             }else if(res.status ===201){
               alert("Email and/or password incorrect")
