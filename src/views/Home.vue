@@ -212,9 +212,9 @@ export default {
   created() {
     this.getRouterData()
   },
-  async created(){
+  created(){
     
-    let url = "http://localhost:3000/all";
+    let url = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
     let urlUser = 'http://localhost:3000/user';
     const reqOne =  axios.get(url)
@@ -224,19 +224,9 @@ export default {
       const responsesOne = responses[0]
       const responsesTwo = responses[1]
       const responsesThree = responses[2]
-      responsesOne.data.sort(function(a,b){return a.stock-b.stock})
-      let num = 0;
-      let ls = [];
-      for (let i = 0; i < responsesOne.data.length; i++) {
-          if (responsesOne.data[i].stock == 0) continue;
-          else {
-            ls.push(responsesOne.data[i]);
-            num ++;
-            if (num == 5) break;
-          }
-      }
+
       //handle the sold out soon data
-      this.posts = ls;
+      this.posts = responsesOne.data;
       //handle the bestSeller data
       this.bestSeller = responsesTwo.data;
       this.user = responsesThree.data;
@@ -329,11 +319,11 @@ export default {
               .then(res =>{
                   
                   if(Object.keys(res.data.result.cookie).length > 0) {
-                      console.log(res.data.result.cookie.userName)
                       
-                        this.$prompt('Please enter the quantity',  {
-                          confirmButtonText: 'OK',
-                          cancelButtonText: 'Cancel',
+                      
+                      this.$prompt('Please enter the quantity',  {
+                        confirmButtonText: 'OK',
+                        cancelButtonText: 'Cancel',
                       
                       }).then(({ value })=>{
                         if(value != null) {

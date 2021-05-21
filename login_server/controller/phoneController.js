@@ -16,9 +16,9 @@ module.exports ={
   },
 
 
-  //get phoneListing data
-  getAllPhone:function(req,res,next) {
-    phone.find({stock:{$gt:0}}).exec()
+  //get phoneListing data that sold out soon
+  getPhone:function(req,res,next) {
+    phone.find({stock:{$gt:0}}).sort({stock:1}).limit(5).exec()
         .then(data => res.json(data))
         .catch()
   },
@@ -26,6 +26,7 @@ module.exports ={
   //get the best seller
   getBestSeller:function(req,res,next) {
     phone.aggregate([
+     
       {$unwind:"$reviews"},
       {
           $group:{
@@ -44,7 +45,7 @@ module.exports ={
          
       },
       
-      {$match:{avgRating:{$gte:2}}},
+      {$match:{stock:{$gt:0},avgRating:{$gte:2}}},
       {$sort:{avgRating:-1}},
       {$limit:5}
   
@@ -57,18 +58,24 @@ module.exports ={
   //update stock after puchase
   updateStock:function(req,res,next) {
     let data = req.body
-    console.log(data.length())
-    console.log("here")
-    console.log(data)
-    // phone.update({title: data.title},{stock: data.stock}, function(err,res){
-    //   if(err){
-    //     console.log(err)
-    //   }else{
-    //     console.log("update successfully")
-    //     console.log(res)
-    //     res.sendStatus(200)
-    //   }
-    // })
+    
+ 
+    for (let i = 0; i < data.length; i++) {
+      let newStock = data.carts[i].stock - data.carts[i].quantity;
+      phone.update({title: data.carts[i].title},{stock: newStock}, function(err,res){
+        if(err){
+          console.log(err)
+        }else{
+          console.log("update successfully")
+          console.log(res)
+          
+        }
+      })
+      
+    }
+    res.sendStatus(200)
+    
+    
 
 
 

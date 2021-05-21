@@ -4,6 +4,6 @@ const phoneController = require("../../controller/phoneController")
 
 const router=express.Router()
 
-router.get('/', phoneController.getAllPhone)
+router.get('/', phoneController.getPhone)
 
 module.exports=router

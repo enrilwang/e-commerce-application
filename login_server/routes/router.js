@@ -5,7 +5,7 @@ const userController = require("../controller/userController")
 
 
 //get request
-router.get('/all', phoneController.getAllPhone)
+router.get('/soldsoon', phoneController.getPhone)
 router.get('/seller', phoneController.getBestSeller)
 router.get('/search/:title',phoneController.getByTitle)
 router.get('/user', userController.getAllUser);

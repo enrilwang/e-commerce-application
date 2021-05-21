@@ -21,7 +21,7 @@
           <td></td>
           <td>{{ product.price}}</td> 
           <td>{{ product.quantity}}</td> 
-          <td><el-button @click="editRow(product,index)" type="text" size="small">Save</el-button>
+          <td><el-button @click="editRow(product,index)" type="text" size="small">save</el-button>
           <input type="text" v-model="product.quantity" placeholder="new quantity" >
           </td>
           <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
@@ -41,6 +41,7 @@
 <script>
 import Home from "../views/Home"
 import axios from "axios"
+import qs from 'qs'
 export default {
   name: 'Cart',
   components: {
@@ -78,26 +79,52 @@ export default {
               this.carts.splice(index, 1)
             },
             editRow(product,index){
-              // this.amount=parseInt(this.amount)
+             
               if(product.quantity==0){
                 this.carts.splice(index, 1)
-                console.log(product)
+                
+              }else if (product.quantity > product.stock) {
+                alert("quantity cannot exceed stock")
               }
-              // else{
-          
-              // }
+              
               
             },
 
             check: function(e) {
-            if (e.target.checked) {
-              console.log(e.target.value)
-              this.total+= parseInt(e.target.value)
+              if (e.target.checked) {
+                console.log(e.target.value)
+                this.total+= parseInt(e.target.value)
+              }
+              else{
+                this.total= this.total-parseInt(e.target.value)
+              }
+            },
+
+            confirm:function() {
+              const carts = {
+                carts:this.carts,
+                length:this.carts.length
+              }
+             
+              axios.post("http://localhost:3000/updateStock",qs.stringify(carts))
+                  .then(res => {
+                  if(res.status === 200){
+                    
+                    alert("Thanks for purchasing!")
+                  }else if(res.status ===201){
+                    alert("stock not enough, go back to check")
+                  }else {
+                    const error = new Error(res.error);
+                    throw error;
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                  alert('Error login, please try again');
+                })
+      
             }
-            else{
-              this.total= this.total-parseInt(e.target.value)
-            }
-    }
+
         }
  
   
