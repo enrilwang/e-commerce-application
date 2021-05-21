@@ -86,7 +86,7 @@
                 <div class="bottom clearfix">
                   <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
                   <el-badge :value="2" class="item" v-model="quantity">
-                  <el-button type="warning"  circle @click="add" >Add to Cart</el-button>
+                  <el-button type="warning"  circle @click="add(post)" >Add to Cart</el-button>
                   </el-badge>  
                 </div>
               </div>
@@ -128,6 +128,8 @@ export default {
       readMoreActivated: false,
       showMoreActivated: false,
       quantity:0,
+      cartItem:{},
+      cartList:[]
 
 
     }
@@ -201,9 +203,9 @@ export default {
             }
         }
       },
-      add(){
+      add(post){
         
-        axios.get("http://localhost:3000")
+        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   console.log(res)
                   if(Object.keys(res.data.result.cookie).length > 0) {
@@ -216,14 +218,21 @@ export default {
                       }).then(({ value })=>{
                         if(value != null) {
                           
-                          this.quantity+= parseInt(value);
+                          
                           // this.$emit('cartInfo',post)
-                          if(this.Item[0].stock >= value && this.Item[0].stock >= this.quantity) {
+                          if(post.stock >= value && post.stock >= this.quantity) {
                             // let product=[]
+                            console.log("here")
+                            this.quantity+= parseInt(value);
+                            console.log("here1")
+                            // this.cartItem.
                             
-                            this.cartItem.quantity=value
-                            this.cartItem.price=this.Item[0].price
-                            this.cartItem.title=this.Item[0].title
+                            console.log("here")
+                            this.cartItem=post
+                            this.cartItem["quantity"] = value;
+                            console.log(this.cartItem.quantity)
+                            console.log("here")
+                            // this.cartItem.title=post.title
                             // product.push(this.cartItem)
                             console.log(this.cartItem)
 

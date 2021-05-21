@@ -14,9 +14,9 @@ module.exports ={
 
   //get the user cookie
   getCookie: function(req,res) {
-    // res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
-    // res.setHeader("Access-Control-Allow-Credentials","true")
-
+    res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+    res.setHeader("Access-Control-Allow-Credentials","true")
+    
     res.json({
       status:'0',
       msg:"",

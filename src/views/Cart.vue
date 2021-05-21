@@ -7,20 +7,26 @@
 
   <table class="shoppingcart">
     <tr>
+      <th></th>
       <th>Title<th>
       <th>Price</th>
       <th>Quantity</th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
     <tr v-for="(product,index) in carts" :key="index">
       <!-- <td></td> -->
+      <!-- <div class="container"> -->
+      <td><input type="checkbox" checked="checked"></td>
+      <span class="checkmark"></span>
+      <!-- </div> -->
        <td>{{ product.title}}</td>  
        <td></td>
        <td>{{ product.price}}</td> 
        <td>{{ product.quantity}}</td> 
-       <td><el-button @click="editRow(index,row)" type="text" size="small">Edit</el-button>
-       <el-input v-model="amount" size="mini" />
+       <td><el-button @click="editRow(index,product)" type="text" size="small">Edit</el-button>
+       <input type="text" v-model="amount" placeholder="Please enter quantity">
        </td>
        <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
 
@@ -83,13 +89,16 @@ export default {
               this.carts.splice(index, 1)
 
             },
-            editRow(index){
-              if(this.amount=0){
+            editRow(product,index){
+              if(this.amount==0){
                 this.carts.splice(index, 1)
-              }else if(this.amount=''){
+                console.log(product)
+              }else if(this.amount==''){
                 alert("please enter the quantity")
+                console.log(product)
               }else{
-                this.product.quantity=this.amount
+                product.quantity=this.amount
+                console.log(product.quantity)
               }
               
 
@@ -143,4 +152,6 @@ export default {
   background-color: #4CAF50;
   color: white;
 }
+
+
 </style>

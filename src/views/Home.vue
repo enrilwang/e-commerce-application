@@ -114,7 +114,9 @@
       <HomeComponent />
     </div>
     <div style="display: none;">{{beforeFilter}}</div>
-    <div style="display: none;">{{cartList}}</div>
+    <div style="display: none;">{{cartList}}</div>    
+    <div style="display: none;">{{Cookie}}</div>
+
     
 
   </div>
@@ -151,7 +153,7 @@ export default {
         value: 0,
         beforeFilter:[],
         quantity:0,
-        cookie:{},
+        Cookie:{},
         
         dropdownList:[
           {id:"1",name:"Apple"},
@@ -267,26 +269,24 @@ export default {
       },
 
       getRouterData() {
-              this.cookie = this.$route.query.cookie
-              console.log(this.cookie)
+              this.Cookie = this.$route.query.cookie
+              console.log(this.Cookie)
             //   console.log('code', this.code)
             },
 
 
 
       add(){
-      //  axios.get("http://localhost:3000")
+      //  axios.get("/",{withCredentials:true})
       //         .then(res =>{
       //             console.log(res)
       //             if(Object.keys(res.data.result.cookie).length > 0) {
-                      //console.log(res.data.result.cookie.userName)
-                      if (this.cookie!=undefined){
+      //                 console.log(res.data.result.cookie.userName)
+                      
 
-                      console.log(this.cookie)
-
-                      this.$prompt('Please enter the quantity',  {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
+                        this.$prompt('Please enter the quantity',  {
+                          confirmButtonText: 'OK',
+                          cancelButtonText: 'Cancel',
                       
                       }).then(({ value })=>{
                         if(value != null) {
@@ -330,10 +330,10 @@ export default {
                     });
                       
                                   
-                  }else {
-                      this.$router.push("sign-in")
+              //     }else {
+              //         this.$router.push("sign-in")
                       
-                  }
+              //     }
                 
            
          
