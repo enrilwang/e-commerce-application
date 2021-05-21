@@ -10,34 +10,31 @@
           <th>Title<th>
           <th>Price</th>
           <th>Quantity</th>
-          <th></th>
+          <th>Update Quantity</th>
           <th></th>
         </tr>
-        <tr v-for="(product,index) in carts" :key="index">
-          <td><input type="checkbox" v-model="checked" @click="myCheck(product)"></td>
-          <!-- <span class="checkmark"></span> -->
+        <tr v-for="(product,key,index) in carts" :key="index" >
+          <!-- <td><input type="checkbox"  @click="myCheck(product)" value=product.price v-model="checked"></td> -->
+          <td><input type="checkbox"  @click="check($event)" :value="product.price*product.quantity" v-model="product[key]"></td>
+
           <td>{{ product.title}}</td>  
           <td></td>
           <td>{{ product.price}}</td> 
           <td>{{ product.quantity}}</td> 
-          <td><el-button @click="editRow(index,product)" type="text" size="small">Edit</el-button>
-          <input type="text" v-model="amount" placeholder="new quantity">
+          <td><el-button @click="editRow(product,index)" type="text" size="small">Save</el-button>
+          <input type="text" v-model="product.quantity" placeholder="new quantity" >
           </td>
           <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
         </tr>
       </table>
       <br><br>
-      {{Total}}
+      <p>Total:{{total}}</p>
       <a href="javascript:history.go(-1)">
       <el-button type="primary" icon="el-icon-arrow-left" >Previous Page</el-button></a>
       <router-link to="/">
       <el-button type="success" plain @click="confirm">Confirm</el-button>
       </router-link>
       
-        
-        <!-- {{product}} -->
-
-
     </div>
   </body>
 </template>
@@ -51,10 +48,9 @@ export default {
   },
   data(){
       return{
-        product:'111',
-        visible:true,
+        
         carts:[],
-        Total:'',
+        total:0,
         amount:'',
         checked:false
       }
@@ -62,6 +58,8 @@ export default {
   created() {
     this.getRouterData()
   },
+  
+
   
  
   methods:{
@@ -80,55 +78,27 @@ export default {
               this.carts.splice(index, 1)
             },
             editRow(product,index){
-              
-              this.amount=parseInt(this.amount)
-              console.log(typeof(amount))
-              if(this.amount==0){
+              // this.amount=parseInt(this.amount)
+              if(product.quantity==0){
                 this.carts.splice(index, 1)
                 console.log(product)
-              }else if(this.amount==''){
-                alert("please enter the quantity")
-                console.log(product)
-              }else{
-                product.quantity=this.amount
-                console.log(product.quantity)
               }
+              // else{
+          
+              // }
               
             },
-            myCheck(product){
-              if(this.checked==true){
-                // this.Total=product.price+this.Total
-                this.Total=parseInt(this.Total)
-                this.Total+= product.price
-                console.log(typeof(this.Total))
-              }
-            },
 
-
-            confirm:function() {
-              console.log(this.carts.length)
-              console.log(this.carts[0])
-              const carts = {carts:this.carts,
-                              quantity:this.carts.quantity}
-              axios.post("http://localhost:3000/updateStock",JSON.stringify(carts))
-                  .then(res => {
-                  if(res.status === 200){
-                    console.log(res.data)
-                    alert("Thanks for puchasing")
-                  }else if(res.status ===201){
-                    alert("stock not enough, go to check the stock now")
-                  }else {
-                    const error = new Error(res.error);
-                    throw error;
-                  }
-                })
-                .catch(error => {
-                  console.log(error);
-                  alert('Error login, please try again');
-                })
+            check: function(e) {
+            if (e.target.checked) {
+              console.log(e.target.value)
+              this.total+= parseInt(e.target.value)
             }
-  }
-        
+            else{
+              this.total= this.total-parseInt(e.target.value)
+            }
+    }
+        }
  
   
   
@@ -163,6 +133,6 @@ body {
   color: white;
 }
 .cart input[type=text] {
-  width: 35%;
+  width: 50%;
 }
 </style>
