@@ -53,7 +53,7 @@
       </div>
       <div class="itemcomp" v-show="itemState">
         <el-row>
-            <el-col :span="10" v-for="(post,index) in Item" 
+            <el-col :span="10" v-for="(post,key,index) in Item" 
               v-bind:item="post"
               v-bind:index="index"
               v-bind:key="post.id" >
@@ -95,8 +95,8 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-                    <el-badge  class="item" v-model="quantity">
-                    <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
+                    <el-badge  class="item"  v-model="post.quantity">
+                    <el-button type="warning" icon="el-icon-star-off"  circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
                 </div>
@@ -149,7 +149,6 @@
       </div>
       <div style="display: none;">{{beforeFilter}}</div>
       <div style="display: none;">{{cartList}}</div>    
-      <!-- <div style="display: none;">{{Cookie}}</div> -->
 
       
 
@@ -158,7 +157,6 @@
 </template>
 
 <script>
-// import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
@@ -330,14 +328,17 @@ export default {
                       }).then(({ value })=>{
                         if(value != null) {
                           
-                          this.quantity+= parseInt(value);
+                          this.quantity= parseInt(value);
                           // this.$emit('cartInfo',post)
                           if(post.stock >= value && post.stock >= this.quantity) {
                             
                             this.cartItem=post
+                            post["quantity"] = value;
                             this.cartItem["quantity"] = value;
                             this.cartList.push(this.cartItem)
-                            //console.log(this.cartList)
+                            console.log(value)
+                            console.log(post)
+
                           
                             this.$message({
                               type: 'success',
