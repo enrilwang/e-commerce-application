@@ -12,7 +12,7 @@ router.get('/user', userController.getAllUser);
 router.get('/',userController.getCookie);
 router.get('/cart',userPhoneCOntroller.getAllCart)
 router.get('/userAddList', userPhoneCOntroller.getAllList)
-router.get('/sigout',userController.signOut)
+router.get('/signout',userController.signOut)
 
 
 //post request

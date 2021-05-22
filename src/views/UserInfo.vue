@@ -312,7 +312,6 @@ export default {
         axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               
-              console.log(res.data)
               this.$router.push("Home")
             })
       },
@@ -362,7 +361,7 @@ margin-top: 0px
 .user input[type=text] {
   width: 100%;
 }
-.el-card {
+.user .el-card {
   height: 700px;
   margin-left: 36px;
   margin-top: 15px;
