@@ -184,6 +184,7 @@ export default {
         value: 0,
         beforeFilter:[],
         quantity:0,
+        id:"",
         // Cookie:{},
         
         dropdownList:[
@@ -330,7 +331,6 @@ export default {
                           this.quantity= parseInt(value);
                           // this.$emit('cartInfo',post)
                           if(post.stock >= value && post.stock >= this.quantity) {
-                            
                             this.cartItem=post
                             post["quantity"] = value;
                             this.cartItem["quantity"] = value;
@@ -350,6 +350,9 @@ export default {
                             this.quantity -= parseInt(value);
                             alert("quantity cannot exceed stock");
                           }
+                        
+                          
+                          
                       }else{
                         alert("type quanitity that you need")
                       }
@@ -401,11 +404,11 @@ export default {
                       console.log(res.data.result.cookie.userName)
                       this.userList.push(res.data.result.cookie)
                       console.log(this.userList[0].userName)
-                      this.$router.push({
-                        name:'UserInfo',
-                        query:{userList:this.userList}
-                      })}else {
+                      this.$router.push('UserInfo')
+                      }else {
                       alert("Please log in to your account first")
+                       this.$router.push('Sign-in')
+
                       
                   }
                 

@@ -49,15 +49,10 @@ export default {
       }
   },
   created() {
-    this.getRouterData()
+    this.userInfo()()
   },
   methods:{
-      getRouterData() {
-        this.user = this.$route.query.userList
-        this.username=(this.user[0].userName).split(/(\s+)/)
-        this.id = this.user[0].id
-       
-      },
+      
       update(){
           if (this.username[0]=="" || this.username[2]=="" || this.user[0].userEmail=="" ){
             alert("cannot be null")
@@ -195,7 +190,23 @@ export default {
         }
 
 
-      }
+      },
+      userInfo(){
+        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
+              .then(res =>{
+                  console.log(res)
+                  if(Object.keys(res.data.result.cookie).length > 0) {
+                      console.log(res.data.result.cookie.userName)
+                      this.user.push(res.data.result.cookie)
+                      console.log(this.user[0].userName)
+                      this.username=(this.user[0].userName).split(/(\s+)/)
+                      }
+                
+           
+         
+              }) 
+      },
+      
 
   }
 }
