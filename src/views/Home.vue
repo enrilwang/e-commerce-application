@@ -69,7 +69,19 @@
                   <span v-if="!showMoreActivated" v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
                   <h4>Comment:{{index+1}}</h4>
                   <br>
-                  <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
+                  <!-- <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
+                  
+                  <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
+                  <p style="color:#409EFF;">Read more</p>
+                  </a>
+                  <span v-if="readMoreActivated">{{review.comment}}</span>
+                  <br>————{{review.reviewer}}
+                  (rating:{{review.rating}})<br></span>
+                  <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
+                  <p style="color:orange; font-size:18px">Show full comment</p>
+                  </a> -->
+
+                  <span v-if="index<=3">{{review.comment.slice(0, 200)}}...</span>
                   
                   <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
                   <p style="color:#409EFF;">Read more</p>

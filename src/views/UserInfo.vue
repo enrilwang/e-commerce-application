@@ -2,7 +2,9 @@
     <body>
         <div class="user">
             <el-tabs type="border-card" @tab-click="handleClick">
-            <el-button type="text" class="button" v-on:click="logout()">{{out}}</el-button>
+              <div class="logout">
+              <el-button type="text" class="button" v-on:click="logout()">{{out}}</el-button>
+              </div>
 
             <el-tab-pane label="Edit profile">
             <div class="container">
@@ -355,7 +357,7 @@ margin-top: 0px
     margin-top: 50px;
     margin-right: 0px;
 }
-.user .el-button--text{
+.logout .el-button--text{
   margin-top: 0px;
   float:right
 
