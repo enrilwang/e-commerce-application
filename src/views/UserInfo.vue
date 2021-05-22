@@ -306,8 +306,15 @@ export default {
         this.addedList.splice(index, 1)
 
       },
-      logout(){
 
+
+      logout(){
+        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              
+              console.log(res.data)
+              this.$router.push("Home")
+            })
       },
 
       handleClick(tab, event) {
