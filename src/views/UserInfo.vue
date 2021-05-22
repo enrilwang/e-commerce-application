@@ -1,7 +1,9 @@
 <template>
     <body>
         <div class="user">
-            <el-tabs type="border-card">
+            <el-tabs type="border-card" @tab-click="handleClick">
+            <el-button type="text" class="button" v-on:click="logout()">{{out}}</el-button>
+
             <el-tab-pane label="Edit profile">
             <div class="container">
             <p>Firstname: <el-input v-model="username[0]" ></el-input></p>
@@ -24,7 +26,7 @@
             </div>
             </el-tab-pane>
 
-            <el-tab-pane label="Manage listings" @click="show()">
+            <el-tab-pane  label="Manage listings" name="Manage listings">
               <el-button type="text" @click="add()">Add a new list</el-button>
               <div class="container">
                 <div class="form1" v-show="formState">
@@ -60,8 +62,7 @@
                     v-bind:item="post"
                     v-bind:index="index"
                     v-bind:key="post.id" >
-                    <!-- <p>Display:<el-switch v-model="enable"></el-switch></p>
-                    <el-button type="danger" round @click="remove()">Remove</el-button> -->
+                    
 
                     <el-card :body-style="{ padding: '0px' }">
                       <div style="padding: 14px;">  
@@ -79,7 +80,7 @@
                   </el-col>
                 </el-row> 
             </el-tab-pane>
-            <el-button type="text" class="button" v-on:click="logout()">{{logout}}</el-button>
+            
             
 
             </el-tabs>
@@ -103,7 +104,7 @@ export default {
         addedList:[],
         // disableState:false,
         enable:true,
-        logout:'',
+        out:'',
         
         form: {
           title: '',
@@ -314,6 +315,19 @@ export default {
             })
 
       },
+      logout(){
+
+      },
+
+      handleClick(tab, event) {
+        console.log(tab, event);
+        if(tab.name == 'Manage listings'){
+        	this.showListing();
+        }
+      },
+      showListing(){
+        console.log(1)
+      },
 
 
 
@@ -325,8 +339,8 @@ export default {
                   this.userEmail = res.data.result.cookie.userEmail
                   this.username=(res.data.result.cookie.userName).split(/(\s+)/)
                   this.id = res.data.result.cookie.id
-                  this.logout="hi, "+this.username[0]
-                  console.log(this.logout)
+                  this.out="Hi, "+this.username[0]+" (log out)"
+                  console.log(this.out)
               }) 
       },
       
@@ -354,5 +368,10 @@ margin-top: 0px
 .user .el-button--danger {
     margin-top: 50px;
     margin-right: 0px;
+}
+.user .el-button--text{
+  margin-top: 0px;
+  float:right
+
 }
 </style>
