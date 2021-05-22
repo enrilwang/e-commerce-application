@@ -288,11 +288,11 @@ export default {
          axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               this.addedList = res.data 
-              console.log(this.addedList)
+              
               
             })
 
-      }
+      },
 
       cancel(){
         this.formState=false
