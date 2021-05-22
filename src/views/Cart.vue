@@ -97,10 +97,13 @@ export default {
 
 
             editRow(product,index){
+              let firstquantity=product.quantity
               
               if (product.quantity > product.stock) {
                  
                   alert("quantity cannot exceed stock")
+                  product.quantity=firstquantity
+                  console.log(firstquantity)
               }else if(product.quantity < 0){
                   alert("quantity cannot be negative number")
               } else{
