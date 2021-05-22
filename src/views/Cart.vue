@@ -68,96 +68,96 @@ export default {
   
  
   methods:{
-            deleteRow(product,index){
-              const item = {
-                  
-                  product:product
-                  
-                }
-      
-                axios.post("http://localhost:3000/deleteQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
-                  .then(res =>{
-                    if(res.status === 200){
-                      this.carts.splice(index, 1)
-                    }
-                  })
-            },
+      deleteRow(product,index){
+        const item = {
+            
+            product:product
+            
+          }
+
+          axios.post("http://localhost:3000/deleteQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              if(res.status === 200){
+                this.carts.splice(index, 1)
+              }
+            })
+      },
 
 
 
-            editRow(product,index){
-              let firstquantity=product.quantity
+      editRow(product,index){
+        let firstquantity=product.quantity
+        
+        if (product.quantity > product.stock) {
+            
+            alert("quantity cannot exceed stock")
+            product.quantity=firstquantity
+            console.log(firstquantity)
+        }else if(product.quantity < 0){
+            alert("quantity cannot be negative number")
+        } else{
+          const item = {
+            quantity:product.quantity,
+            product:product
+            
+          }
+
+          axios.post("http://localhost:3000/updateQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              if(res.status === 201){
+                this.carts.splice(index, 1)
               
-              if (product.quantity > product.stock) {
-                 
-                  alert("quantity cannot exceed stock")
-                  product.quantity=firstquantity
-                  console.log(firstquantity)
-              }else if(product.quantity < 0){
-                  alert("quantity cannot be negative number")
-              } else{
-                const item = {
-                  quantity:product.quantity,
-                  product:product
-                  
-                }
-      
-                axios.post("http://localhost:3000/updateQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
-                  .then(res =>{
-                    if(res.status === 201){
-                      this.carts.splice(index, 1)
-                    
-                    }else if(res.status === 200) {
-                      alert("save successfully")
-                    }
-                    
-                  })
-
+              }else if(res.status === 200) {
+                alert("save successfully")
               }
               
-             
-              
-              
-            },
-
-            check: function(e) {
-              if (e.target.checked) {
-                console.log(e.target.value)
-                // this.total+= parseInt(e.target.value)
-                this.total+= e.target.value
-
-              }
-              else{
-                this.total= this.total-e.target.value
-              }
-            },
-
-            confirm:function() {
-              const carts = {
-                carts:this.carts,
-                length:this.carts.length
-              }
-              axios.post("http://localhost:3000/updateStock",qs.stringify(carts))
-                  .then(res => {
-                  if(res.status === 200){
-                    
-                    alert("Thanks for purchasing!")
-                  }else if(res.status ===201){
-                    alert("stock not enough, go back to check")
-                  }else {
-                    const error = new Error(res.error);
-                    throw error;
-                  }
-                })
-                .catch(error => {
-                  console.log(error);
-                  alert('Error login, please try again');
-                })
-      
-            }
+            })
 
         }
- 
+        
+        
+        
+        
+      },
+
+      check: function(e) {
+        if (e.target.checked) {
+          console.log(e.target.value)
+          // this.total+= parseInt(e.target.value)
+          this.total+= e.target.value
+
+        }
+        else{
+          this.total= this.total-e.target.value
+        }
+      },
+
+      confirm:function() {
+        const carts = {
+          carts:this.carts,
+          length:this.carts.length
+        }
+        axios.post("http://localhost:3000/updateStock",qs.stringify(carts))
+            .then(res => {
+            if(res.status === 200){
+              
+              alert("Thanks for purchasing!")
+            }else if(res.status ===201){
+              alert("stock not enough, go back to check")
+            }else {
+              const error = new Error(res.error);
+              throw error;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            alert('Error login, please try again');
+          })
+
+      }
+
+  }
+
   
   
 };

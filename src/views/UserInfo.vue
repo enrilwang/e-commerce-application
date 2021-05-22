@@ -76,7 +76,7 @@
                         <span><h4>Price:${{post.price}}</h4></span>
                         <!-- <br> -->
                         <span><p>Display: <el-switch v-model="enable"></el-switch></p></span>
-                        <span><el-button type="danger" circle @click="remove()">Remove</el-button></span>
+                        <span><el-button type="danger" circle @click="remove(post,index)">Remove</el-button></span>
                       </div>
                     </el-card>
                   </el-col>
@@ -286,21 +286,26 @@ export default {
       },
 
 
-
-      show() {
-         axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
-            .then(res =>{
-              this.addedList = res.data 
-              
-              
-            })
-
-      },
-
       cancel(){
         this.formState=false
       },
-      remove(){
+
+
+      remove(product,index){
+        const item = {
+          product:product
+        }
+
+        axios.post("http://localhost:3000/deleteCreated",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            console.log("good")  
+          })
+
+        axios.post("http://localhost:3000/deletePhone",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            console.log("good")  
+          })
+        this.addedList.splice(index, 1)
 
       },
       logout(){
@@ -314,7 +319,12 @@ export default {
         }
       },
       showListing(){
-        console.log(1)
+        axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              this.addedList = res.data 
+              console.log(res.data)
+              
+            })
       },
 
 
