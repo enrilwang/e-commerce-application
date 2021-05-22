@@ -260,25 +260,27 @@ export default {
       },
       detail(post){
         this.Item=[]
+        this.reviewList =[]
         this.homeState=false;
         this.searchState=false;
         this.itemState=true;
-        let i=0
+       
         let m=0
-        for(i=0;i<1;i++){
+        for(let i=0;i<1;i++){
           this.Item.push(post)
         }
-     
-        for(i=0;i<this.Item[0].reviews.length;i++){
+        
+        for(let i=0;i<this.Item[0].reviews.length;i++){
           for(m=0; m < this.user.length; m++){
             if(this.Item[0].reviews[i].reviewer == this.user[m]._id){
               this.Item[0].reviews[i].reviewer = this.user[m].firstname +" "+ this.user[i].lastname;
-              // console.log(this.Item[0].reviews[i].reviewer)
+  
             }
         }
           this.reviewList.push(this.Item[0].reviews[i])
         }
-  
+        
+     
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;
@@ -286,9 +288,7 @@ export default {
         }
         
       },
-      handleSelect(key, keyPath){
-        // console.log(key, keyPath);
-      },
+     
       handleCommand(command){
         let i=0
         let afterFilter = []
