@@ -124,15 +124,15 @@ export default {
                   if (this.selectedItem[i]=product.title){
                     product.id=parseInt(product.id)
                     if(product.id>firstquantity){
-                   console.log(product.id-firstquantity)
-                  this.total+=((product.id-firstquantity)*product.price)
-                  console.log(this.total)
-                }else if(product.id==0){
-                  this.total-=firstquantity*product.price
-                }
-                else{
-                  this.total-=((firstquantity-product.id)*product.price)
-                }
+                      console.log(product.id-firstquantity)
+                      this.total+=((product.id-firstquantity)*product.price)
+                      console.log(this.total)
+                    }else if(product.id==0){
+                      this.total-=firstquantity*product.price
+                    }
+                    else{
+                    this.total-=((firstquantity-product.id)*product.price)
+                    }
                 
 
                   }
