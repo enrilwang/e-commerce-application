@@ -225,23 +225,14 @@ export default {
 
 
       },
+
+      //get cookie value
       userlist(){
         axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   this.userEmail = res.data.result.cookie.userEmail
-
-                  // console.log(res)
-                
-                  // console.log(res.data.result.cookie.userName)
-                  // console.log(res.data.result.cookie.userEmail)
-                  // this.user.push(res.data.result.cookie)
-                  // console.log(this.user[0].userName)
                   this.username=(res.data.result.cookie.userName).split(/(\s+)/)
                   this.id = res.data.result.cookie.id
-                  console.log("here")
-                  console.log(this.userEmail)
-           console.log(this.id)
-         
               }) 
       },
       
