@@ -25,7 +25,30 @@
             </el-tab-pane>
 
             <el-tab-pane label="Manage listings">
-            <el-button type="primary" @click="add()">Add a new list</el-button>
+              <el-form ref="form" :model="form" label-width="120px">
+                <el-form-item label="Title">
+                  <el-input v-model="form.title"></el-input>
+                </el-form-item>
+                <el-form-item label="Brand">
+                  <el-input v-model="form.brand"></el-input>
+                </el-form-item>
+                <el-form-item label="Image">
+                  <el-input v-model="form.image"></el-input>
+                </el-form-item>
+                <el-form-item label="Stock">
+                  <el-input v-model="form.stock"></el-input>
+                </el-form-item>
+                <el-form-item label="Price">
+                  <el-input v-model="form.price"></el-input>
+                </el-form-item>
+                <el-form-item label="Disabled">
+                  <el-switch v-model="form.disabled"></el-switch>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="add()">Add a new list</el-button>
+                  <el-button>Cancel</el-button>
+                </el-form-item>
+              </el-form>
             </el-tab-pane>
             </el-tabs>
         </div>
@@ -45,7 +68,17 @@ export default {
         currentpwd:'',
         newpwd:'',
         id:"",
-        newList:[]
+        newList:[],
+        form: {
+          title: '',
+          brand: '',
+          image: '',
+          stock: '',
+          price: '',
+          
+          disabled: false,
+          
+        }
       }
   },
   created() {

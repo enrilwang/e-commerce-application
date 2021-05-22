@@ -416,9 +416,9 @@ export default {
               .then(res =>{
                   console.log(res)
                   if(Object.keys(res.data.result.cookie).length > 0) {
-                      console.log(res.data.result.cookie.userName)
+                      // console.log(res.data.result.cookie.userName)
                       this.userList.push(res.data.result.cookie)
-                      console.log(this.userList[0].userName)
+                      // console.log(this.userList[0].userName)
                       this.$router.push({
                         name:'UserInfo',
                         query:{userList:this.userList}
