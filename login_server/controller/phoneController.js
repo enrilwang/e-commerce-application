@@ -96,7 +96,7 @@ module.exports ={
     newUser.stock = data.item.stock;
     newUser.reviews = [];
     newUser.seller = data.item.seller;
-    newUser.disabled = data.item.disabled;
+    newUser.disabled = true;
     newUser.userId = data.userId;
     newUser.save().then(() => {
       res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
@@ -114,6 +114,20 @@ module.exports ={
           }else{
             console.log("delete successfully")
           }
+    })
+    res.sendStatus(200)
+  },
+
+  changeStatus:function(req,res) {
+    let data = req.body
+    console.log(data.product._id)
+    phone.update({title: data.product.title,userId:data.id},{disabled:data.disable }, function(err,res){
+      if(err){
+        console.log(err)
+      }else{
+        console.log("update successfully")
+        
+      }
     })
     res.sendStatus(200)
   }

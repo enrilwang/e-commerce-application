@@ -149,7 +149,7 @@
       </div>
       <div style="display: none;">{{beforeFilter}}</div>
       <div style="display: none;">{{cartList}}</div>    
-      <!-- <div style="display: none;">{{Cookie}}</div> -->
+  
 
       
 

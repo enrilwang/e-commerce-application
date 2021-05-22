@@ -73,7 +73,6 @@ export default {
   methods:{
       deleteRow(product,index){
         const item = {
-            
             product:product
             
           }
@@ -81,7 +80,7 @@ export default {
           axios.post("http://localhost:3000/deleteQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               if(res.status === 200){
-                this.carts.splice(index, 1)
+                this.carts.splice(, 1)
               }
             })
       },
@@ -90,7 +89,7 @@ export default {
 
       editRow(product,index){
         let firstquantity=product.quantity
-        
+        console.log(index)
         if (product.quantity > product.stock) {
             
             alert("quantity cannot exceed stock")
@@ -108,9 +107,11 @@ export default {
           axios.post("http://localhost:3000/updateQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               if(res.status === 201){
+                console.log(index)
                 this.carts.splice(index, 1)
               
               }else if(res.status === 200) {
+                
                 alert("save successfully")
               }
               

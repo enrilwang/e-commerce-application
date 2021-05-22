@@ -48,9 +48,6 @@
                   <el-form-item label="Price">
                     <el-input v-model="form.price"></el-input>
                   </el-form-item>
-                  <el-form-item label="Disabled">
-                    <el-switch v-model="form.disabled"></el-switch>
-                  </el-form-item>
                   <el-form-item>
                     <el-button type="primary" @click="add1()">Add a new list</el-button>
                     <el-button @click="cancel()">Cancel</el-button>
@@ -75,9 +72,9 @@
                         <span><h4>Price:${{post.price}}</h4></span>
                         <!-- <br> -->
                         <span><p>Display: 
-                          <!-- <el-switch v-model="post[index]" @click="check($event)" :value="post"></el-switch> -->
-                          <el-switch v-model="post[index]" @change='changeStatus($event,post)' ></el-switch>
-  
+                          
+                            <el-switch v-model="post[index]" :active-value="1" :inactive-value="2" @change='changeStatus($event,post,index)' ></el-switch>
+                         
 
                           <!-- <el-checkbox v-model="post[index]" @click="check($event)" :value="post.price">Option</el-checkbox> -->
                           </p>
@@ -104,6 +101,7 @@ export default {
   },
   data(){
       return{
+        value:'',
         userEmail:"",
         user:[],
         username:[],
@@ -117,7 +115,7 @@ export default {
         checked:true,
         value1:'1',
 
-        
+        state:2,
         form: {
           title: '',
           brand: '',
@@ -330,9 +328,31 @@ export default {
             })
       },
 
-     changeStatus: function($event,post){
+     changeStatus: function($event,post,index){
+        console.log($event)
+        let go = false;
+        if($event == 1) {
+          go = false
+        }else {
+          go = true
+        }
+        const item = {
+          product:post,
+          disable:go,
+          id:this.id
+        }
+        
+        axios.post("http://localhost:3000/changeStatus",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            if(res.status === 200) {
+              this.state = 1
+              console.log("good")  
+            }
+            
+        })
+
 		
-				console.log(post);
+				
      },
 
       handleClick(tab, event) {
@@ -345,9 +365,27 @@ export default {
         axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               this.addedList = res.data 
-              console.log(res.data)
+              console.log(this.addedList[0].disabled)
+              console.log("Here")
+              
+              //  for(let i = 0; i < this.addedList.length; i++) {
+              //   if (i == 0) {
+                  
+              //     this.addedList[i]["value"] = 2;
+              //     this.state = 2;
+              //   }else {
+                  
+              //     this.addedList[i]["value"] = 1;
+              //     this.post[index] = 1;
+              //   }
+              // }
+        
+              
               
             })
+
+           
+       
       },
 
 
@@ -361,7 +399,7 @@ export default {
                   this.username=(res.data.result.cookie.userName).split(/(\s+)/)
                   this.id = res.data.result.cookie.id
                   this.out="Hi, "+this.username[0]+" (log out)"
-                  console.log(this.out)
+                  
               }) 
       },
       

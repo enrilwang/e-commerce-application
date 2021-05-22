@@ -28,7 +28,7 @@ router.post('/addNewList',userPhoneCOntroller.addList)
 router.post('/addToPhone',phoneController.addNewPhone)
 router.post('/deleteCreated',userPhoneCOntroller.remove)
 router.post('/deletePhone',phoneController.remove)
-
+router.post('/changeStatus',phoneController.changeStatus)
 
 
 module.exports=router
