@@ -284,35 +284,26 @@ export default {
       },
 
 
-
-      show() {
-        console.log("SSSS")
-         axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
-            .then(res =>{
-              this.addedList = res.data 
-              console.log(res.data)
-              
-            })
-
-      },
-
       cancel(){
         this.formState=false
       },
 
 
       remove(product,index){
-         const item = {
-            product:product
-            
-          }
+        const item = {
+          product:product
+        }
 
-          axios.post("http://localhost:3000/deleteCreated",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
-            .then(res =>{
-              if(res.status === 200){
-                this.carts.splice(index, 1)
-              }
-            })
+        axios.post("http://localhost:3000/deleteCreated",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            console.log("good")  
+          })
+
+        axios.post("http://localhost:3000/deletePhone",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            console.log("good")  
+          })
+        this.addedList.splice(index, 1)
 
       },
       logout(){
@@ -326,7 +317,12 @@ export default {
         }
       },
       showListing(){
-        console.log(1)
+        axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              this.addedList = res.data 
+              console.log(res.data)
+              
+            })
       },
 
 

@@ -108,11 +108,10 @@ module.exports ={
   //remove the item
   remove:function(req,res) {
     let data = req.body
-    userPhone.deleteOne({title: data.product.title},function(err,result){
+    phone.deleteOne({title: data.product.title,price:data.product.price},function(err,result){
         if(err){
             console.log(err)
           }else{
-
             console.log("delete successfully")
           }
     })
