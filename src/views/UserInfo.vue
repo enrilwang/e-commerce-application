@@ -25,7 +25,9 @@
             </el-tab-pane>
 
             <el-tab-pane label="Manage listings">
-              <el-form ref="form" :model="form" label-width="120px">
+              <el-button type="text" @click="add()">Add a new list</el-button>
+              <div class="form1" v-show="formState">
+              <el-form ref="form" :model="form" label-width="120px"  >
                 <el-form-item label="Title">
                   <el-input v-model="form.title"></el-input>
                 </el-form-item>
@@ -46,9 +48,10 @@
                 </el-form-item>
                 <el-form-item>
                   <el-button type="primary" @click="add()">Add a new list</el-button>
-                  <el-button>Cancel</el-button>
+                  <el-button @click="cancel()">Cancel</el-button>
                 </el-form-item>
               </el-form>
+              </div>
             </el-tab-pane>
             </el-tabs>
         </div>
@@ -75,10 +78,11 @@ export default {
           image: '',
           stock: '',
           price: '',
-          
           disabled: false,
           
-        }
+        },
+        formState:false
+          
       }
   },
   created() {
@@ -184,58 +188,17 @@ export default {
       },
       
       add(){
-        if (this.currentpwd=="" || this.newpwd=="" ){
-          alert("password cannot be null")
-        }else{
-          var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
-         
-          if(passwordReg.test(this.currentpwd) == true && passwordReg.test(this.newpwd) == true) {
-            const passwords = {
-              current:this.currentpwd,
-              new:this.newpwd,
-              id:this.user[0].id
-            }
-        
-            axios.post("http://localhost:3000/updatePassword",JSON.stringify(passwords),{headers:{"Content-Type":"application/json"}})
-              .then(res => {
-              if(res.status === 200){
-                
-                alert("Your password has been updated successfully")
-                
-              }else if(res.status ===201){
-                alert("Sorry, current password is not correct")
-              }else {
-                const error = new Error(res.error);
-                throw error;
-              }
-            })
-            .catch(error => {
-              console.log(error);
-              alert('Error, please try again');
-            })
-            
-          }else{
-            alert("password must contain 6 characters, at least one letter and one number")
-          }
+        this.formState=true
+        console.log(this.formState)
 
-
-
-
-        }
-
-
+      },
+      cancel(){
+        this.formState=false
       },
       userlist(){
         axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   this.userEmail = res.data.result.cookie.userEmail
-
-                  // console.log(res)
-                
-                  // console.log(res.data.result.cookie.userName)
-                  // console.log(res.data.result.cookie.userEmail)
-                  // this.user.push(res.data.result.cookie)
-                  // console.log(this.user[0].userName)
                   this.username=(res.data.result.cookie.userName).split(/(\s+)/)
                   this.id = res.data.result.cookie.id
                   console.log("here")
