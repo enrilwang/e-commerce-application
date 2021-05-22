@@ -21,7 +21,7 @@
           <td></td>
           <td>{{ product.price}}</td> 
           <td>{{ product.quantity}}</td> 
-          <td><el-button @click="editRow(product,index)" type="text" size="small">save</el-button>
+          <td><el-button @click="editRow(product,index)" type="text" size="small">Save</el-button>
           <input type="text" v-model="product.quantity" placeholder="new quantity" >
           </td>
           <td><el-button@click="deleteRow(product,index)" type="text" size="small">Remove</el-button></td>
@@ -39,7 +39,7 @@
   </body>
 </template>
 <script>
-import Home from "../views/Home"
+// import Home from "../views/Home"
 import axios from "axios"
 import qs from 'qs'
 export default {
