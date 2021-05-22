@@ -28,7 +28,7 @@ module.exports ={
       newUser.reviews = data.item.reviews;
       newUser.seller = data.item.seller;
       newUser.quantity = data.item.quantity;
-      newUser.created = data.item.created;
+      newUser.created = false;
       newUser.save().then(() => {
         res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
         res.sendStatus(200)
