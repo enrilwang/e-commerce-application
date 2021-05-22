@@ -24,7 +24,7 @@
             </div>
             </el-tab-pane>
 
-            <el-tab-pane label="Manage listings">
+            <el-tab-pane label="Manage listings" @click="show()">
               <el-button type="text" @click="add()">Add a new list</el-button>
               <div class="container">
                 <div class="form1" v-show="formState">
@@ -279,7 +279,15 @@ export default {
 
 
 
+      show() {
+         axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              this.addedList = res.data 
+              console.log(this.addedList)
+              
+            })
 
+      }
 
       cancel(){
         this.formState=false
