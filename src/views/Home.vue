@@ -78,7 +78,7 @@
                   <br>————{{review.reviewer}}
                   (rating:{{review.rating}})<br></span>
                   <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
-                  <p style="color:orange; font-size:18px">Show full comment</p>
+                    <p style="color:orange; font-size:18px">Show full comment</p>
                   </a>
 
                   <!-- Show all comment -->
@@ -149,7 +149,7 @@
       </div>
       <div style="display: none;">{{beforeFilter}}</div>
       <div style="display: none;">{{cartList}}</div>    
-      <!-- <div style="display: none;">{{Cookie}}</div> -->
+  
 
       
 
@@ -213,7 +213,9 @@ export default {
       }
   },
   created() {
-    this.getRouterData()
+    this.getRouterData(),
+    this.checkShowMore(),
+    this.checkShowMore()
   },
   created(){
     
@@ -239,6 +241,24 @@ export default {
     });
   },
   methods: {
+
+
+     async checkShowMore() {
+        console.log(this.reviewList.length)
+          if(this.reviewList.length>3) {
+            this.showMoreActivated = true
+          }else{
+            this.showMoreActivated =false
+          }
+      },
+      checkReadMore() {
+        for(let i = 0; i < this.reviewList.length; i++) {
+          if (this.reviewList[i].comment.length > 200) {
+            readMoreActivated = true
+          }
+        }
+          
+      },
       SendSearch: function () {
         this.homeState=false;
         this.searchState=true
@@ -280,7 +300,9 @@ export default {
         }
           this.reviewList.push(this.Item[0].reviews[i])
         }
-        
+        if (this.reviewList.length>3) {
+          this.showMoreActivated = true
+        }
      
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
@@ -401,7 +423,7 @@ export default {
         this.readMoreActivated = true;
       },
       activateShowMore(){
-        this.showMoreActivated = true;
+        this.showMoreActivated = !this.showMoreActivated;
       },
       back(){
         this.homeState=true;

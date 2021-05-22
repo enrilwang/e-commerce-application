@@ -75,7 +75,6 @@ export default {
   methods:{
       deleteRow(product,index,carts){
         const item = {
-            
             product:product
             
           }
@@ -94,7 +93,7 @@ export default {
 
       editRow(product,index){
         let firstquantity=product.quantity
-        
+        console.log(index)
         if (product.quantity > product.stock) {
             
             alert("quantity cannot exceed stock")
