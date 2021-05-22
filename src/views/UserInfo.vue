@@ -287,7 +287,7 @@ export default {
               
             })
 
-      }
+      },
 
       cancel(){
         this.formState=false
