@@ -1,7 +1,9 @@
 <template>
     <body>
         <div class="user">
-            <el-tabs type="border-card">
+            <el-tabs type="border-card" @tab-click="handleClick">
+            <el-button type="text" class="button" v-on:click="logout()">{{out}}</el-button>
+
             <el-tab-pane label="Edit profile">
             <div class="container">
             <p>Firstname: <el-input v-model="username[0]" ></el-input></p>
@@ -24,7 +26,7 @@
             </div>
             </el-tab-pane>
 
-            <el-tab-pane label="Manage listings" @click="show()">
+            <el-tab-pane  label="Manage listings" name="Manage listings">
               <el-button type="text" @click="add()">Add a new list</el-button>
               <div class="container">
                 <div class="form1" v-show="formState">
@@ -54,30 +56,33 @@
                 </el-form>
                 </div>
               </div>
-              <div class="disable" v-show="disableState">
-                <p>Display:<el-switch v-model="enable"></el-switch></p>
-                <el-button type="danger" round @click="remove()">Remove</el-button>
-              </div>
+              
                <el-row>
-                  <el-col :span="6" v-for="(post,index) in addedList" 
+                  <el-col :span="8" v-for="(post,index) in addedList" 
                     v-bind:item="post"
                     v-bind:index="index"
                     v-bind:key="post.id" >
-                    <!-- <el-switch v-model="form.disabled"></el-switch> -->
+                    
 
                     <el-card :body-style="{ padding: '0px' }">
                       <div style="padding: 14px;">  
                         <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
-                        <!-- <span><h3>Image:</h3> ../../public/image/{{post.image}}</span><br> -->
-                        <span><h3>Title:</h3> {{post.title}}</span>
-                        <span><h3>Brand:</h3> {{post.brand}}</span>
-                        <span><h3>Stock:</h3> {{post.stock}}</span>
-                        <span><h3>Price:</h3> ${{post.price}}</span>
+                        <!-- <span><h3>Image:<h4> ../../public/image/{{post.image}}</span><br> -->
+                        <span><h4>Title:{{post.title}}</h4></span>
+                        <span><h4>Brand:{{post.brand}}</h4></span>
+                        <span><h4>Stock:{{post.stock}}</h4></span>
+                        <span><h4>Price:${{post.price}}</h4></span>
+                        <!-- <br> -->
+                        <span><p>Display: <el-switch v-model="enable"></el-switch></p></span>
+                        <span><el-button type="danger" circle @click="remove(post,index)">Remove</el-button></span>
                       </div>
                     </el-card>
                   </el-col>
                 </el-row> 
             </el-tab-pane>
+            
+            
+
             </el-tabs>
         </div>
     </body>
@@ -97,8 +102,9 @@ export default {
         newpwd:'',
         id:"",
         addedList:[],
-        disableState:false,
+        // disableState:false,
         enable:true,
+        out:'',
         
         form: {
           title: '',
@@ -233,7 +239,7 @@ export default {
               
             })
             this.formState=false
-            this.disableState=true
+            // this.disableState=true
             
             alert("Added successfully")
             
@@ -278,22 +284,51 @@ export default {
       },
 
 
-
-      show() {
-         axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
-            .then(res =>{
-              this.addedList = res.data 
-              console.log(this.addedList)
-              
-            })
-
-      },
-
       cancel(){
         this.formState=false
       },
-      remove(){
 
+
+      remove(product,index){
+        const item = {
+          product:product
+        }
+
+        axios.post("http://localhost:3000/deleteCreated",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            console.log("good")  
+          })
+
+        axios.post("http://localhost:3000/deletePhone",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            console.log("good")  
+          })
+        this.addedList.splice(index, 1)
+
+      },
+
+
+      logout(){
+        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              
+              this.$router.push("Home")
+            })
+      },
+
+      handleClick(tab, event) {
+        console.log(tab, event);
+        if(tab.name == 'Manage listings'){
+        	this.showListing();
+        }
+      },
+      showListing(){
+        axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              this.addedList = res.data 
+              console.log(res.data)
+              
+            })
       },
 
 
@@ -306,6 +341,8 @@ export default {
                   this.userEmail = res.data.result.cookie.userEmail
                   this.username=(res.data.result.cookie.userName).split(/(\s+)/)
                   this.id = res.data.result.cookie.id
+                  this.out="Hi, "+this.username[0]+" (log out)"
+                  console.log(this.out)
               }) 
       },
       
@@ -324,14 +361,19 @@ margin-top: 0px
 .user input[type=text] {
   width: 100%;
 }
-.el-card {
-  height: 600px;
+.user .el-card {
+  height: 700px;
   margin-left: 36px;
   margin-top: 15px;
   
 }
-.disable .el-button--danger {
+.user .el-button--danger {
     margin-top: 50px;
-    margin-left: 0px;
+    margin-right: 0px;
+}
+.user .el-button--text{
+  margin-top: 0px;
+  float:right
+
 }
 </style>

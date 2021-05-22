@@ -113,6 +113,20 @@ module.exports ={
         .then(data => res.json(data))
         .catch()
 
+  },
+
+  //remove the item
+  remove:function(req,res) {
+    let data = req.body
+    userPhone.deleteOne({title: data.product.title},function(err,result){
+        if(err){
+            console.log(err)
+          }else{
+
+            console.log("delete successfully")
+          }
+    })
+    res.sendStatus(200)
   }
   
 
