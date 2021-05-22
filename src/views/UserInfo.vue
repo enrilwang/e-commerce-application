@@ -214,9 +214,6 @@ export default {
             alert("password must contain 6 characters, at least one letter and one number")
           }
 
-
-
-
         }
 
       },
@@ -288,7 +285,15 @@ export default {
 
 
 
+      show() {
+         axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              this.addedList = res.data 
+              
+              
+            })
 
+      },
 
       cancel(){
         this.formState=false

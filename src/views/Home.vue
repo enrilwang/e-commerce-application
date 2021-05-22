@@ -331,8 +331,8 @@ export default {
                           if(post.stock >= value && post.stock >= this.quantity) {
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
-                          // 0 means not created by user
-                          this.cartItem["created"] = false;
+                           // 0 means not created by user
+                            this.cartItem["created"] = false;
                           const user = {
                           
                             user:res.data.result.cookie,

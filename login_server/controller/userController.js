@@ -3,6 +3,7 @@ const crypto = require("crypto")
 var jwt = require("jsonwebtoken")
 
 
+
 module.exports ={
   
   //get all user information 
@@ -12,11 +13,11 @@ module.exports ={
         .catch()
   },
   
+
   //get the user cookie
   getCookie: function(req,res) {
     res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
     res.setHeader("Access-Control-Allow-Credentials","true")
-    
     res.json({
       status:'0',
       msg:"",
@@ -50,7 +51,6 @@ module.exports ={
             newUser.save().then(() => {
               console.log(newUser._id)
               res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
-              
               res.sendStatus(200)
             })
             .catch(err => next(err))
@@ -94,8 +94,6 @@ module.exports ={
             
           }
         })
-    
-
       }else{
         //wrong email and password
         res.sendStatus(201);
@@ -124,9 +122,7 @@ module.exports ={
     currentUser.checkPassword(function(err,doc){
       if(err){
         res.sendStatus(201)
-      }else if(doc[0]){
-        //let userNow = users[0];
-       
+      }else if(doc[0]){ 
         user.update({_id: data.id},{password: newPassword}, function(err,res){
           if(err){
             console.log(err)
@@ -157,8 +153,6 @@ module.exports ={
       if(err){
         res.sendStatus(201)
       }else if(doc[0]){
-        //let userNow = users[0];
-       
         user.update({_id: data.id},{email: data.email,firstName:data.firstName,lastName:data.lastName}, function(err,res){
           if(err){
             console.log(err)

@@ -21,15 +21,4 @@ var userPhoneSchema = new mongoose.Schema({
 })
 
 
-
-// phoneSchema.statics.findPhoneWithTitle = function(title, callback){
-//     var str = eval("/" + title +"/i")
-//     return this.find({'title': {$regex:str},stock:{$gt:0}}).exec(callback)
-//   }
-
-
-
-
-
-
-  module.exports = mongoose.model("phoneUser", userPhoneSchema, "userPhone");
+module.exports = mongoose.model("phoneUser", userPhoneSchema, "userPhone");
