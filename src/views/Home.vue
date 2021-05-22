@@ -186,6 +186,7 @@ export default {
         value: 0,
         beforeFilter:[],
         quantity:0,
+        id:"",
         // Cookie:{},
         
         dropdownList:[
@@ -328,26 +329,45 @@ export default {
                       
                       }).then(({ value })=>{
                         if(value != null) {
-                          
-                          this.quantity+= parseInt(value);
-                          // this.$emit('cartInfo',post)
                           if(post.stock >= value && post.stock >= this.quantity) {
-                            
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
-                            this.cartList.push(this.cartItem)
+                            // 0 means not created by user
+                            this.cartItem["created"] = 0;
+                            const user = {
+                              user:res.data.result.cookie,
+                              item:this.cartItem
+                            }
+                            axios.post("http://localhost:3000/add",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
+                              .then(res => {
+                                
+                              if(res.status === 200){
+                                
+                                this.$message({
+                                  type: 'success',
+                                  message: 'Your quantity is:' + value,
+                                          
+                                });
+                                
+                              }else {
+                                const error = new Error(res.error);
+                                throw error;
+                              }
+                            })
+                            .catch(error => {
+                              console.error(error.response.data);
+                              alert('Error, please try again');
+                            })
+                            
                         
-                            this.$message({
-                              type: 'success',
-                              message: 'Your quantity is:' + value,
-                                        
-                            });
-                         
                             
                           } else {
                             this.quantity -= parseInt(value);
                             alert("quantity cannot exceed stock");
                           }
+                        
+                          
+                          
                       }else{
                         alert("type quanitity that you need")
                       }

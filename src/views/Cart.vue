@@ -24,7 +24,7 @@
           <td><el-button @click="editRow(product,index)" type="text" size="small">save</el-button>
           <input type="text" v-model="product.quantity" placeholder="new quantity" >
           </td>
-          <td><el-button@click="deleteRow(index)" type="text" size="small">Remove</el-button></td>
+          <td><el-button@click="deleteRow(product,index)" type="text" size="small">Remove</el-button></td>
         </tr>
       </table>
       <br><br>
@@ -56,7 +56,12 @@ export default {
       }
   },
   created() {
-    this.getRouterData()
+     axios.get("http://localhost:3000/cart",{headers:{"Content-Type":"application/json"}})
+              .then(res =>{
+                this.carts = res.data 
+                })
+                  
+    // this.getRouterData()
   },
   
 
@@ -67,24 +72,58 @@ export default {
             //     this.product = data
             //     console.log(data)
             // }
-            getRouterData() {
-              this.carts = this.$route.query.cartList
-              this.product=this.carts
+            // getRouterData() {
+            //   this.carts = this.$route.query.cartList
+            //   this.product=this.carts
         
-            },
+            // },
            
             
-            deleteRow(index){
-              this.carts.splice(index, 1)
+            deleteRow(product,index){
+              const item = {
+                  
+                  product:product
+                  
+                }
+      
+                axios.post("http://localhost:3000/deleteQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+                  .then(res =>{
+                    if(res.status === 200){
+                      this.carts.splice(index, 1)
+                    }
+                  })
             },
+
+
+
             editRow(product,index){
-             
-              if(product.quantity==0){
-                this.carts.splice(index, 1)
-                
-              }else if (product.quantity > product.stock) {
-                alert("quantity cannot exceed stock")
+              
+              if (product.quantity > product.stock) {
+                 
+                  alert("quantity cannot exceed stock")
+              }else if(product.quantity < 0){
+                  alert("quantity cannot be negative number")
+              } else{
+                const item = {
+                  quantity:product.quantity,
+                  product:product
+                  
+                }
+      
+                axios.post("http://localhost:3000/updateQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+                  .then(res =>{
+                    if(res.status === 201){
+                      this.carts.splice(index, 1)
+                    
+                    }else if(res.status === 200) {
+                      alert("save successfully")
+                    }
+                    
+                  })
+
               }
+              
+             
               
               
             },
