@@ -22,4 +22,9 @@ userSchema.methods.checkEmailandPassword = function(callback){
   return this.model('Userlisting').find({email: this.email, password: this.password}, callback)
 }
 
+userSchema.methods.checkPassword = function(callback){
+  return this.model('Userlisting').find({_id: this.id, password: this.password}, callback)
+}
+
+
 module.exports = mongoose.model("Userlisting", userSchema, "users");

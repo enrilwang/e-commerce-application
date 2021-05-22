@@ -297,8 +297,7 @@ export default {
           }
         }      
             this.searchItem=afterFilter  
-            // this.FilterData=afterFilter
-            // console.log(this.searchItem)
+      
       },
       priceInput(){
         let i=0

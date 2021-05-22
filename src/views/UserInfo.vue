@@ -32,6 +32,7 @@
     </body>
 </template>
 <script>
+import axios from "axios"
 export default {
   name: 'UserInfo',
   components: {
@@ -42,7 +43,9 @@ export default {
         user:[],
         username:[],
         currentpwd:'',
-        newpwd:''
+        newpwd:'',
+        id:"",
+        newList:[]
       }
   },
   created() {
@@ -50,41 +53,149 @@ export default {
   },
   methods:{
       getRouterData() {
-              this.user = this.$route.query.userList
-            //   console.log(this.user[0])
-            //   console.log((this.user[0].userName).split(/(\s+)/))
-              this.username=(this.user[0].userName).split(/(\s+)/)
-
-            },
-            update(){
-                this.$prompt('Please enter your current password',  {
-                confirmButtonText: 'OK',
-                cancelButtonText: 'Cancel',
-                
+        this.user = this.$route.query.userList
+        this.username=(this.user[0].userName).split(/(\s+)/)
+        this.id = this.user[0].id
+       
+      },
+      update(){
+          if (this.username[0]=="" || this.username[2]=="" || this.user[0].userEmail=="" ){
+            alert("cannot be null")
+          }else{
+            this.$prompt('Please enter your current password', {
+              confirmButtonText: 'OK',
+              cancelButtonText: 'Cancel',
+          
             }).then(({ value }) => {
-                if(value != null) {
-                this.$message({
-                type: 'success',
-                message: 'Your profile has been updated successfully'
-                
-            });
-            }
-            }).catch(() => {
-                this.$message({
+               var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+               
+               if(value != null && passwordReg.test(value) == true) {
+                  const users = {
+                  firstName:this.username[0],
+                  lastName:this.username[2],
+                  password:value,
+                  email:this.user[0].userEmail,
+                  id:this.user[0].id
+              }
+             
+              axios.post("http://localhost:3000/updateProfile",JSON.stringify(users),{headers:{"Content-Type":"application/json"}})
+                  .then(res => {
+                  if(res.status === 200){
+                    
+                    alert("Your profile has been updated successfully")
+                  }else if(res.status ===201){
+                    alert("Sorry, password is not correct")
+                  }else {
+                    const error = new Error(res.error);
+                    throw error;
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                  alert('Error login, please try again');
+                })
+               
+              }else{
+                alert("password cannot be null and password must contain 6 characters, at least one letter and one number")
+              }
+
+          }).catch(() => {
+              this.$message({
                 type: 'info',
                 message: 'Update cancelled'
-          });       
-        });
+              });       
+          });
 
-            },
 
-            change(){
+          }
+          
+      },
 
-            },
-            
-            add(){
-
+      //call change password
+      change(){
+        if (this.currentpwd=="" || this.newpwd=="" ){
+          alert("password cannot be null")
+        }else{
+          var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+         
+          if(passwordReg.test(this.currentpwd) == true && passwordReg.test(this.newpwd) == true) {
+            const passwords = {
+              current:this.currentpwd,
+              new:this.newpwd,
+              id:this.user[0].id
             }
+        
+            axios.post("http://localhost:3000/updatePassword",JSON.stringify(passwords),{headers:{"Content-Type":"application/json"}})
+              .then(res => {
+              if(res.status === 200){
+                
+                alert("Your password has been updated successfully")
+                
+              }else if(res.status ===201){
+                alert("Sorry, current password is not correct")
+              }else {
+                const error = new Error(res.error);
+                throw error;
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              alert('Error, please try again');
+            })
+            
+          }else{
+            alert("password must contain 6 characters, at least one letter and one number")
+          }
+
+
+
+
+        }
+
+      },
+      
+      add(){
+        if (this.currentpwd=="" || this.newpwd=="" ){
+          alert("password cannot be null")
+        }else{
+          var passwordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+         
+          if(passwordReg.test(this.currentpwd) == true && passwordReg.test(this.newpwd) == true) {
+            const passwords = {
+              current:this.currentpwd,
+              new:this.newpwd,
+              id:this.user[0].id
+            }
+        
+            axios.post("http://localhost:3000/updatePassword",JSON.stringify(passwords),{headers:{"Content-Type":"application/json"}})
+              .then(res => {
+              if(res.status === 200){
+                
+                alert("Your password has been updated successfully")
+                
+              }else if(res.status ===201){
+                alert("Sorry, current password is not correct")
+              }else {
+                const error = new Error(res.error);
+                throw error;
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              alert('Error, please try again');
+            })
+            
+          }else{
+            alert("password must contain 6 characters, at least one letter and one number")
+          }
+
+
+
+
+        }
+
+
+      }
 
   }
 }

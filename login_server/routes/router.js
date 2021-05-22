@@ -16,8 +16,8 @@ router.get('/',userController.getCookie);
 router.post('/signUp', userController.signUp);
 router.post('/login', userController.login);
 router.post('/updateStock',phoneController.updateStock)
-
-
+router.post('/updateProfile',userController.updateProfile)
+router.post('/updatePassword',userController.updatePassword)
 
 
 module.exports=router
