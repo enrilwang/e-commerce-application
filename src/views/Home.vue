@@ -208,8 +208,8 @@ export default {
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
       cartItem:{},
-      userList:[],
-        
+      userList:[]
+      
       }
   },
   created() {
@@ -284,13 +284,14 @@ export default {
         this.homeState=false;
         this.searchState=false;
         this.itemState=true;
-       
+       let i=0
         let m=0
-        for(let i=0;i<1;i++){
+        for( i=0;i<1;i++){
           this.Item.push(post)
         }
-        
-        for(let i=0;i<this.Item[0].reviews.length;i++){
+        // console.log(post)
+        // console.log(this.Item);
+        for(i=0;i<this.Item[0].reviews.length;i++){
           for(m=0; m < this.user.length; m++){
             if(this.Item[0].reviews[i].reviewer == this.user[m]._id){
               this.Item[0].reviews[i].reviewer = this.user[m].firstname +" "+ this.user[i].lastname;
@@ -353,8 +354,8 @@ export default {
                           if(post.stock >= value && post.stock >= this.quantity) {
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
-                           // 0 means not created by user
-                            this.cartItem["created"] = false;
+                          // 0 means not created by user
+                          this.cartItem["created"] = 0;
                           const user = {
                           
                             user:res.data.result.cookie,
@@ -414,6 +415,9 @@ export default {
       
         
       
+      },
+      handleSelect(key, keyPath) {
+        // console.log(key, keyPath);
       },
       activateReadMore(){
         this.readMoreActivated = true;
