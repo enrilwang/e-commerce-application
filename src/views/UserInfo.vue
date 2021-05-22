@@ -55,8 +55,8 @@
                 </div>
               </div>
               <div class="disable" v-show="disableState">
-                <el-switch v-model="enable"></el-switch>
-
+                <p>Display:<el-switch v-model="enable"></el-switch></p>
+                <el-button type="danger" round @click="remove()">Remove</el-button>
               </div>
                <el-row>
                   <el-col :span="6" v-for="(post,index) in addedList" 
@@ -284,6 +284,9 @@ export default {
       cancel(){
         this.formState=false
       },
+      remove(){
+
+      },
 
 
 
@@ -318,5 +321,9 @@ margin-top: 0px
   margin-left: 36px;
   margin-top: 15px;
   
+}
+.disable .el-button--danger {
+    margin-top: 50px;
+    margin-left: 0px;
 }
 </style>
