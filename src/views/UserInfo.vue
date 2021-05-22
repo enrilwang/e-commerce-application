@@ -6,7 +6,7 @@
             <div class="container">
             <p>Firstname: <el-input v-model="username[0]" ></el-input></p>
             <p>Lastname: <el-input v-model="username[2]"></el-input></p>
-            <p>Email: <el-input v-model="user[0].userEmail"></el-input></p>
+            <p>Email: <el-input v-model="userEmail"></el-input></p>
             <el-button type="success" plain @click="update()">Update profile</el-button>
             </div>
             </el-tab-pane>
@@ -39,7 +39,7 @@ export default {
   },
   data(){
       return{
-        
+        userEmail:"",
         user:[],
         username:[],
         currentpwd:'',
@@ -49,16 +49,12 @@ export default {
       }
   },
   created() {
-<<<<<<< HEAD
-    this.userInfo()
-=======
     this.userlist()
->>>>>>> 246d37b4a266e7132d55123881b33ba6c640fab6
   },
   methods:{
       
       update(){
-          if (this.username[0]=="" || this.username[2]=="" || this.user[0].userEmail=="" ){
+          if (this.username[0]=="" || this.username[2]=="" || this.userEmail=="" ){
             alert("cannot be null")
           }else{
             this.$prompt('Please enter your current password', {
@@ -73,10 +69,10 @@ export default {
                   firstName:this.username[0],
                   lastName:this.username[2],
                   password:value,
-                  email:this.user[0].userEmail,
-                  id:this.user[0].id
+                  email:this.userEmail,
+                  id:this.id
               }
-             userInfo()
+             
               axios.post("http://localhost:3000/updateProfile",JSON.stringify(users),{headers:{"Content-Type":"application/json"}})
                   .then(res => {
                   if(res.status === 200){
@@ -122,7 +118,7 @@ export default {
             const passwords = {
               current:this.currentpwd,
               new:this.newpwd,
-              id:this.user[0].id
+              id:this.id
             }
         
             axios.post("http://localhost:3000/updatePassword",JSON.stringify(passwords),{headers:{"Content-Type":"application/json"}})
@@ -199,15 +195,19 @@ export default {
       userlist(){
         axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
-                  console.log(res)
-                  if(Object.keys(res.data.result.cookie).length > 0) {
-                      console.log(res.data.result.cookie.userName)
-                      this.user.push(res.data.result.cookie)
-                      console.log(this.user[0].userName)
-                      this.username=(this.user[0].userName).split(/(\s+)/)
-                      }
+                  this.userEmail = res.data.result.cookie.userEmail
+
+                  // console.log(res)
                 
-           
+                  // console.log(res.data.result.cookie.userName)
+                  // console.log(res.data.result.cookie.userEmail)
+                  // this.user.push(res.data.result.cookie)
+                  // console.log(this.user[0].userName)
+                  this.username=(res.data.result.cookie.userName).split(/(\s+)/)
+                  this.id = res.data.result.cookie.id
+                  console.log("here")
+                  console.log(this.userEmail)
+           console.log(this.id)
          
               }) 
       },
