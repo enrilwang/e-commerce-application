@@ -208,8 +208,8 @@ export default {
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
       cartItem:{},
-      userList:[]
-      
+      userList:[],
+        
       }
   },
   created() {
