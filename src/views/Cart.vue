@@ -22,7 +22,9 @@
           <td>{{ product.price}}</td> 
           <td>{{ product.quantity}}</td> 
           <td><el-button @click="editRow(product,index)" type="text" size="small">Save</el-button>
-          <input type="text" v-model="product.quantity" placeholder="new quantity" >
+          <!-- <input type="text" v-model="product.quantity" placeholder="new quantity" > -->
+          <input type="text" v-model="ss"  placeholder="new quantity" >
+
           </td>
           <td><el-button@click="deleteRow(product,index)" type="text" size="small">Remove</el-button></td>
         </tr>
@@ -39,7 +41,6 @@
   </body>
 </template>
 <script>
-// import Home from "../views/Home"
 import axios from "axios"
 import qs from 'qs'
 export default {
@@ -52,7 +53,9 @@ export default {
         carts:[],
         total:0,
         amount:'',
-        checked:false
+        checked:false,
+        ss:0
+
       }
   },
   created() {
