@@ -131,10 +131,12 @@ export default {
             check: function(e) {
               if (e.target.checked) {
                 console.log(e.target.value)
-                this.total+= parseInt(e.target.value)
+                // this.total+= parseInt(e.target.value)
+                this.total+= e.target.value
+
               }
               else{
-                this.total= this.total-parseInt(e.target.value)
+                this.total= this.total-e.target.value
               }
             },
 

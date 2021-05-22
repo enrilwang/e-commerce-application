@@ -49,7 +49,11 @@ export default {
       }
   },
   created() {
+<<<<<<< HEAD
     this.userInfo()
+=======
+    this.userlist()
+>>>>>>> 246d37b4a266e7132d55123881b33ba6c640fab6
   },
   methods:{
       
@@ -72,7 +76,7 @@ export default {
                   email:this.user[0].userEmail,
                   id:this.user[0].id
               }
-             
+             userInfo()
               axios.post("http://localhost:3000/updateProfile",JSON.stringify(users),{headers:{"Content-Type":"application/json"}})
                   .then(res => {
                   if(res.status === 200){
@@ -103,6 +107,7 @@ export default {
 
 
           }
+          
           
       },
 
@@ -191,7 +196,7 @@ export default {
 
 
       },
-      userInfo(){
+      userlist(){
         axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   console.log(res)

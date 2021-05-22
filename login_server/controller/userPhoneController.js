@@ -13,7 +13,7 @@ module.exports ={
 
 
 
-  //sign up function
+  //add function
   add:function(req, res, next) {
       var newUser = new userPhone();
       let data = req.body;
@@ -36,6 +36,30 @@ module.exports ={
      .catch(err => next(err))
       
   },
+
+  //add user created list
+  addList:function(req, res, next) {
+    var newUser = new userPhone();
+    let data = req.body;
+
+    newUser.email = data.user.userEmail;
+    newUser.userid = data.user.id;
+    newUser.title = data.item.title;
+    newUser.price = data.item.price;
+    newUser.brand = data.item.brand;
+    newUser.image = data.item.image;
+    newUser.stock = data.item.stock;
+    newUser.reviews = data.item.reviews;
+    newUser.seller = data.item.seller;
+    newUser.quantity = data.item.quantity;
+    newUser.created = data.item.created;
+    newUser.save().then(() => {
+      res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+      res.sendStatus(200)
+    })
+   .catch(err => next(err))
+    
+},
   
 
 
@@ -81,20 +105,16 @@ module.exports ={
     })
     res.sendStatus(200)
 
+  },
+
+
+  //user created phone list
+  getAllList:function(req, res){
+    userPhone.find({created:1}).exec()
+        .then(data => res.json(data))
+        .catch()
+
   }
-//   deleteAll:function(req, res){
-//     let data = req.body
-//     userPhone.deleteOne({title: data.product.title},function(err,result){
-//         if(err){
-//             console.log(err)
-//           }else{
-
-//             console.log("delete successfully")
-//           }
-//     })
-//     res.sendStatus(200)
-
-//   }
   
 
 }

@@ -11,6 +11,9 @@ router.get('/search/:title',phoneController.getByTitle)
 router.get('/user', userController.getAllUser);
 router.get('/',userController.getCookie);
 router.get('/cart',userPhoneCOntroller.getAllCart)
+router.get('/userAddList', userPhoneCOntroller.getAllList)
+
+
 
 //post request
 router.post('/signUp', userController.signUp);
@@ -21,4 +24,7 @@ router.post('/updatePassword',userController.updatePassword)
 router.post('/add',userPhoneCOntroller.add)
 router.post('/updateQuantity',userPhoneCOntroller.updateQuantity)
 router.post('/deleteQuantity',userPhoneCOntroller.delete)
+router.post('/addNewList',userPhoneCOntroller.addList)
+
+
 module.exports=router
