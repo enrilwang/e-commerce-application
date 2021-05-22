@@ -14,19 +14,18 @@
           <th></th>
         </tr>
         <tr v-for="(product,key,index) in carts" :key="index" >
-          <!-- <td><input type="checkbox"  @click="myCheck(product)" value=product.price v-model="checked"></td> -->
-          <td><input type="checkbox"  @click="check($event)" :value="product.price*product.quantity" v-model="product[key]"></td>
+          <td><input type="checkbox"  @click="check($event,product)" :value="product.price*product.quantity" v-model="product[key]"></td>
 
           <td>{{ product.title}}</td>  
           <td></td>
           <td>{{ product.price}}</td> 
           <td>{{ product.quantity}}</td> 
           <td><el-button @click="editRow(product,index)" type="text" size="small">Save</el-button>
-          <!-- <input type="text" v-model="product.quantity" placeholder="new quantity" > -->
-          <input type="text" v-model="ss"  placeholder="new quantity" >
-
+          <input type="text" v-model="product.id" placeholder="new quantity" >
           </td>
-          <td><el-button@click="deleteRow(product,index)" type="text" size="small">Remove</el-button></td>
+          <td>
+            <el-button@click="deleteRow(product,index,carts)" type="text" size="small" >Remove</el-button>
+            </td>
         </tr>
       </table>
       <br><br>
@@ -36,11 +35,15 @@
       <router-link to="/">
       <el-button type="success" plain @click="confirm">Confirm</el-button>
       </router-link>
+      <div style="display:none">
+        {{selectedItem}}
+      </div>
       
     </div>
   </body>
 </template>
 <script>
+// import Home from "../views/Home"
 import axios from "axios"
 import qs from 'qs'
 export default {
@@ -54,8 +57,7 @@ export default {
         total:0,
         amount:'',
         checked:false,
-        ss:0
-
+        selectedItem:[]
       }
   },
   created() {
@@ -71,7 +73,7 @@ export default {
   
  
   methods:{
-      deleteRow(product,index){
+      deleteRow(product,index,carts){
         const item = {
             
             product:product
@@ -81,7 +83,9 @@ export default {
           axios.post("http://localhost:3000/deleteQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               if(res.status === 200){
-                this.carts.splice(index, 1)
+                //  console.log(index)
+                index=carts.indexOf(product)
+                carts.splice(index, 1)
               }
             })
       },
@@ -95,7 +99,7 @@ export default {
             
             alert("quantity cannot exceed stock")
             product.quantity=firstquantity
-            console.log(firstquantity)
+            // console.log(firstquantity)
         }else if(product.quantity < 0){
             alert("quantity cannot be negative number")
         } else{
@@ -108,10 +112,45 @@ export default {
           axios.post("http://localhost:3000/updateQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               if(res.status === 201){
+                index=this.carts.indexOf(product)
+                 console.log(index)
                 this.carts.splice(index, 1)
               
               }else if(res.status === 200) {
+                product.quantity=product.id
+                // console.log(typeof(product.id))
                 alert("save successfully")
+                let i=0
+                for(i=0;i<this.selectedItem.length;i++){
+                  if (this.selectedItem[i]=product.title){
+                    product.id=parseInt(product.id)
+                    if(product.id>firstquantity){
+                   console.log(product.id-firstquantity)
+                  this.total+=((product.id-firstquantity)*product.price)
+                  console.log(this.total)
+                }else if(product.id==0){
+                  this.total-=firstquantity*product.price
+                }
+                else{
+                  this.total-=((firstquantity-product.id)*product.price)
+                }
+                
+
+                  }
+
+                }
+                // product.id=parseInt(product.id)
+                // if(product.id>firstquantity){
+                //    console.log(product.id-firstquantity)
+                //   this.total+=((product.id-firstquantity)*product.price)
+                //   console.log(this.total)
+                // }else if(product.id==0){
+                //   this.total-=firstquantity*product.price
+                // }
+                // else{
+                //   this.total-=((firstquantity-product.id)*product.price)
+                // }
+                
               }
               
             })
@@ -123,15 +162,26 @@ export default {
         
       },
 
-      check: function(e) {
+      check: function(e,product) {
         if (e.target.checked) {
-          console.log(e.target.value)
-          // this.total+= parseInt(e.target.value)
-          this.total+= e.target.value
+          // console.log(product)
+          this.total+= parseFloat(e.target.value)
+          // this.total+= e.target.value
+          // console.log(product.title)
+          this.selectedItem.push(product.title)
+          console.log(this.selectedItem)
+          
 
         }
         else{
+          let index=0
           this.total= this.total-e.target.value
+          // console.log(index)
+          index=this.selectedItem.indexOf(product.title)
+          console.log(index)
+
+          this.selectedItem.splice(index,1)
+          console.log(this.selectedItem)
         }
       },
 

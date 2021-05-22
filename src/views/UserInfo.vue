@@ -31,6 +31,7 @@
             <el-tab-pane  label="Manage listings" name="Manage listings">
               <el-button type="text" @click="add()">Add a new list</el-button>
               <div class="container">
+                
                 <div class="form1" v-show="formState">
                 <el-form ref="form" :model="form" label-width="120px"  >
                   <el-form-item label="Title">
@@ -58,9 +59,9 @@
                 </el-form>
                 </div>
               </div>
-              
+              <div class="container">
                <el-row>
-                  <el-col :span="8" v-for="(post,index) in addedList" 
+                  <el-col :span="12" v-for="(post,index) in addedList" 
                     v-bind:item="post"
                     v-bind:index="index"
                     v-bind:key="post.id" >
@@ -76,7 +77,7 @@
                         <!-- <br> -->
                         <span><p>Display: 
                           <!-- <el-switch v-model="post[index]" @click="check($event)" :value="post"></el-switch> -->
-                          <el-switch v-model="post[index]" @change='changeStatus($event,post)' ></el-switch>
+                          <el-switch v-model="post[index]" @change='changeStatus(post)' ></el-switch>
   
 
                           <!-- <el-checkbox v-model="post[index]" @click="check($event)" :value="post.price">Option</el-checkbox> -->
@@ -88,6 +89,7 @@
                     </el-card>
                   </el-col>
                 </el-row> 
+              </div>
             </el-tab-pane>
             
             
@@ -330,7 +332,7 @@ export default {
             })
       },
 
-     changeStatus: function($event,post){
+     changeStatus: function(post){
 		
 				console.log(post);
      },
@@ -381,14 +383,16 @@ margin-top: 0px
   width: 100%;
 }
 .user .el-card {
-  height: 700px;
+  /* height: 800px; */
+  overflow-y: auto; 
+  height:400px;
   margin-left: 36px;
   margin-top: 15px;
   
 }
 .user .el-button--danger {
     margin-top: 50px;
-    margin-right: 0px;
+    float:right;
 }
 .logout .el-button--text{
   margin-top: 0px;
