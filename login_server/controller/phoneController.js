@@ -1,11 +1,10 @@
 const phone = require("../models/phonelisting")
 const userPhone = require("../models/userPhone")
-module.exports ={
 
+module.exports ={
   //Search function
   getByTitle:function(req,res,next){
     title = req.params.title
-    // console.log(req.params)
     phone.findPhoneWithTitle(title,function(err,result){
       if(err){
         console.log("cannot find this title")
@@ -31,7 +30,6 @@ module.exports ={
   //get the best seller
   getBestSeller:function(req,res,next) {
     phone.aggregate([
-     
       {$unwind:"$reviews"},
       {
           $group:{
@@ -46,20 +44,16 @@ module.exports ={
               seller:{$first : "$seller"},
               avgRating:{$avg:'$reviews.rating'}
           }
-         
-         
+
       },
-      
       {$match:{$or:
         [
           {$and:[{stock:{$gt:0}},{disabled:{$exists:false}},{avgRating:{$gte:2}}]},
           {$and:[{stock:{$gt:0}},{disabled:false},{avgRating:{$gte:2}}]}
         ]
-    }},
+      }},
       {$sort:{avgRating:-1}},
       {$limit:5}
-  
-
     ]).exec()
     .then(data => res.json(data))
     .catch() ;
@@ -76,7 +70,6 @@ module.exports ={
         }else{
           console.log("update successfully")
           console.log(res)
-          
         }
       })
       userPhone.deleteOne({title: data.carts[i].title},function(err,result){
@@ -92,7 +85,7 @@ module.exports ={
     res.sendStatus(200)
   },
 
-
+  //add new phone associated to the user
   addNewPhone:function(req,res,next) {
     let data = req.body
     var newUser = new phone();
