@@ -69,13 +69,20 @@
                     <el-card :body-style="{ padding: '0px' }">
                       <div style="padding: 14px;">  
                         <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
-                        <!-- <span><h3>Image:<h4> ../../public/image/{{post.image}}</span><br> -->
                         <span><h4>Title:{{post.title}}</h4></span>
                         <span><h4>Brand:{{post.brand}}</h4></span>
                         <span><h4>Stock:{{post.stock}}</h4></span>
                         <span><h4>Price:${{post.price}}</h4></span>
                         <!-- <br> -->
-                        <span><p>Display: <el-switch v-model="enable"></el-switch></p></span>
+                        <span><p>Display: 
+                          <!-- <el-switch v-model="post[index]" @click="check($event)" :value="post"></el-switch> -->
+                          <el-switch v-model="post[index]" @change='changeStatus($event,post)' ></el-switch>
+  
+
+                          <!-- <el-checkbox v-model="post[index]" @click="check($event)" :value="post.price">Option</el-checkbox> -->
+                          </p>
+                          </span>
+
                         <span><el-button type="danger" circle @click="remove(post,index)">Remove</el-button></span>
                       </div>
                     </el-card>
@@ -105,8 +112,11 @@ export default {
         id:"",
         addedList:[],
         // disableState:false,
-        enable:true,
+        // enable:true,
         out:'',
+        checked:true,
+        value1:'1',
+
         
         form: {
           title: '',
@@ -308,9 +318,22 @@ export default {
         this.addedList.splice(index, 1)
 
       },
-      logout(){
 
+
+      logout(){
+        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
+            .then(res =>{
+              if(res.status === 200){
+                 this.$router.push("/")
+              }
+              
+            })
       },
+
+     changeStatus: function($event,post){
+		
+				console.log(post);
+     },
 
       handleClick(tab, event) {
         console.log(tab, event);
