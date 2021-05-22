@@ -121,7 +121,8 @@ export default {
                 alert("save successfully")
                 let i=0
                 for(i=0;i<this.selectedItem.length;i++){
-                  if (this.selectedItem[i]=product.title){
+                  if (this.selectedItem[i]==product.title){
+                    console.log(product.title)
                     product.id=parseInt(product.id)
                     if(product.id>firstquantity){
                       console.log(product.id-firstquantity)
@@ -168,7 +169,7 @@ export default {
           // this.total+= e.target.value
           // console.log(product.title)
           this.selectedItem.push(product.title)
-          console.log(this.selectedItem)
+          // console.log(this.selectedItem)
           
 
         }
@@ -180,7 +181,7 @@ export default {
           console.log(index)
 
           this.selectedItem.splice(index,1)
-          console.log(this.selectedItem)
+          // console.log(this.selectedItem)
         }
       },
 

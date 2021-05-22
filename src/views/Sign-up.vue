@@ -100,4 +100,22 @@ export default {
 .sign-up {
   background-color:	#f5e29f
 }
+.container {
+  padding: 16px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.el-button--danger {
+  margin-top: 50px;
+  margin-left: 100px
+}
+.el-button--success {
+  margin-top: 50px;
+  margin-left: 200px
+}
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
 </style>

@@ -74,10 +74,12 @@
                         <!-- <br> -->
                         <span><p>Display: 
                           
-                            <el-switch v-model="post[index]" :active-value="1" :inactive-value="2" @change='changeStatus($event,post,index)' ></el-switch>
-                         
+                            <!-- <el-switch v-model="post[index]" :active-value="1" :inactive-value="2" @change='changeStatus($event,post,index)' ></el-switch> -->
 
-                          <!-- <el-checkbox v-model="post[index]" @click="check($event)" :value="post.price">Option</el-checkbox> -->
+                            
+
+                            <!-- <input type="checkbox"  @click="check($event,post)" :value="checked" v-model="post[index]"> -->
+                         
                           </p>
                           </span>
 
@@ -112,9 +114,9 @@ export default {
         id:"",
         addedList:[],
         // disableState:false,
-        // enable:true,
+        enable:'enable',
         out:'',
-        checked:true,
+        checked:false,
         value1:'1',
 
         state:2,
@@ -330,32 +332,32 @@ export default {
             })
       },
 
-     changeStatus: function($event,post,index){
-        console.log($event)
-        let go = false;
-        if($event == 1) {
-          go = false
-        }else {
-          go = true
-        }
-        const item = {
-          product:post,
-          disable:go,
-          id:this.id
-        }
+    //  changeStatus: function($event,post,index){
+    //     console.log($event)
+    //     let go = false;
+    //     if($event == 1) {
+    //       go = false
+    //     }else {
+    //       go = true
+    //     }
+    //     const item = {
+    //       product:post,
+    //       disable:go,
+    //       id:this.id
+    //     }
         
-        axios.post("http://localhost:3000/changeStatus",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
-          .then(res =>{
-            if(res.status === 200) {
-              this.state = 1
-              console.log("good")  
-            }
+    //     axios.post("http://localhost:3000/changeStatus",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+    //       .then(res =>{
+    //         if(res.status === 200) {
+    //           this.state = 1
+    //           console.log("good")  
+    //         }
             
-        })
+    //     })
 
 		
 				
-     },
+    //  },
 
       handleClick(tab, event) {
         console.log(tab, event);
@@ -404,7 +406,24 @@ export default {
                   
               }) 
       },
+      // changeStatus(e){
+      //   if (this.enable=='enable'){
+      //     this.enable="disable"
+          
+      //     console.log(e.target.value )
+      //   }else{
+      //     this.enable="enable"
+      //   }
+
+      // }
+      check: function(e,post) {
+        if (e.target.checked) {
+          console.log(e.target.checked)
+          console.log(e.target.value)
+        }
+      }
       
+
 
   }
 }
@@ -436,5 +455,11 @@ margin-top: 0px
   margin-top: 0px;
   float:right
 
+}
+.container {
+  padding: 16px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
