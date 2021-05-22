@@ -309,10 +309,12 @@ export default {
 
 
       logout(){
-        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"}})
+        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res =>{
+              if(res.status === 200){
+                 this.$router.push("/")
+              }
               
-              this.$router.push("Home")
             })
       },
 

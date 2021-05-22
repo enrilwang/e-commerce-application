@@ -103,8 +103,14 @@ module.exports ={
 
   //log out function 
   signOut: function(req, res) {
-    console.log("logout")
-    res.clearCookie("userToken").redirect("/");
+    
+    res.clearCookie("userToken");
+    res.clearCookie("userEmail");
+    res.clearCookie("userName");
+    res.clearCookie("id")
+    res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+    res.setHeader("Access-Control-Allow-Credentials","true")
+    res.sendStatus(200)
   },
 
 
