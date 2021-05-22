@@ -181,9 +181,6 @@ export default {
             alert("password must contain 6 characters, at least one letter and one number")
           }
 
-
-
-
         }
 
       },

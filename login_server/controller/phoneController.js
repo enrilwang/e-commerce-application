@@ -18,7 +18,12 @@ module.exports ={
 
   //get phoneListing data that sold out soon
   getPhone:function(req,res,next) {
-    phone.find({stock:{$gt:0}}).sort({stock:1}).limit(5).exec()
+    phone.find({$or:
+        [
+          {$and:[{stock:{$gt:0}},{disabled:{$exists:false}}]},
+          {$and:[{stock:{$gt:0}},{disabled:false}]}
+        ]
+    }).sort({stock:1}).limit(5).exec()
         .then(data => res.json(data))
         .catch()
   },
@@ -45,7 +50,12 @@ module.exports ={
          
       },
       
-      {$match:{stock:{$gt:0},avgRating:{$gte:2}}},
+      {$match:{$or:
+        [
+          {$and:[{stock:{$gt:0}},{disabled:{$exists:false}},{avgRating:{$gte:2}}]},
+          {$and:[{stock:{$gt:0}},{disabled:false},{avgRating:{$gte:2}}]}
+        ]
+    }},
       {$sort:{avgRating:-1}},
       {$limit:5}
   
