@@ -268,8 +268,7 @@ export default {
         for(i=0;i<1;i++){
           this.Item.push(post)
         }
-        // console.log(post)
-        // console.log(this.Item);
+     
         for(i=0;i<this.Item[0].reviews.length;i++){
           for(m=0; m < this.user.length; m++){
             if(this.Item[0].reviews[i].reviewer == this.user[m]._id){
