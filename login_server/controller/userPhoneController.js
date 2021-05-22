@@ -5,7 +5,7 @@ module.exports ={
   
   //get all cart information 
   getAllCart:function(req,res,next) {
-    userPhone.find({created:0}).exec()
+    userPhone.find({created:false}).exec()
         .then(data => res.json(data))
         .catch()
   },
@@ -41,9 +41,8 @@ module.exports ={
   addList:function(req, res, next) {
     var newUser = new userPhone();
     let data = req.body;
-
-    newUser.email = data.user.userEmail;
-    newUser.userid = data.user.id;
+    newUser.email = data.userEmail;
+    newUser.userid = data.id;
     newUser.title = data.item.title;
     newUser.price = data.item.price;
     newUser.brand = data.item.brand;
@@ -52,7 +51,7 @@ module.exports ={
     newUser.reviews = data.item.reviews;
     newUser.seller = data.item.seller;
     newUser.quantity = data.item.quantity;
-    newUser.created = data.item.created;
+    newUser.created = true;
     newUser.save().then(() => {
       res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
       res.sendStatus(200)
@@ -110,7 +109,7 @@ module.exports ={
 
   //user created phone list
   getAllList:function(req, res){
-    userPhone.find({created:1}).exec()
+    userPhone.find({created:true}).exec()
         .then(data => res.json(data))
         .catch()
 

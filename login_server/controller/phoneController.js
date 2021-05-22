@@ -58,8 +58,6 @@ module.exports ={
   //update stock after puchase
   updateStock:function(req,res,next) {
     let data = req.body
-    
- 
     for (let i = 0; i < data.length; i++) {
       let newStock = data.carts[i].stock - data.carts[i].quantity;
       phone.update({title: data.carts[i].title},{stock: newStock}, function(err,res){
@@ -82,10 +80,28 @@ module.exports ={
       
     }
     res.sendStatus(200)
-    
-    
+  },
 
 
-
+  addNewPhone:function(req,res,next) {
+    let data = req.body
+    var newUser = new phone();
+    newUser.title = data.item.title;
+    newUser.price = data.item.price;
+    newUser.brand = data.item.brand;
+    newUser.image = data.item.image;
+    newUser.stock = data.item.stock;
+    newUser.reviews = [];
+    newUser.seller = data.item.seller;
+    newUser.disabled = data.item.disabled;
+    newUser.userId = data.userId;
+    newUser.save().then(() => {
+      res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+      res.sendStatus(200)
+    })
+   .catch(err => next(err))
   }
+
+
+
 }

@@ -332,7 +332,7 @@ export default {
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
                           // 0 means not created by user
-                          this.cartItem["created"] = 0;
+                          this.cartItem["created"] = false;
                           const user = {
                           
                             user:res.data.result.cookie,

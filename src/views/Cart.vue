@@ -59,26 +59,15 @@ export default {
      axios.get("http://localhost:3000/cart",{headers:{"Content-Type":"application/json"}})
               .then(res =>{
                 this.carts = res.data 
-                })
+              })
                   
-    // this.getRouterData()
+
   },
   
 
   
  
   methods:{
-            // getCartInfo(data){
-            //     this.product = data
-            //     console.log(data)
-            // }
-            // getRouterData() {
-            //   this.carts = this.$route.query.cartList
-            //   this.product=this.carts
-        
-            // },
-           
-            
             deleteRow(product,index){
               const item = {
                   

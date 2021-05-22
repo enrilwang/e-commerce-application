@@ -47,7 +47,7 @@
                   <el-switch v-model="form.disabled"></el-switch>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="add()">Add a new list</el-button>
+                  <el-button type="primary" @click="add1()">Add a new list</el-button>
                   <el-button @click="cancel()">Cancel</el-button>
                 </el-form-item>
               </el-form>
@@ -71,7 +71,8 @@ export default {
         currentpwd:'',
         newpwd:'',
         id:"",
-        newList:[],
+        addedList:[],
+        
         form: {
           title: '',
           brand: '',
@@ -186,15 +187,80 @@ export default {
         }
 
       },
-      
       add(){
-        this.formState=true
-        console.log(this.formState)
+         this.formState=true
+      },
+      
+      //add a new list
+      add1(){
+        const newlist = {
+          userEmail:this.userEmail,
+          id:this.id,
+          item:this.form,
+        }
+        
+        axios.post("http://localhost:3000/addNewList",JSON.stringify(newlist),{headers:{"Content-Type":"application/json"}})
+          .then(res => {
+          if(res.status === 200){
+             axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+            .then(res =>{
+              this.addedList = res.data 
+              
+            })
+            alert("Added successfully")
+            
+          }else if(res.status ===201){
+            alert("Sorry, not correct")
+          }else {
+            const error = new Error(res.error);
+            throw error;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          alert('Error, please try again');
+        })
+
+
+
+        // add to phonlisting 
+        const newlist1 = {
+          userId:this.id,
+          item:this.form
+        }
+        axios.post("http://localhost:3000/addToPhone",JSON.stringify(newlist1),{headers:{"Content-Type":"application/json"}})
+          .then(res => {
+          if(res.status === 200){
+            
+            console.log("good")
+            
+          }else if(res.status ===201){
+            alert("Sorry, not correct")
+          }else {
+            const error = new Error(res.error);
+            throw error;
+          }
+          
+        })
+        .catch(error => {
+          console.log(error);
+          alert('Error, please try again');
+        })
 
       },
+
+
+
+
+
       cancel(){
         this.formState=false
       },
+
+
+
+
+      // get user cookie
       userlist(){
         axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{

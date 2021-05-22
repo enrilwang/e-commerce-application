@@ -12,7 +12,7 @@ var userPhoneSchema = new mongoose.Schema({
     seller: String,
     price: Number,
     quantity:Number,
-    created:Number, //0 means not created by user, 1 means created by user
+    created:String, 
     reviews:  [{reviewer:String,
                 rating: Number,
                 comment:String}]

@@ -25,6 +25,6 @@ router.post('/add',userPhoneCOntroller.add)
 router.post('/updateQuantity',userPhoneCOntroller.updateQuantity)
 router.post('/deleteQuantity',userPhoneCOntroller.delete)
 router.post('/addNewList',userPhoneCOntroller.addList)
-
+router.post('/addToPhone',phoneController.addNewPhone)
 
 module.exports=router

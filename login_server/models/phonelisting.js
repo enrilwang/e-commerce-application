@@ -9,6 +9,8 @@ var phoneSchema = new mongoose.Schema({
     stock: Number,
     seller: String,
     price: Number,
+    userId:String,
+    disabled:String,
     reviews:  [{reviewer:String,
                 rating: Number,
                 comment:String}]
