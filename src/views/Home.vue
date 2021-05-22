@@ -53,7 +53,7 @@
       </div>
       <div class="itemcomp" v-show="itemState">
         <el-row>
-            <el-col :span="10" v-for="(post,key,index) in Item" 
+            <el-col :span="10" v-for="(post,index) in Item" 
               v-bind:item="post"
               v-bind:index="index"
               v-bind:key="post.id" >
@@ -95,8 +95,8 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-                    <el-badge  class="item"  v-model="post.quantity">
-                    <el-button type="warning" icon="el-icon-star-off"  circle @click="add(post)" >Add to Cart</el-button>
+                    <el-badge  class="item" v-model="quantity">
+                    <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
                 </div>
@@ -149,6 +149,7 @@
       </div>
       <div style="display: none;">{{beforeFilter}}</div>
       <div style="display: none;">{{cartList}}</div>    
+      <!-- <div style="display: none;">{{Cookie}}</div> -->
 
       
 
@@ -157,6 +158,7 @@
 </template>
 
 <script>
+// import HomeComponent from '../components/HomeComponent'
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
@@ -327,24 +329,38 @@ export default {
                       
                       }).then(({ value })=>{
                         if(value != null) {
-                          
-                          this.quantity= parseInt(value);
-                          // this.$emit('cartInfo',post)
                           if(post.stock >= value && post.stock >= this.quantity) {
                             this.cartItem=post
-                            post["quantity"] = value;
                             this.cartItem["quantity"] = value;
-                            this.cartList.push(this.cartItem)
-                            console.log(value)
-                            console.log(post)
-
+                          // 0 means not created by user
+                          this.cartItem["created"] = 0;
+                          const user = {
                           
-                            this.$message({
-                              type: 'success',
-                              message: 'Your quantity is:' + value,
+                            user:res.data.result.cookie,
+                            item:this.cartItem
+                          }
+                          axios.post("http://localhost:3000/add",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
+                            .then(res => {
+                              
+                            if(res.status === 200){
+                              
+                              this.$message({
+                                type: 'success',
+                                message: 'Your quantity is:' + value,
                                         
-                            });
-                         
+                              });
+                              
+                            }else {
+                              const error = new Error(res.error);
+                              throw error;
+                            }
+                          })
+                          .catch(error => {
+                            console.error(error.response.data);
+                            alert('Error, please try again');
+                          })
+                            
+                        
                             
                           } else {
                             this.quantity -= parseInt(value);
@@ -404,11 +420,11 @@ export default {
                       console.log(res.data.result.cookie.userName)
                       this.userList.push(res.data.result.cookie)
                       console.log(this.userList[0].userName)
-                      this.$router.push('UserInfo')
-                      }else {
+                      this.$router.push({
+                        name:'UserInfo',
+                        query:{userList:this.userList}
+                      })}else {
                       alert("Please log in to your account first")
-                       this.$router.push('Sign-in')
-
                       
                   }
                 
