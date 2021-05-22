@@ -143,7 +143,6 @@ export default {
                 carts:this.carts,
                 length:this.carts.length
               }
-             
               axios.post("http://localhost:3000/updateStock",qs.stringify(carts))
                   .then(res => {
                   if(res.status === 200){

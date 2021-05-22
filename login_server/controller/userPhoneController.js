@@ -82,6 +82,19 @@ module.exports ={
     res.sendStatus(200)
 
   }
+//   deleteAll:function(req, res){
+//     let data = req.body
+//     userPhone.deleteOne({title: data.product.title},function(err,result){
+//         if(err){
+//             console.log(err)
+//           }else{
+
+//             console.log("delete successfully")
+//           }
+//     })
+//     res.sendStatus(200)
+
+//   }
   
 
 }

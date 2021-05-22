@@ -1,5 +1,5 @@
 const phone = require("../models/phonelisting")
-
+const userPhone = require("../models/userPhone")
 module.exports ={
 
   //Search function
@@ -71,6 +71,14 @@ module.exports ={
           
         }
       })
+      userPhone.deleteOne({title: data.carts[i].title},function(err,result){
+        if(err){
+            console.log(err)
+          }else{
+
+            console.log("delete successfully")
+          }
+    })
       
     }
     res.sendStatus(200)
