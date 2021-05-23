@@ -2,16 +2,20 @@
   <body>
     <div class="home" >
       <div class="topBar" v-show="topState">
+        <!-- <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
+        background-color="#f5bc62" text-color="#409EFF" active-text-color="white"> -->
         <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
         background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
         <h1>Phone Zone</h1>
         <el-menu-item index="1">Home</el-menu-item>
-        <el-menu-item index="2"><router-link to="/sign-in">Sign-in/Sign-up</router-link></el-menu-item> 
+        <el-menu-item index="2"><router-link to="/sign-in" v-show="visitorState">Sign-in/Sign-up</router-link></el-menu-item> 
         <el-menu-item index="3"><el-button type="text" class="button"@click="cart()">Checkout</el-button></el-menu-item>  
-        <el-menu-item index="4"><el-button type="text" class="button"@click="userInfo()">User</el-button></el-menu-item> 
-        <!-- <el-menu-item index="4"><router-link to="/userInfo">User</router-link></el-menu-item>   -->
-        <el-menu-item index="5"><input v-model="search"  placeholder="Search"></el-menu-item>
-        <el-menu-item index="6"><button class="search" v-on:click="SendSearch">Search</button></el-menu-item>
+        <!-- <div class="isLogin"> -->
+        <el-menu-item index="4"><el-button type="text" class="button"@click="userInfo()" v-show="memberState">User</el-button></el-menu-item> 
+        <el-menu-item index="5"><el-button type="text" class="button"@click="logout" v-show="memberState">Log out</el-button></el-menu-item>  
+        <!-- </div> -->
+        <el-menu-item index="6"><input v-model="search"  placeholder="Search"></el-menu-item>
+        <el-menu-item index="7"><button class="search" v-on:click="SendSearch">Search</button></el-menu-item>
         </el-menu>
       </div>
       <div class="searchComp" v-show="searchState">
@@ -95,7 +99,8 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-                    <el-badge  class="item" v-model = "post.quantity" :value = "0">
+                    <input type="text" placeholder="quantity" >
+                    <el-badge  class="item" v-model = "post.quantity">
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
@@ -176,6 +181,8 @@ export default {
         searchState:false,
         itemState:false,
         topState:true,
+        memberState:false,
+        visitorState:true,
         search:'',
         searchItem:[],
         rating:'',
@@ -200,7 +207,7 @@ export default {
           {id:"8",name:"Samsung"},
           {id:"9",name:"Sony"},
         ],
-      MaxPrice:799.98,
+      MaxPrice:0,
       reviewList:[],
       readMoreActivated: false,
       showMoreActivated: false,
@@ -212,14 +219,25 @@ export default {
       allData:[]
       }
   },
-  created() {
-    this.getRouterData(),
+  
+  activated(){
+        this.getCookie()
+
+  },
+  beforeRouteLeave(to, from, next) {
+        if (to.name == "Sign-in"||to.name == "Cart") {
+            from.meta.keepAlive = true
+        } else {
+            from.meta.keepAlive = false
+        }
+        next()
+},
+  created(){
+    // this.getCookie()
     this.checkShowMore(),
     this.checkShowMore()
-  },
-  created(){
-    let urlAll = "http://localhost:3000/getAll";
-    let urlSoon = "http://localhost:3000/soldsoon";
+    
+    let url = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
     let urlUser = 'http://localhost:3000/user';
     const reqOne =  axios.get(urlSoon)
@@ -338,17 +356,24 @@ export default {
       
       },
       priceInput(){
+        let Max=0
         let i=0
         let afterFilter = []
         this.searchItem=this.beforeFilter
+          axios.get("http://localhost:3000/maxprice")
+              .then((res) => {
+                console.log(res.data[0].price)
+                Max=res.data[0].price
+              // })
+              // console.log(Max)
         for(i=0;i<this.searchItem.length;i++){
           if(this.searchItem[i].price<=this.MaxPrice){
             afterFilter.push(this.searchItem[i])
           }
         }   
-        // console.log(afterFilter)
+        console.log(afterFilter)
         this.searchItem=afterFilter  
-        // console.log(this.searchItem)      
+        })
       },
       
       add(post){
@@ -379,8 +404,7 @@ export default {
                            
                            num += parseInt(value)
                             post.quantity = num
-                            //console.log(this.$children[0].$children[0].$forceUpdate())
-                            // this.$children[0].$children[0].$forceUpdate()
+                           
                           this.$message({
                             type: 'success',
                             message: 'Your quantity is:' + value,
@@ -451,26 +475,58 @@ export default {
               
               })
       },
-      userInfo(){
+      getCookie(){
         axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   console.log(res)
                   if(Object.keys(res.data.result.cookie).length > 0) {
-                      // console.log(res.data.result.cookie.userName)
-                      this.userList.push(res.data.result.cookie)
-                      // console.log(this.userList[0].userName)
-                      this.$router.push({
-                        name:'UserInfo',
-                        query:{userList:this.userList}
-                      })}else {
-                      alert("Please log in to your account first")
-                      
-                  }
+                    console.log(res.data.result.cookie)
+                      this.memberState=true
+                      this.visitorState=false
+                     }else{
+                       this.memberState=false
+                      this.visitorState=true
+                     }
                 
-           
-         
               }) 
-      }
+      },
+
+      userInfo(){
+        this.$router.push('UserInfo')
+      },
+
+      logout(){
+        this.$confirm('Do you wish to log out', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+
+          
+          this.$message({
+
+            
+            type: 'success',
+            message: 'You have logged out.'
+          },
+          axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
+            .then(res =>{
+              if(res.status === 200){
+                 this.memberState=false
+                 this.visitorState=true
+                 
+              }
+              
+            })
+          );
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Logout canceled'
+          });          
+        });
+
+      },
       
   }
 }

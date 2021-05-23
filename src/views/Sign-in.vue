@@ -46,7 +46,13 @@ export default {
         cookie:{},
        
       }
+
     },
+    // created()
+    // {
+    // this.window.onpopstate()
+    // },
+
     methods:{
       Signin:function(){
         if(this.email==""||this.pwd==""){
@@ -60,9 +66,12 @@ export default {
             if(res.status === 200){
            
               alert("Login successfully!")
-              // this.$router.push("/")
-              window.history.back();
-              // history.pushState(searchState,null,"/")
+             history.pushState('item',"", '/')
+           this.$router.push("/")
+
+            //  window.location.reload();
+            
+
               
               
             }else if(res.status ===201){
@@ -76,7 +85,8 @@ export default {
             console.log(error);
             alert('Error login, please try again');
           })
-      }
+      },
+      
      
     }
   }
