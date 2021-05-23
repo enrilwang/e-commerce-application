@@ -13,8 +13,12 @@ module.exports ={
       }
     })
   },
-
-
+  //get all phone
+  getAll:function(req,res,next) {
+    phone.find().exec()
+        .then(data => res.json(data))
+        .catch()
+  },
   //get phoneListing data that sold out soon
   getPhone:function(req,res,next) {
     phone.find({$or:

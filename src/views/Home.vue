@@ -95,7 +95,7 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-                    <el-badge  class="item" v-model = "post.quantity">
+                    <el-badge  class="item" v-model = "post.quantity" :value = "0">
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
@@ -208,8 +208,8 @@ export default {
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
       cartItem:{},
-      userList:[]
-      
+      userList:[],
+      allData:[]
       }
   },
   created() {
@@ -218,23 +218,25 @@ export default {
     this.checkShowMore()
   },
   created(){
-    
-    let url = "http://localhost:3000/soldsoon";
+    let urlAll = "http://localhost:3000/getAll";
+    let urlSoon = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
     let urlUser = 'http://localhost:3000/user';
-    const reqOne =  axios.get(url)
+    const reqOne =  axios.get(urlSoon)
     const reqTwo = axios.get(urlSeller)
     const reqThree = axios.get(urlUser);
-    axios.all([reqOne, reqTwo,reqThree]).then(axios.spread((...responses)=>{
+    const reqFour = axios.get(urlAll);
+    axios.all([reqOne, reqTwo,reqThree,reqFour]).then(axios.spread((...responses)=>{
       const responsesOne = responses[0]
       const responsesTwo = responses[1]
       const responsesThree = responses[2]
-
+      const responsesFour = responses[3]
       //handle the sold out soon data
+
       this.posts = responsesOne.data;
       //handle the bestSeller data
       this.bestSeller = responsesTwo.data;
-      console.log(typeof(this.bestSeller[0].avgRating))
+      this.allData = responsesFour.data;
       for(let i = 0; i < this.bestSeller.length;i++){
         this.bestSeller[i].avgRating = this.bestSeller[i].avgRating.toFixed(2)
       }      
@@ -286,7 +288,9 @@ export default {
                   }
               }).catch(err=>console.log(err))
         axios.get(urlUser).then(res=>{this.user = res.data;})
-        
+        for(let i = 0; i < this.searchItem.length; i++) {
+          this.searchItem[i]["quantity"] = 0;
+        }
       },
       detail(post){
         this.Item=[]
