@@ -9,7 +9,14 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+
+    meta: {
+      pageTitle: 'homepage',
+      keepAlive: true
+  }
+
   },
+
   // {
   //   path: "/checkout",
   //   name: "Checkout",

@@ -405,6 +405,8 @@ export default {
                       
                                   
                   }else {
+                    console.log(typeof(post))
+                    localStorage.setItem('item', JSON.stringify(post) )
                       this.$router.push("sign-in")
                       
                   }
