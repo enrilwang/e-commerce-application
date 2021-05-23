@@ -20,5 +20,9 @@ var userPhoneSchema = new mongoose.Schema({
     
 })
 
+userPhoneSchema.methods.findTitle = function(callback){
+    
+    return this.model('PhoneUser').find({title:this.title }, callback)
+}
 
-module.exports = mongoose.model("phoneUser", userPhoneSchema, "userPhone");
+module.exports = mongoose.model("PhoneUser", userPhoneSchema, "userPhone");
