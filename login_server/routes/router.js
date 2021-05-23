@@ -11,7 +11,7 @@ router.get('/search/:title',phoneController.getByTitle)
 router.get('/user', userController.getAllUser);
 router.get('/',userController.getCookie);
 router.get('/cart',userPhoneCOntroller.getAllCart)
-router.get('/userAddList', userPhoneCOntroller.getAllList)
+
 router.get('/signout',userController.signOut)
 
 
@@ -29,6 +29,6 @@ router.post('/addToPhone',phoneController.addNewPhone)
 router.post('/deleteCreated',userPhoneCOntroller.remove)
 router.post('/deletePhone',phoneController.remove)
 router.post('/changeStatus',phoneController.changeStatus)
-
+router.post('/userAddList',phoneController.getAllList)
 
 module.exports=router

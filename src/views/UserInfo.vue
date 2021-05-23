@@ -74,7 +74,7 @@
                         <!-- <br> -->
                         <span><p>Display: 
                           
-                            <!-- <el-switch v-model="post[index]" :active-value="1" :inactive-value="2" @change='changeStatus($event,post,index)' ></el-switch> -->
+                           <el-switch v-model="post.disabled" @change='changeStatus($event,post,index)' ></el-switch> 
 
                             
 
@@ -129,7 +129,8 @@ export default {
           disabled: false,
           
         },
-        formState:false
+        formState:false,
+       
           
       }
   },
@@ -332,32 +333,39 @@ export default {
             })
       },
 
-    //  changeStatus: function($event,post,index){
-    //     console.log($event)
-    //     let go = false;
-    //     if($event == 1) {
-    //       go = false
-    //     }else {
-    //       go = true
-    //     }
-    //     const item = {
-    //       product:post,
-    //       disable:go,
-    //       id:this.id
-    //     }
+     changeStatus: function($event,post,index){
         
-    //     axios.post("http://localhost:3000/changeStatus",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
-    //       .then(res =>{
-    //         if(res.status === 200) {
-    //           this.state = 1
-    //           console.log("good")  
-    //         }
+        console.log($event)
+        
+        // console.log("first")
+        let go = false;
+        if (post.disabled) {
+
+          go = false;
+        }else {
+          //post.status = 2
+          go = "";
+          
+        }
+       
+        const item = {
+          product:post,
+          disable:go,
+          id:this.id
+        }
+        
+        axios.post("http://localhost:3000/changeStatus",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
+          .then(res =>{
+            if(res.status === 200) {
+              // post.status = 1
+              // console.log("good")  
+            }
             
-    //     })
+        })
 
 		
 				
-    //  },
+     },
 
       handleClick(tab, event) {
         console.log(tab, event);
@@ -366,25 +374,24 @@ export default {
         }
       },
       showListing(){
-        axios.get("http://localhost:3000/userAddList",{headers:{"Content-Type":"application/json"}})
+        const item = {
+          id:this.id
+        }
+        
+
+        axios.post("http://localhost:3000/userAddList",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               this.addedList = res.data 
-              console.log(this.addedList[0].disabled)
-              console.log("Here")
-              
-              //  for(let i = 0; i < this.addedList.length; i++) {
-              //   if (i == 0) {
-                  
-              //     this.addedList[i]["value"] = 2;
-              //     this.state = 2;
-              //   }else {
-                  
-              //     this.addedList[i]["value"] = 1;
-              //     this.post[index] = 1;
-              //   }
-              // }
-        
-              
+            
+               for(let i = 0; i < this.addedList.length; i++) {
+                if (Boolean(this.addedList[i].disabled) == true) {
+                  this.addedList[i].disabled = true;
+                }else {
+                   this.addedList[i].disabled = false;
+         
+                }
+              }
+      
               
             })
 
@@ -406,16 +413,7 @@ export default {
                   
               }) 
       },
-      // changeStatus(e){
-      //   if (this.enable=='enable'){
-      //     this.enable="disable"
-          
-      //     console.log(e.target.value )
-      //   }else{
-      //     this.enable="enable"
-      //   }
 
-      // }
       check: function(e,post) {
         if (e.target.checked) {
           console.log(e.target.checked)

@@ -96,7 +96,7 @@ module.exports ={
     newUser.stock = data.item.stock;
     newUser.reviews = [];
     newUser.seller = data.item.seller;
-    newUser.disabled = true;
+    newUser.disabled = false;
     newUser.userId = data.userId;
     newUser.save().then(() => {
       res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
@@ -130,6 +130,13 @@ module.exports ={
       }
     })
     res.sendStatus(200)
+  },
+
+  getAllList:function(req,res) {
+    let data = req.body
+    console.log(data.id)
+    phone.find({userId:data.id}).exec().then(data => res.json(data))
+    
   }
 
 
