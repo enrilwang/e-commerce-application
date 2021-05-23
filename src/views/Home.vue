@@ -360,17 +360,16 @@ export default {
               .then((res) => {
                 console.log(res.data[0].price)
                 Max=res.data[0].price
-              })
-              console.log(Max)
+              // })
+              // console.log(Max)
         for(i=0;i<this.searchItem.length;i++){
-          if(this.searchItem[i].price<=Max){
+          if(this.searchItem[i].price<=this.MaxPrice){
             afterFilter.push(this.searchItem[i])
           }
         }   
-        // console.log(afterFilter)
+        console.log(afterFilter)
         this.searchItem=afterFilter  
-        // })
-        // console.log(this.searchItem)      
+        })
       },
       
       add(post){
@@ -401,8 +400,7 @@ export default {
                            
                            num += parseInt(value)
                             post.quantity = num
-                            //console.log(this.$children[0].$children[0].$forceUpdate())
-                            // this.$children[0].$children[0].$forceUpdate()
+                           
                           this.$message({
                             type: 'success',
                             message: 'Your quantity is:' + value,
@@ -494,7 +492,20 @@ export default {
       },
 
       logout(){
-        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
+        this.$confirm('Do you wish to log out', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+
+          
+          this.$message({
+
+            
+            type: 'success',
+            message: 'You have logged out.'
+          },
+          axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res =>{
               if(res.status === 200){
                  this.memberState=false
@@ -503,6 +514,14 @@ export default {
               }
               
             })
+          );
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Logout canceled'
+          });          
+        });
+
       },
       
   }
