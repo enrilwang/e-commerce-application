@@ -99,9 +99,13 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
+<<<<<<< HEAD
                     <!-- <el-badge  class="item"  :value="post.quantity" v-model='post[index]'> -->
                     <el-badge  class="item"  :value="post.quantity" v-model='post[index]'>
 
+=======
+                    <el-badge  class="item" v-model = "post.quantity">
+>>>>>>> 099786623535a0653a9c9af9dbdfd07da557014f
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
@@ -253,7 +257,17 @@ export default {
       this.posts = responsesOne.data;
       //handle the bestSeller data
       this.bestSeller = responsesTwo.data;
+      console.log(typeof(this.bestSeller[0].avgRating))
+      for(let i = 0; i < this.bestSeller.length;i++){
+        this.bestSeller[i].avgRating = this.bestSeller[i].avgRating.toFixed(2)
+      }      
+       
       this.user = responsesThree.data;
+      for (let i = 0;i < this.posts.length;i++) {
+        this.posts[i]["quantity"] = 0;
+        this.bestSeller[i]["quantity"] = 0;
+      }
+     
       
     })).catch(error=>{
       console.log(error)
@@ -308,8 +322,7 @@ export default {
         for( i=0;i<1;i++){
           this.Item.push(post)
         }
-        // console.log(post)
-        // console.log(this.Item);
+
         for(i=0;i<this.Item[0].reviews.length;i++){
           for(m=0; m < this.user.length; m++){
             if(this.Item[0].reviews[i].reviewer == this.user[m]._id){
@@ -365,6 +378,7 @@ export default {
        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   
+<<<<<<< HEAD
                   if(Object.keys(res.data.result.cookie).length > 0) {
                       
                       
@@ -411,37 +425,87 @@ export default {
                             })
                               
                         
-                            
-                          } else {
-                            this.quantity -= parseInt(value);
-                            alert("quantity cannot exceed stock");
-                          }
-                        
-                          
-                          
-                      }else{
-                        alert("type quanitity that you need")
+=======
+            if(Object.keys(res.data.result.cookie).length > 0) {
+
+                this.$prompt('Please enter the quantity',  {
+                  confirmButtonText: 'OK',
+                  cancelButtonText: 'Cancel',
+                
+                }).then(({ value })=>{
+                  if(value != null) {
+                    if(post.stock >= value && value >= 0) {
+                      this.cartItem=post
+                      //this.cartItem["quantity"] = value;
+                      this.cartItem.quantity = value
+                      const user = {
+                        user:res.data.result.cookie,
+                        item:this.cartItem
                       }
-                    
-                    
-                    }).catch(() => {
-                      this.$message({
-                        type: 'info',
-                        message: 'Input cancelled'
-                      });       
-                    });
+                      axios.post("http://localhost:3000/add",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
+                        .then(res => {
+                          
+                        if(res.status === 200){
+                           let num = parseInt(post.quantity)
+                           
+                           num += parseInt(value)
+                            post.quantity = num
+                            //console.log(this.$children[0].$children[0].$forceUpdate())
+                            // this.$children[0].$children[0].$forceUpdate()
+                          this.$message({
+                            type: 'success',
+                            message: 'Your quantity is:' + value,
+>>>>>>> 099786623535a0653a9c9af9dbdfd07da557014f
+                            
+                          });
+                          
+                        }else if(res.status === 201){
+                          
+                            console.log("same item")
+                        }else {
+                          const error = new Error(res.error);
+                          throw error;
+                        }
+                      })
+                      .catch(error => {
+                        console.log(error);
+                        alert('Error, please try again');
+                      })
                       
+<<<<<<< HEAD
                                   
                   }else {
                     console.log(typeof(post))
                     localStorage.setItem('item', JSON.stringify(post) )
                       this.$router.push("sign-in")
+=======
+>>>>>>> 099786623535a0653a9c9af9dbdfd07da557014f
                       
-                  }
+                    } else {
+                      
+                      alert("quantity cannot exceed stock/quantiity cannot be negative number");
+                    }
+                }else{
+                  alert("type quanitity that you need")
+                }
+              
+              
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: 'Input cancelled'
+                });       
+              });
                 
-           
-         
-              }) 
+                            
+            }else {
+                this.$router.push("sign-in")
+                
+            }
+          
+      
+    
+        }) 
       
         
       
