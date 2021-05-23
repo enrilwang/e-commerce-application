@@ -8,6 +8,8 @@
         <tr>
           <th></th>
           <th>Title<th>
+          <th>Stock<th>
+          
           <th>Price</th>
           <th>Quantity</th>
           <th>Update Quantity</th>
@@ -17,6 +19,8 @@
           <td><input type="checkbox"  @click="check($event,product)" :value="product.price*product.quantity" v-model="product[key]"></td>
 
           <td>{{ product.title}}</td>  
+          <td></td>
+          <td>{{ product.stock}}</td>
           <td></td>
           <td>{{ product.price}}</td> 
           <td>{{ product.quantity}}</td> 
@@ -32,9 +36,9 @@
       <p>Total:{{total}}</p>
       <a href="javascript:history.go(-1)">
       <el-button type="primary" icon="el-icon-arrow-left" >Previous Page</el-button></a>
-      <router-link to="/">
+      
       <el-button type="success" plain @click="confirm">Confirm</el-button>
-      </router-link>
+      
       <div style="display:none">
         {{selectedItem}}
       </div>
@@ -93,17 +97,16 @@ export default {
 
       editRow(product,index){
         let firstquantity=product.quantity
-        console.log(index)
-        if (product.quantity > product.stock) {
-            
+
+        if (product.id > product.stock) {
+
             alert("quantity cannot exceed stock")
-            product.quantity=firstquantity
-            // console.log(firstquantity)
-        }else if(product.quantity < 0){
+        
+        }else if(product.id < 0){
             alert("quantity cannot be negative number")
         } else{
           const item = {
-            quantity:product.quantity,
+            quantity:product.id,
             product:product
             
           }
@@ -112,17 +115,14 @@ export default {
             .then(res =>{
               if(res.status === 201){
                 index=this.carts.indexOf(product)
-                 console.log(index)
                 this.carts.splice(index, 1)
-              
+                this.total+=((product.id-firstquantity)*product.price)
               }else if(res.status === 200) {
                 product.quantity=product.id
-                // console.log(typeof(product.id))
                 alert("save successfully")
                 let i=0
                 for(i=0;i<this.selectedItem.length;i++){
                   if (this.selectedItem[i]==product.title){
-                    console.log(product.title)
                     product.id=parseInt(product.id)
                     if(product.id>firstquantity){
                       console.log(product.id-firstquantity)
@@ -190,7 +190,16 @@ export default {
           carts:this.carts,
           length:this.carts.length
         }
-        axios.post("http://localhost:3000/updateStock",qs.stringify(carts))
+        let num = 0
+        for (let i = 0; i < this.carts.length; i++) {
+          if (this.carts[i].quantity > this.carts[i].stock) {
+            alert("quantitiy cannot exceed stock")
+          }else {
+            num += 1
+          }
+        }
+        if (num == this.carts.length) {
+          axios.post("http://localhost:3000/updateStock",qs.stringify(carts))
             .then(res => {
             if(res.status === 200){
               
@@ -206,6 +215,9 @@ export default {
             console.log(error);
             alert('Error login, please try again');
           })
+          this.$router.push("/")
+        }
+        
 
       }
 
