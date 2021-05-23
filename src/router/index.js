@@ -11,7 +11,6 @@ const routes = [
     component: Home,
 
     meta: {
-      pageTitle: 'homepage',
       keepAlive: true
   }
 

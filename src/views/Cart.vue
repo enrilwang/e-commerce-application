@@ -75,6 +75,9 @@ export default {
   
 
   
+  
+
+  
  
   methods:{
       deleteRow(product,index,carts){
@@ -215,13 +218,16 @@ export default {
             console.log(error);
             alert('Error login, please try again');
           })
-          this.$router.push("/")
+          this.$forceUpdate();
+          // this.$router.push("/")
+          // this.$router.go("Home")
         }
         
 
       }
 
-  }
+  },
+  
 
   
   
