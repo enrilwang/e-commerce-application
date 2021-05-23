@@ -218,7 +218,6 @@ export default {
             console.log(error);
             alert('Error login, please try again');
           })
-          // this.$forceUpdate();
           this.$router.push("/")
           // this.$router.go("Home")
         }

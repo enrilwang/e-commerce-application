@@ -324,14 +324,51 @@ export default {
 
 
       logout(){
-        axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
+        this.$confirm('Do you wish to log out', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+
+          
+          this.$message({
+
+            
+            type: 'success',
+            message: 'You have logged out.'
+          },
+          axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res =>{
               if(res.status === 200){
-                 this.$router.push("/")
+                 this.memberState=false
+                 this.visitorState=true
+                 
               }
               
-            })
+            }),
+            this.$router.push("/")
+          );
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Logout canceled'
+          });          
+        });
+
       },
+
+
+
+
+
+      //   axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
+      //       .then(res =>{
+      //         if(res.status === 200){
+      //            this.$router.push("/")
+      //         }
+              
+      //       })
+      // },
 
      changeStatus: function($event,post,index){
         
