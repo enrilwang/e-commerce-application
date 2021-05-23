@@ -11,7 +11,7 @@ router.get('/search/:title',phoneController.getByTitle)
 router.get('/user', userController.getAllUser);
 router.get('/',userController.getCookie);
 router.get('/cart',userPhoneCOntroller.getAllCart)
-
+router.get('/maxPrice',phoneController.getMaxPrice)
 router.get('/signout',userController.signOut)
 
 

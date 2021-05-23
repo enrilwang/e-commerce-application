@@ -44,6 +44,17 @@ module.exports ={
               seller:{$first : "$seller"},
               avgRating:{$avg:'$reviews.rating'}
           }
+          // $project:{
+          //   _id:'$_id',
+          //   title:{$first : "$title"},
+          //     price:{$first : "$price"},
+          //     brand:{$first : "$brand"},
+          //     image:{$first : "$image"},
+          //     stock:{$first : "$stock"},
+          //     reviews:{"$push" : "$reviews"},
+          //     seller:{$first : "$seller"},
+          //   avgRating:{$round:['$avgRating',2]}
+          // }
 
       },
       {$match:{$or:
@@ -118,6 +129,11 @@ module.exports ={
     res.sendStatus(200)
   },
 
+  getMaxPrice:function(req,res,next) {
+    phone.find().sort({price:-1}).limit(1).exec()
+        .then(data => res.json(data))
+        .catch()
+  },
   changeStatus:function(req,res) {
     let data = req.body
     console.log(data.product._id)
@@ -138,6 +154,8 @@ module.exports ={
     phone.find({userId:data.id}).exec().then(data => res.json(data))
     
   }
+
+  
 
 
 
