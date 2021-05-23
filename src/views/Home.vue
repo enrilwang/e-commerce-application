@@ -85,38 +85,22 @@
                   <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
                     <p style="color:orange; font-size:18px">Show full comment</p>
                   </a> -->
-                  <li v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index">
-                    <template v-if="reviewList.length<=3"> 
-                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index"> 
 
-                      <h4>Comment:{{index+1}}</h4>
-                  
-                  <span>{{review.comment.slice(0, 200)}}...</span>
                   
                   
-                  <span >{{review.comment}}</span>
-                  <span><br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br></span>
-                  <button type="text" @click="activateShowMore" >
-                    Show full comment</button>
-                    </span>
-                  </template>
-                <!-- <span v-else>detail(post) -->
-                  </li>
 
 
-                  <span v-if="reviewList.length>3"  v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
+                  <!-- <span v-if="reviewList.length>3"  v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
                   
                   <h4>Comment:{{index+1}}</h4>
                   <br>
-                  <span >{{review.comment.slice(0, 200)}}...</span>
+                  <span >{{review.comment}}</span>
                   <span >{{review.comment}}</span>
                   <br>————{{review.reviewer}}
                   (rating:{{review.rating}})<br>
-                  <!-- <a class="showMore"  @click="activateShowMore" >
-                    <p style="color:orange; font-size:18px">Show full comment</p>
-                  </a> -->
-                  </span>
+                  <span><button type="text" v-if="!showMoreActivated" @click="activateShowMore" >
+                    Show full comment</button></span>
+                  </span> -->
 
                   <!-- Show all comment -->
                   <!-- <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
