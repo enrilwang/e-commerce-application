@@ -99,13 +99,8 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-<<<<<<< HEAD
-                    <!-- <el-badge  class="item"  :value="post.quantity" v-model='post[index]'> -->
-                    <el-badge  class="item"  :value="post.quantity" v-model='post[index]'>
-
-=======
+                    <input type="text" placeholder="quantity" >
                     <el-badge  class="item" v-model = "post.quantity">
->>>>>>> 099786623535a0653a9c9af9dbdfd07da557014f
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
@@ -212,7 +207,7 @@ export default {
           {id:"8",name:"Samsung"},
           {id:"9",name:"Sony"},
         ],
-      MaxPrice:799.98,
+      MaxPrice:0,
       reviewList:[],
       readMoreActivated: false,
       showMoreActivated: false,
@@ -357,20 +352,24 @@ export default {
       
       },
       priceInput(){
+        let Max=0
         let i=0
         let afterFilter = []
         this.searchItem=this.beforeFilter
           axios.get("http://localhost:3000/maxprice")
               .then((res) => {
-                console.log(res.data.price)
+                console.log(res.data[0].price)
+                Max=res.data[0].price
               })
+              console.log(Max)
         for(i=0;i<this.searchItem.length;i++){
-          if(this.searchItem[i].price<=this.MaxPrice){
+          if(this.searchItem[i].price<=Max){
             afterFilter.push(this.searchItem[i])
           }
         }   
         // console.log(afterFilter)
         this.searchItem=afterFilter  
+        // })
         // console.log(this.searchItem)      
       },
       
@@ -378,54 +377,6 @@ export default {
        axios.get("http://localhost:3000",{headers:{"Content-Type":"application/json"},withCredentials:true})
               .then(res =>{
                   
-<<<<<<< HEAD
-                  if(Object.keys(res.data.result.cookie).length > 0) {
-                      
-                      
-                      this.$prompt('Please enter the quantity',  {
-                        confirmButtonText: 'OK',
-                        cancelButtonText: 'Cancel',
-                      
-                      }).then(({ value })=>{
-                        if(value != null) {
-                          if(post.stock >= value && post.stock >= this.quantity) {
-                            
-                            this.cartItem=post
-                            this.cartItem["quantity"] = value;
-                          // 0 means not created by user
-                            this.cartItem["created"] = 0;
-                            const user = {
-                            
-                              user:res.data.result.cookie,
-                              item:this.cartItem
-                            }
-                            axios.post("http://localhost:3000/add",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
-                              .then(res => {
-                                
-                              if(res.status === 200){
-                                this.value+=parseInt(value)
-                                console.log(this.value)
-                                
-                                this.$message({
-                                  type: 'success',
-                                  message: 'Your quantity is:' + value,
-                                          
-                                });
-                                
-                              }else if(res.status === 201){
-                                  console.log("same item")
-                              }else {
-                                const error = new Error(res.error);
-                                throw error;
-                              }
-                            })
-                            .catch(error => {
-                              console.error(error.response.data);
-                              alert('Error, please try again');
-                            })
-                              
-                        
-=======
             if(Object.keys(res.data.result.cookie).length > 0) {
 
                 this.$prompt('Please enter the quantity',  {
@@ -455,7 +406,6 @@ export default {
                           this.$message({
                             type: 'success',
                             message: 'Your quantity is:' + value,
->>>>>>> 099786623535a0653a9c9af9dbdfd07da557014f
                             
                           });
                           
@@ -472,14 +422,6 @@ export default {
                         alert('Error, please try again');
                       })
                       
-<<<<<<< HEAD
-                                  
-                  }else {
-                    console.log(typeof(post))
-                    localStorage.setItem('item', JSON.stringify(post) )
-                      this.$router.push("sign-in")
-=======
->>>>>>> 099786623535a0653a9c9af9dbdfd07da557014f
                       
                     } else {
                       
