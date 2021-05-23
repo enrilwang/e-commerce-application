@@ -13,7 +13,7 @@ router.get('/',userController.getCookie);
 router.get('/cart',userPhoneCOntroller.getAllCart)
 router.get('/maxPrice',phoneController.getMaxPrice)
 router.get('/signout',userController.signOut)
-
+router.get('/getAll',phoneController.getAll)
 
 //post request
 router.post('/signUp', userController.signUp);

@@ -136,7 +136,7 @@
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
                     <input type="text" placeholder="quantity" >
-                    <el-badge  class="item" v-model = "post.quantity">
+                    <el-badge  class="item" :value="post.quantity">
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
                   </div>
@@ -225,9 +225,9 @@ export default {
         activeIndex: '1',
         name:'',
         Item:[],
-        value: 0,
+        
         beforeFilter:[],
-        quantity:0,
+        
         id:"",
         // Cookie:{},
         
@@ -250,8 +250,8 @@ export default {
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
       cartItem:{},
-      userList:[]
-      
+      userList:[],
+      allData:[]
       }
   },
   
@@ -275,19 +275,25 @@ export default {
     let url = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
     let urlUser = 'http://localhost:3000/user';
-    const reqOne =  axios.get(url)
+    const reqOne =  axios.get(urlSoon)
     const reqTwo = axios.get(urlSeller)
     const reqThree = axios.get(urlUser);
-    axios.all([reqOne, reqTwo,reqThree]).then(axios.spread((...responses)=>{
+    const reqFour = axios.get(urlAll);
+
+    
+
+
+    axios.all([reqOne, reqTwo,reqThree,reqFour]).then(axios.spread((...responses)=>{
       const responsesOne = responses[0]
       const responsesTwo = responses[1]
       const responsesThree = responses[2]
-
+      const responsesFour = responses[3]
       //handle the sold out soon data
+
       this.posts = responsesOne.data;
       //handle the bestSeller data
       this.bestSeller = responsesTwo.data;
-      console.log(typeof(this.bestSeller[0].avgRating))
+      this.allData = responsesFour.data;
       for(let i = 0; i < this.bestSeller.length;i++){
         this.bestSeller[i].avgRating = this.bestSeller[i].avgRating.toFixed(2)
       }      
@@ -336,14 +342,20 @@ export default {
         axios.get(url)
               .then((res) => {
                   searchData = res.data;
+                   for(let i = 0; i < searchData.length; i++) {
+                      searchData[i]["quantity"] = 0;
+                      
+                    }
                   for(i=0;i<searchData.length;i++){
                     this.searchItem=searchData
                     this.beforeFilter=searchData       
                   }
               }).catch(err=>console.log(err))
         axios.get(urlUser).then(res=>{this.user = res.data;})
-        
+       
       },
+
+
       detail(post){
         this.Item=[]
         this.reviewList =[]
@@ -420,12 +432,14 @@ export default {
                   confirmButtonText: 'OK',
                   cancelButtonText: 'Cancel',
                 
-                }).then(({ value })=>{
-                  if(value != null) {
-                    if(post.stock >= value && value >= 0) {
+                }).then( value =>{
+                  console.log(typeof(value))
+                  console.log(value)
+                  if(value.value != null) {
+                    if(post.stock >= value.value && value.value >= 0) {
                       this.cartItem=post
-                      //this.cartItem["quantity"] = value;
-                      this.cartItem.quantity = value
+                      let newQuantity = post.quantity 
+                      this.cartItem.quantity = parseInt(value.value)
                       const user = {
                         user:res.data.result.cookie,
                         item:this.cartItem
@@ -434,19 +448,19 @@ export default {
                         .then(res => {
                           
                         if(res.status === 200){
-                           let num = parseInt(post.quantity)
-                           
-                           num += parseInt(value)
-                            post.quantity = num
+                          
+                          post.quantity = parseInt(value.value)
                            
                           this.$message({
                             type: 'success',
-                            message: 'Your quantity is:' + value,
+                            message: 'Your quantity is:' + value.value,
                             
                           });
                           
                         }else if(res.status === 201){
-                          
+                            newQuantity += parseInt(value.value)
+                            post.quantity  = newQuantity
+      
                             console.log("same item")
                         }else {
                           const error = new Error(res.error);
@@ -464,7 +478,7 @@ export default {
                       alert("quantity cannot exceed stock/quantiity cannot be negative number");
                     }
                 }else{
-                  alert("type quanitity that you need")
+                  alert("type quantity that you need")
                 }
               
               
