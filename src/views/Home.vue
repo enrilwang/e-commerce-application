@@ -2,14 +2,13 @@
   <body>
     <div class="home" >
       <div class="topBar" v-show="topState">
-        
+        <!-- <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
+        background-color="#f5bc62" text-color="#409EFF" active-text-color="white"> -->
         <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
         background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
         <h1>Phone Zone</h1>
-        <el-menu-item index="1" >Home</el-menu-item>
-        
-        <el-menu-item index="2"><el-button type="text" class="button"@click="signin()"  v-show="visitorState">Sign-in/Sign-up</el-button></el-menu-item> 
-
+        <el-menu-item index="1">Home</el-menu-item>
+        <el-menu-item index="2"><router-link to="/sign-in" v-show="visitorState">Sign-in/Sign-up</router-link></el-menu-item> 
         <el-menu-item index="3"><el-button type="text" class="button"@click="cart()">Checkout</el-button></el-menu-item>  
         <!-- <div class="isLogin"> -->
         <el-menu-item index="4"><el-button type="text" class="button"@click="userInfo()" v-show="memberState">User</el-button></el-menu-item> 
@@ -71,7 +70,7 @@
                   <span><h3>Seller:</h3> {{name}}</span><br>
                   <span><h3>Price:</h3> ${{post.price}}</span><br>
                   <span><h3>Reviews:</h3></span>
-                  <!-- <span v-if="!showMoreActivated" v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
+                  <span v-if="!showMoreActivated" v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
                   <h4>Comment:{{index+1}}</h4>
                   <br>
                   <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
@@ -84,42 +83,10 @@
                   (rating:{{review.rating}})<br></span>
                   <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
                     <p style="color:orange; font-size:18px">Show full comment</p>
-                  </a> -->
-                  <li v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index">
-                    <template v-if="reviewList.length<=3"> 
-                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index"> 
-
-                      <h4>Comment:{{index+1}}</h4>
-                  
-                  <span>{{review.comment.slice(0, 200)}}...</span>
-                  
-                  
-                  <span >{{review.comment}}</span>
-                  <span><br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br></span>
-                  <button type="text" @click="activateShowMore" >
-                    Show full comment</button>
-                    </span>
-                  </template>
-                <!-- <span v-else>detail(post) -->
-                  </li>
-
-
-                  <span v-if="reviewList.length>3"  v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
-                  
-                  <h4>Comment:{{index+1}}</h4>
-                  <br>
-                  <span >{{review.comment.slice(0, 200)}}...</span>
-                  <span >{{review.comment}}</span>
-                  <br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br>
-                  <!-- <a class="showMore"  @click="activateShowMore" >
-                    <p style="color:orange; font-size:18px">Show full comment</p>
-                  </a> -->
-                  </span>
+                  </a>
 
                   <!-- Show all comment -->
-                  <!-- <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
+                  <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
                   <h4>Comment:{{index+1}}</h4>
                   <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
                   <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
@@ -127,10 +94,7 @@
                   </a>
                   <span v-if="readMoreActivated">{{review.comment}}</span>
                   <br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br></span> -->
-
-                  
-
+                  (rating:{{review.rating}})<br></span>
 
                   
                   <div class="bottom clearfix">
@@ -149,7 +113,8 @@
 
 
       <div class="row" v-show="homeState">
-       
+        <!-- <HomeComponent />
+        -->
         <div class="phones">
           <el-row>
             <h2><center>Sold out soon</center></h2>
@@ -269,10 +234,10 @@ export default {
 },
   created(){
     // this.getCookie()
-    // this.checkShowMore(),
-    // this.checkShowMore()
-    
-    let url = "http://localhost:3000/soldsoon";
+    this.checkShowMore(),
+    this.checkShowMore()
+    let urlAll = "http://localhost:3000/getAll"
+    let urlSoon = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
     let urlUser = 'http://localhost:3000/user';
     const reqOne =  axios.get(urlSoon)
@@ -311,26 +276,23 @@ export default {
   },
   methods: {
 
-    signin(){
-      this.$router.push('/Sign-in')
-    },
 
-    //  async checkShowMore() {
-    //     console.log(this.reviewList.length)
-    //       if(this.reviewList.length>3) {
-    //         this.showMoreActivated = true
-    //       }else{
-    //         this.showMoreActivated =false
-    //       }
-    //   },
-    //   checkReadMore() {
-    //     for(let i = 0; i < this.reviewList.length; i++) {
-    //       if (this.reviewList[i].comment.length > 200) {
-    //         readMoreActivated = true
-    //       }
-    //     }
+     async checkShowMore() {
+        console.log(this.reviewList.length)
+          if(this.reviewList.length>3) {
+            this.showMoreActivated = true
+          }else{
+            this.showMoreActivated =false
+          }
+      },
+      checkReadMore() {
+        for(let i = 0; i < this.reviewList.length; i++) {
+          if (this.reviewList[i].comment.length > 200) {
+            readMoreActivated = true
+          }
+        }
           
-    //   },
+      },
       SendSearch: function () {
         this.homeState=false;
         this.searchState=true
@@ -509,7 +471,7 @@ export default {
         this.readMoreActivated = true;
       },
       activateShowMore(){
-        this.showMoreActivated = true;
+        this.showMoreActivated = !this.showMoreActivated;
       },
       back(){
         this.homeState=true;
