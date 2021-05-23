@@ -355,33 +355,35 @@ export default {
                             this.cartItem=post
                             this.cartItem["quantity"] = value;
                           // 0 means not created by user
-                          this.cartItem["created"] = 0;
-                          const user = {
-                          
-                            user:res.data.result.cookie,
-                            item:this.cartItem
-                          }
-                          axios.post("http://localhost:3000/add",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
-                            .then(res => {
-                              
-                            if(res.status === 200){
-                              
-                              this.$message({
-                                type: 'success',
-                                message: 'Your quantity is:' + value,
-                                        
-                              });
-                              
-                            }else {
-                              const error = new Error(res.error);
-                              throw error;
-                            }
-                          })
-                          .catch(error => {
-                            console.error(error.response.data);
-                            alert('Error, please try again');
-                          })
+                            this.cartItem["created"] = 0;
+                            const user = {
                             
+                              user:res.data.result.cookie,
+                              item:this.cartItem
+                            }
+                            axios.post("http://localhost:3000/add",JSON.stringify(user),{headers:{"Content-Type":"application/json"}})
+                              .then(res => {
+                                
+                              if(res.status === 200){
+                                
+                                this.$message({
+                                  type: 'success',
+                                  message: 'Your quantity is:' + value,
+                                          
+                                });
+                                
+                              }else if(res.status === 201){
+                                  console.log("same item")
+                              }else {
+                                const error = new Error(res.error);
+                                throw error;
+                              }
+                            })
+                            .catch(error => {
+                              console.error(error.response.data);
+                              alert('Error, please try again');
+                            })
+                              
                         
                             
                           } else {

@@ -49,7 +49,6 @@ module.exports ={
             res.sendStatus(201);
         }else{
             newUser.save().then(() => {
-              console.log(newUser._id)
               res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
               res.sendStatus(200)
             })

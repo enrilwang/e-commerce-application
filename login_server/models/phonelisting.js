@@ -23,7 +23,7 @@ var phoneSchema = new mongoose.Schema({
 phoneSchema.statics.findPhoneWithTitle = function(title, callback){
     var str = eval("/" + title +"/i")
     return this.find({'title': {$regex:str},stock:{$gt:0}}).exec(callback)
-  }
+}
 
 var phone = mongoose.model("Phonelisting", phoneSchema, "phones");
 phone.update({brand:"Samsung"},{$set:{image:"Samung.jpeg"}})

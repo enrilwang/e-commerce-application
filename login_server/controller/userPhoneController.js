@@ -17,23 +17,43 @@ module.exports ={
   add:function(req, res, next) {
       var newUser = new userPhone();
       let data = req.body;
-  
-      newUser.email = data.user.userEmail;
-      newUser.userid = data.user.id;
       newUser.title = data.item.title;
-      newUser.price = data.item.price;
-      newUser.brand = data.item.brand;
-      newUser.image = data.item.image;
-      newUser.stock = data.item.stock;
-      newUser.reviews = data.item.reviews;
-      newUser.seller = data.item.seller;
-      newUser.quantity = data.item.quantity;
-      newUser.created = false;
-      newUser.save().then(() => {
-        res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
-        res.sendStatus(200)
-      })
-     .catch(err => next(err))
+      
+      newUser.findTitle(function(err,result){
+        if(err){
+            console.log("error!");
+        }else if(result[0]){
+            userPhone.update({title: data.item.title},{$inc:{quantity: data.item.quantity}}, function(err,res){
+                if(err){
+                  console.log(err)
+                }else{
+                  
+                  console.log("update successfully")
+                }
+            })
+            res.sendStatus(201);
+        }else{
+            newUser.email = data.user.userEmail;
+            newUser.userid = data.user.id;
+            
+            newUser.price = data.item.price;
+            newUser.brand = data.item.brand;
+            newUser.image = data.item.image;
+            newUser.stock = data.item.stock;
+            newUser.reviews = data.item.reviews;
+            newUser.seller = data.item.seller;
+            newUser.quantity = data.item.quantity;
+            newUser.created = false;
+            newUser.save().then(() => {
+                res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+                res.sendStatus(200)
+            })
+            .catch(err => next(err))
+        }
+    }) 
+
+      
+      
       
   },
 
@@ -84,8 +104,8 @@ module.exports ={
               
               console.log("update successfully")
             }
-      })
-      res.sendStatus(200)
+        })
+        res.sendStatus(200)
     }
 
   },
