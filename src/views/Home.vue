@@ -70,24 +70,7 @@
                   <span><h3>Seller:</h3> {{name}}</span><br>
                   <span><h3>Price:</h3> ${{post.price}}</span><br>
                   <span><h3>Reviews:</h3></span>
-                  <span v-if="!showMoreActivated" v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
-                  <h4>Comment:{{index+1}}</h4>
-                  <br>
-                  <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
                   
-                  <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
-                  <p style="color:#409EFF;">Read more</p>
-                  </a>
-                  <span v-if="readMoreActivated">{{review.comment}}</span>
-                  <br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br></span>
-                  <a class="showMore" v-if="!showMoreActivated" @click="activateShowMore" >
-                    <p style="color:orange; font-size:18px">Show full comment</p>
-                  </a> -->
-
-                  
-                  
-                
                   <div class="notShow" v-show="NotshowBoth">
                     <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
                     <h4>Comment:{{index+1}}</h4>
@@ -128,31 +111,10 @@
                     <button type="text"  @click="activateShowMore" >Show full comment</button></span>
                   </div>
 
-                  <!-- <div class="notShow" v-show="ReadMoreActivated">
-                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
-                    <h4>Comment:{{index+1}}</h4><br>
-                    <span>{{review.comment}}</span>
-                    <br>————{{review.reviewer}}
-                    (rating:{{review.rating}})<br></span>
-                    <span v-if="reviewList.length>3">
-                    <button type="text"  @click="activateShowMore" >Show full comment</button></span>
-                  </div> -->
                   
-
-                  <!-- Show all comment -->
-                  <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
-                  <h4>Comment:{{index+1}}</h4>
-                  <span v-if="!readMoreActivated">{{review.comment.slice(0, 200)}}...</span>
-                  <a class="showMore" v-if="!readMoreActivated" @click="activateReadMore" >
-                  <p style="color:#409EFF;">Read more</p>
-                  </a>
-                  <span v-if="readMoreActivated">{{review.comment}}</span>
-                  <br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br></span>
-
                   
                   <div class="bottom clearfix">
-                    <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
+                    <el-button type="primary" icon="el-icon-arrow-left" @click="back">Back home</el-button>
                     <el-badge  class="item" :value="post.quantity">
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
@@ -286,7 +248,6 @@ export default {
     if(from.name == "Cart" && to.name == "Home"){
         to.meta.keepAlive = false
         //location.reload()
-      
     }
     
     next();
