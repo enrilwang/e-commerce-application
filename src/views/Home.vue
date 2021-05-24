@@ -403,6 +403,11 @@ export default {
 
 
       detail(post){
+        this.readMoreActivated = false;
+        this.NotshowBoth = true;
+        this.showBoth = false;
+        this.showMoreActivated = false
+
         this.searchItemState=true
         this.homeItemState=false
         this.Item=[]
@@ -433,6 +438,11 @@ export default {
         
       },
       Homedetail(post){
+        this.readMoreActivated = false;
+        this.NotshowBoth = true;
+        this.showBoth = false;
+        this.showMoreActivated = false
+        
         this.searchItemState=false
         this.homeItemState=true
         this.homeItem=[]
