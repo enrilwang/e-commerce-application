@@ -295,7 +295,7 @@ export default {
           console.log(error);
           alert('Error, please try again');
         })
-
+        this.showListing()
       },
 
 

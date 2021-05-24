@@ -165,6 +165,16 @@ module.exports ={
             console.log("update successfully")
           }
         })
+        res.json({
+        
+          result:{
+            userName:userNow.firstName + " " + userNow.lastName,
+            userEmail:userNow.email,
+            
+          }
+        })
+        res.clearCookie("userEmail");
+        res.clearCookie("userName");
         res.sendStatus(200)
       }else {
         res.sendStatus(201)
