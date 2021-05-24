@@ -58,7 +58,7 @@ export default {
       return{
         
         carts:[],
-        total:0,
+        total:0.00,
         amount:'',
         checked:false,
         selectedItem:[]
@@ -112,7 +112,16 @@ export default {
               if(res.status === 201){
                 index=this.carts.indexOf(product)
                 this.carts.splice(index, 1)
-                this.total+=((product.id-firstquantity)*product.price)
+                 for(let i=0;i<this.selectedItem.length;i++){
+                  if (this.selectedItem[i]==product.title){
+                    product.id=parseInt(product.id)
+                   
+                    this.total-= Number(parseFloat(firstquantity*product.price).toFixed(2))
+                  }
+
+                }
+                
+                //this.total+=((product.id-firstquantity)*product.price)
               }else if(res.status === 200) {
                 product.quantity=product.id
                 alert("save successfully")
@@ -121,14 +130,11 @@ export default {
                   if (this.selectedItem[i]==product.title){
                     product.id=parseInt(product.id)
                     if(product.id>firstquantity){
-                      console.log(product.id-firstquantity)
-                      this.total+=((product.id-firstquantity)*product.price)
-                      console.log(this.total)
-                    }else if(product.id==0){
-                      this.total-=firstquantity*product.price
-                    }
-                    else{
-                    this.total-=((firstquantity-product.id)*product.price)
+                      
+                      this.total+=Number(parseFloat((product.id-firstquantity)*product.price).toFixed(2))
+                     
+                    }else{
+                      this.total-=Number(parseFloat((firstquantity-product.id)*product.price).toFixed(2))
                     }
                 
 
@@ -151,12 +157,14 @@ export default {
       check: function(e,product) {
         if (e.target.checked) {
 
-          this.total+= parseFloat(e.target.value)
+          this.total = Number(parseFloat(this.total + parseFloat(e.target.value)).toFixed(2))
+
           this.selectedItem.push(product.title)
         }
         else{
+        
           let index=0
-          this.total= this.total-e.target.value
+          this.total= Number(parseFloat(this.total-parseFloat(e.target.value)).toFixed(2))
           index=this.selectedItem.indexOf(product.title)
           this.selectedItem.splice(index,1)
          
