@@ -88,19 +88,57 @@
 
                   
                   
+                
+                  <div class="notShow" v-show="NotshowBoth">
+                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4>
+                    <br>
+                    <span v-if="review.comment.length>200">{{review.comment.slice(0, 200)}}
+                      <button type="text"  @click="activateReadMore" >
+                      Read More</button>
+                    </span>
+                    <span v-else>{{review.comment}}</span>
 
-
-                  <!-- <span v-if="reviewList.length>3"  v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index" >
-                  
-                  <h4>Comment:{{index+1}}</h4>
-                  <br>
-                  <span >{{review.comment}}</span>
-                  <span >{{review.comment}}</span>
-                  <br>————{{review.reviewer}}
-                  (rating:{{review.rating}})<br>
-                  <span><button type="text" v-if="!showMoreActivated" @click="activateShowMore" >
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                    <span v-if="reviewList.length>3">
+                      <button type="text"  @click="activateShowMore" >
                     Show full comment</button></span>
-                  </span> -->
+                  </div>
+                  
+                  <div class="Show" v-show="showMoreActivated">
+                    <span  v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" > 
+                    <h4>Comment:{{index+1}}</h4>
+                    <br>
+                    <span v-if="review.comment.length>200">{{review.comment.slice(0, 200)}}
+                      <button type="text"  @click="activateReadMore" >
+                      Read More</button>
+                    </span>
+                    <span v-else>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                  </div>
+                  
+                  <div class="notShow" v-show="readMoreActivated">
+                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4><br>
+                    <span>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                    <span v-if="reviewList.length>3">
+                    <button type="text"  @click="activateShowMore" >Show full comment</button></span>
+                  </div>
+
+                  <!-- <div class="notShow" v-show="ReadMoreActivated">
+                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4><br>
+                    <span>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                    <span v-if="reviewList.length>3">
+                    <button type="text"  @click="activateShowMore" >Show full comment</button></span>
+                  </div> -->
+                  
 
                   <!-- Show all comment -->
                   <!-- <span v-if="showMoreActivated" v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" >
@@ -119,7 +157,6 @@
                   
                   <div class="bottom clearfix">
                     <el-button type="primary" icon="el-icon-arrow-left" @click="back">Previous Page</el-button>
-                    <input type="text" placeholder="quantity" >
                     <el-badge  class="item" :value="post.quantity">
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
@@ -230,6 +267,9 @@ export default {
       reviewList:[],
       readMoreActivated: false,
       showMoreActivated: false,
+      // NotshowMoreActivated: true,
+      // NotreadMoreActivated: true,
+      NotshowBoth:true,
       cartList:[],
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
@@ -255,8 +295,8 @@ export default {
     // this.getCookie()
     // this.checkShowMore(),
     // this.checkShowMore()
-    
-    let url = "http://localhost:3000/soldsoon";
+    let urlAll="http://localhost:3000/getAll"
+    let urlSoon = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
     let urlUser = 'http://localhost:3000/user';
     const reqOne =  axios.get(urlSoon)
@@ -361,9 +401,9 @@ export default {
         }
           this.reviewList.push(this.Item[0].reviews[i])
         }
-        if (this.reviewList.length>3) {
-          this.showMoreActivated = true
-        }
+        // if (this.reviewList.length>3) {
+        //   this.showMoreActivated = true
+        // }
      
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
@@ -491,9 +531,13 @@ export default {
       },
       activateReadMore(){
         this.readMoreActivated = true;
+        this.NotshowBoth = false;
+        this.showMoreActivated = false;
       },
       activateShowMore(){
         this.showMoreActivated = true;
+        this.NotshowBoth = false;
+        this.readMoreActivated = false;
       },
       back(){
         this.homeState=true;
