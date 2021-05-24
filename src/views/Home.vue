@@ -32,7 +32,7 @@
           </el-dropdown-menu>
         </el-dropdown>
         <div class="slidecontainer">
-          <input type="range" min="13.33" max="799.98" value="24" class="slider" v-on:input="priceInput" id="mySlider" v-model="MaxPrice">
+          <input type="range" min="0" max="600" value="24" class="slider" v-on:input="priceInput" id="mySlider" v-model="MaxPrice">
           <p class="maxprice">Maximum Price: {{MaxPrice}}</span></p>
         </div>
         <el-row>
@@ -305,7 +305,7 @@ export default {
           {id:"8",name:"Samsung"},
           {id:"9",name:"Sony"},
         ],
-      MaxPrice:0,
+      MaxPrice:600,
       reviewList:[],
       readMoreActivated: false,
       showMoreActivated: false,
