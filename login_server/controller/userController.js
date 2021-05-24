@@ -71,7 +71,7 @@ module.exports ={
     currentUser.checkEmailandPassword(function(err, users){
       if(err){
           res.json({status:"1"})
-          console.log("error!")
+          
       }else if(users[0]){
         let userNow = users[0];
       
@@ -83,7 +83,7 @@ module.exports ={
         res.cookie('id',userNow.id,{maxAge: 3600000})
         res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
         res.setHeader("Access-Control-Allow-Credentials","true")
-        console.log(userNow.id)
+        
         res.json({
           status:'0',
           msg:"",
@@ -99,6 +99,34 @@ module.exports ={
       }
     })
   },
+
+  updateCookie: function(req, res, next){
+    let data = req.body
+  
+        //max age is 10 mins
+        //set the cookie
+    res.cookie('userToken', jwt.sign({data:data.userEmail} , "shhhhh",{expiresIn: "10h"}) ,{maxAge: 3600000})
+    res.cookie('userName',data.userName,{maxAge: 3600000})
+    res.cookie('userEmail', data.userEmail,{maxAge: 3600000})
+    res.cookie('id',data.id,{maxAge: 3600000})
+    res.setHeader("Access-Control-Allow-Origin","http://localhost:8080")
+    res.setHeader("Access-Control-Allow-Credentials","true")
+    
+    res.json({
+      status:'0',
+      msg:"",
+      result:{
+        userName:data.userName,
+        userEmail:data.userEmail,
+        
+      }
+    })
+     
+  
+  },
+
+
+
 
   //log out function 
   signOut: function(req, res) {
@@ -117,7 +145,7 @@ module.exports ={
   updatePassword:function(req, res){
     
     let data = req.body
-    console.log(data)
+   
     let currentPassword = crypto.createHash('md5').update(data.current).digest("hex")
     let newPassword = crypto.createHash('md5').update(data.new).digest("hex")
     var currentUser = new user();
@@ -148,7 +176,7 @@ module.exports ={
   updateProfile:function(req, res){
     
     let data = req.body
-    console.log(data)
+    
     let password = crypto.createHash('md5').update(data.password).digest("hex")
     var currentUser = new user();
     
@@ -165,17 +193,17 @@ module.exports ={
             console.log("update successfully")
           }
         })
+       
         res.json({
-        
+          status:200,
           result:{
-            userName:userNow.firstName + " " + userNow.lastName,
-            userEmail:userNow.email,
+            userName:data.firstName + " " + data.lastName,
+            userEmail:data.email,
             
           }
         })
-        res.clearCookie("userEmail");
-        res.clearCookie("userName");
-        res.sendStatus(200)
+       
+        
       }else {
         res.sendStatus(201)
       }

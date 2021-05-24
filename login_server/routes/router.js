@@ -30,5 +30,5 @@ router.post('/deleteCreated',userPhoneCOntroller.remove)
 router.post('/deletePhone',phoneController.remove)
 router.post('/changeStatus',phoneController.changeStatus)
 router.post('/userAddList',phoneController.getAllList)
-
+router.post('/updateCookie',userController.updateCookie)
 module.exports=router

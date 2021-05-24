@@ -113,7 +113,7 @@ export default {
         out:'',
         checked:false,
         value1:'1',
-
+        name:"",
         state:2,
         form: {
           title: '',
@@ -156,10 +156,31 @@ export default {
              
               axios.post("http://localhost:3000/updateProfile",JSON.stringify(users),{headers:{"Content-Type":"application/json"}})
                   .then(res => {
-                  if(res.status === 200){
+                  if(res.data.status === 200){
                     
-                    alert("Your profile has been updated successfully")
-                    this.$router.push('Sign-in')
+                    this.userEmail = res.data.result.userEmail;
+                    this.name = res.data.result.userName;
+                     const user = {
+                        userEmail:this.userEmail,
+                        userName:this.name,
+                        id:this.id
+                      }
+                       axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
+                              .then(res =>{
+                                if(res.status === 200){
+                                 
+                                }
+                                
+                              }),
+                      axios.post("http://localhost:3000/updateCookie",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
+                        .then(res => {
+                        if(res.status === 200){
+                          alert("Your profile has been updated successfully")
+                        }})
+                          
+                         location.reload()             
+                    
+                    //this.$router.push('Sign-in')
                   }else if(res.status ===201){
                     alert("Sorry, password is not correct")
                   }else {
