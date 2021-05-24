@@ -2,8 +2,7 @@
   <body>
     <div class="home" >
       <div class="topBar" v-show="topState">
-        <!-- <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
-        background-color="#f5bc62" text-color="#409EFF" active-text-color="white"> -->
+
         <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
         background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
         <h1>Phone Zone</h1>
@@ -215,8 +214,7 @@
 
 
       <div class="row" v-show="homeState">
-        <!-- <HomeComponent />
-        -->
+      
         <div class="phones">
           <el-row>
             <h2><center>Sold out soon</center></h2>
@@ -295,10 +293,7 @@ export default {
         searchItemState:false,
         
         beforeFilter:[],
-        
         id:"",
-        // Cookie:{},
-        
         dropdownList:[
           {id:"1",name:"Apple"},
           {id:"2",name:"BlackBerry"},
@@ -317,8 +312,6 @@ export default {
       NotshowBoth:true,
       showBoth:false,
       cartList:[],
-      // product:[],
-      // cartItem:{title:'',price:'',quantity:''}
       cartItem:{},
       userList:[],
       allData:[]
@@ -339,9 +332,7 @@ export default {
         next()
 },
   created(){
-    // this.getCookie()
-    // this.checkShowMore(),
-    // this.checkShowMore()
+ 
     let urlAll="http://localhost:3000/getAll"
     let urlSoon = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
@@ -434,10 +425,6 @@ export default {
         }
           this.reviewList.push(this.Item[0].reviews[i])
         }
-        // if (this.reviewList.length>3) {
-        //   this.showMoreActivated = true
-        // }
-     
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;

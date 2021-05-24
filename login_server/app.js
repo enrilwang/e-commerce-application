@@ -35,9 +35,5 @@ const port = process.env.PORT || 3000
 app.listen(port)
 console.log('app is listening on port: ' + port)
 
-const all=require('./routes/api/all')
-app.use('/api/all',all)
-const login=require('./routes/api/login')
-app.use('/api/login',login)
 
 

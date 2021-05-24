@@ -48,10 +48,6 @@ export default {
       }
 
     },
-    // created()
-    // {
-    // this.window.onpopstate()
-    // },
 
     methods:{
       Signin:function(){
@@ -61,18 +57,13 @@ export default {
         const user = {email:this.email,
                       password:this.pwd
                       }
-        axios.post("api/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
+        axios.post("http://localhost:3000/login",JSON.stringify(user),{headers:{"Content-Type":"application/json"},withCredentials:true})
             .then(res => {
             if(res.status === 200){
            
               alert("Login successfully!")
-             history.pushState('item',"", '/')
-           this.$router.push("/")
-
-            //  window.location.reload();
-            
-
-              
+              history.pushState('item',"", '/')
+              this.$router.push("/")
               
             }else if(res.status ===201){
               alert("Email and/or password incorrect")

@@ -354,19 +354,6 @@ export default {
 
       },
 
-
-
-
-
-      //   axios.get("http://localhost:3000/signout",{headers:{"Content-Type":"application/json"},withCredentials:true})
-      //       .then(res =>{
-      //         if(res.status === 200){
-      //            this.$router.push("/")
-      //         }
-              
-      //       })
-      // },
-
      changeStatus: function($event,post,index){
         
         console.log($event)
@@ -377,7 +364,6 @@ export default {
 
           go = false;
         }else {
-          //post.status = 2
           go = "";
           
         }
@@ -391,8 +377,7 @@ export default {
         axios.post("http://localhost:3000/changeStatus",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
           .then(res =>{
             if(res.status === 200) {
-              // post.status = 1
-              // console.log("good")  
+                console.log("good")
             }
             
         })
@@ -429,7 +414,6 @@ export default {
               
             })
 
-           
        
       },
 
