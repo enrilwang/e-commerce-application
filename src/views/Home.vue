@@ -224,6 +224,17 @@ export default {
         this.getCookie()
 
   },
+  beforeRouteEnter(to,from,next) {
+    console.log(to)
+    console.log(next)
+    if(from.name == "Cart" && to.name == "Home"){
+        to.meta.keepAlive = false
+        //location.reload()
+      
+    }
+    
+    next();
+  },
   beforeRouteLeave(to, from, next) {
         if (to.name == "Sign-in"||to.name == "Cart") {
             from.meta.keepAlive = true
@@ -294,6 +305,7 @@ export default {
           
       },
       SendSearch: function () {
+        
         this.homeState=false;
         this.searchState=true
         this.itemState=false;

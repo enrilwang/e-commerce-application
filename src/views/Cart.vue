@@ -218,7 +218,9 @@ export default {
             console.log(error);
             alert('Error login, please try again');
           })
+          
           this.$router.push("/")
+
           // this.$router.go("Home")
         }
         
