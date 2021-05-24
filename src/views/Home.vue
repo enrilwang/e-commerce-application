@@ -249,16 +249,7 @@ export default {
         this.getCookie()
 
   },
-  beforeRouteEnter(to,from,next) {
-    console.log(to)
-    console.log(next)
-    if(from.name == "Cart" && to.name == "Home"){
-        to.meta.keepAlive = false
-        //location.reload()
-    }
-    
-    next();
-  },
+ 
   beforeRouteLeave(to, from, next) {
         if (to.name == "Sign-in"||to.name == "Cart") {
             from.meta.keepAlive = true
@@ -268,9 +259,7 @@ export default {
         next()
 },
   created(){
-    // this.getCookie()
-    // this.checkShowMore(),
-    // this.checkShowMore()
+ 
     let urlAll="http://localhost:3000/getAll"
     let urlSoon = "http://localhost:3000/soldsoon";
     let urlSeller ='http://localhost:3000/seller';
