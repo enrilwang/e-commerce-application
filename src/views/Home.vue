@@ -2,8 +2,7 @@
   <body>
     <div class="home" >
       <div class="topBar" v-show="topState">
-        <!-- <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
-        background-color="#f5bc62" text-color="#409EFF" active-text-color="white"> -->
+
         <el-menu :default-active="activeIndex"  class="el-menu-demo"  mode="horizontal"  @select="handleSelect"
         background-color="#f5bc62" text-color="#409EFF" active-text-color="white">
         <h1>Phone Zone</h1>
@@ -136,8 +135,7 @@
 
 
       <div class="row" v-show="homeState">
-        <!-- <HomeComponent />
-        -->
+      
         <div class="phones">
           <el-row>
             <h2><center>Sold out soon</center></h2>
@@ -186,15 +184,13 @@
 </template>
 
 <script>
-// import HomeComponent from '../components/HomeComponent'
+
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
 export default {
   name: "Home",
-  components: {
-    // HomeComponent
-  },
+  
   data:function(){
     
       return{
@@ -212,13 +208,9 @@ export default {
         user:[],
         activeIndex: '1',
         name:'',
-        Item:[],
-        
+        Item:[],  
         beforeFilter:[],
-        
         id:"",
-        // Cookie:{},
-        
         dropdownList:[
           {id:"1",name:"Apple"},
           {id:"2",name:"BlackBerry"},
@@ -237,8 +229,6 @@ export default {
       NotshowBoth:true,
       showBoth:false,
       cartList:[],
-      // product:[],
-      // cartItem:{title:'',price:'',quantity:''}
       cartItem:{},
       userList:[],
       allData:[]
@@ -350,10 +340,6 @@ export default {
         }
           this.reviewList.push(this.Item[0].reviews[i])
         }
-        // if (this.reviewList.length>3) {
-        //   this.showMoreActivated = true
-        // }
-     
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;

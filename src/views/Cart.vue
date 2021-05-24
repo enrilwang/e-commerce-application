@@ -47,7 +47,7 @@
   </body>
 </template>
 <script>
-// import Home from "../views/Home"
+
 import axios from "axios"
 import qs from 'qs'
 export default {
@@ -72,13 +72,7 @@ export default {
                   
 
   },
-  
 
-  
-  
-
-  
- 
   methods:{
       deleteRow(product,index,carts){
         const item = {
@@ -89,7 +83,6 @@ export default {
           axios.post("http://localhost:3000/deleteQuantity",JSON.stringify(item),{headers:{"Content-Type":"application/json"}})
             .then(res =>{
               if(res.status === 200){
-                //  console.log(index)
                 index=carts.indexOf(product)
                 carts.splice(index, 1)
               }
@@ -142,17 +135,7 @@ export default {
                   }
 
                 }
-                // product.id=parseInt(product.id)
-                // if(product.id>firstquantity){
-                //    console.log(product.id-firstquantity)
-                //   this.total+=((product.id-firstquantity)*product.price)
-                //   console.log(this.total)
-                // }else if(product.id==0){
-                //   this.total-=firstquantity*product.price
-                // }
-                // else{
-                //   this.total-=((firstquantity-product.id)*product.price)
-                // }
+              
                 
               }
               
@@ -167,24 +150,16 @@ export default {
 
       check: function(e,product) {
         if (e.target.checked) {
-          // console.log(product)
-          this.total+= parseFloat(e.target.value)
-          // this.total+= e.target.value
-          // console.log(product.title)
-          this.selectedItem.push(product.title)
-          // console.log(this.selectedItem)
-          
 
+          this.total+= parseFloat(e.target.value)
+          this.selectedItem.push(product.title)
         }
         else{
           let index=0
           this.total= this.total-e.target.value
-          // console.log(index)
           index=this.selectedItem.indexOf(product.title)
-          console.log(index)
-
           this.selectedItem.splice(index,1)
-          // console.log(this.selectedItem)
+         
         }
       },
 
@@ -221,7 +196,6 @@ export default {
           
           this.$router.push("/")
 
-          // this.$router.go("Home")
         }
         
 
