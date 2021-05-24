@@ -111,6 +111,14 @@
                     <button type="text"  @click="activateShowMore" >Show full comment</button></span>
                   </div>
 
+                   <div class="notShow" v-show="showBoth">
+                    <span v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4><br>
+                    <span>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                  </div>
+
                   
                   
                   <div class="bottom clearfix">
@@ -226,9 +234,8 @@ export default {
       reviewList:[],
       readMoreActivated: false,
       showMoreActivated: false,
-      // NotshowMoreActivated: true,
-      // NotreadMoreActivated: true,
       NotshowBoth:true,
+      showBoth:false,
       cartList:[],
       // product:[],
       // cartItem:{title:'',price:'',quantity:''}
@@ -305,22 +312,8 @@ export default {
   methods: {
 
 
-     async checkShowMore() {
-        console.log(this.reviewList.length)
-          if(this.reviewList.length>3) {
-            this.showMoreActivated = true
-          }else{
-            this.showMoreActivated =false
-          }
-      },
-      checkReadMore() {
-        for(let i = 0; i < this.reviewList.length; i++) {
-          if (this.reviewList[i].comment.length > 200) {
-            readMoreActivated = true
-          }
-        }
-          
-      },
+    
+     
       SendSearch: function () {
         
         this.homeState=false;
@@ -496,15 +489,34 @@ export default {
       handleSelect(key, keyPath) {
         // console.log(key, keyPath);
       },
+      
       activateReadMore(){
-        this.readMoreActivated = true;
-        this.NotshowBoth = false;
-        this.showMoreActivated = false;
+        console.log(this.showMoreActivated)
+        if(this.showMoreActivated == false){
+          this.readMoreActivated = true;
+          this.NotshowBoth = false;
+          this.showBoth = false;
+        }
+        else{
+          this.readMoreActivated = false;
+          this.NotshowBoth = false;
+          this.showBoth = true;
+          this.showMoreActivated = false
+        }
+        
       },
       activateShowMore(){
-        this.showMoreActivated = true;
-        this.NotshowBoth = false;
-        this.readMoreActivated = false;
+        if(this.readMoreActivated == false){
+          this.showMoreActivated = true;
+          this.NotshowBoth = false;
+          this.showBoth = false;
+        }
+        else{
+          this.readMoreActivated = false;
+          this.NotshowBoth = false;
+          this.showBoth = true;
+          this.showMoreActivated = false
+        }
       },
       back(){
         this.homeState=true;
