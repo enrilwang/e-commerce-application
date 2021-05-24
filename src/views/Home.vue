@@ -55,6 +55,84 @@
         </el-row>
       </div>
       <div class="itemcomp" v-show="itemState">
+        <div class="homeItem" v-show="homeItemState">
+         <el-row>
+            <el-col :span="10" v-for="(post,index) in homeItem" 
+              v-bind:item="post"
+              v-bind:index="index"
+              v-bind:key="post.id" >
+              <el-card :body-style="{ padding: '0px' }">
+                <div style="padding: 14px;">  
+                  <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
+                  <span><h3>Title:</h3> {{post.title}}</span><br>
+                  <span><h3>Brand:</h3> {{post.brand}}</span><br>
+                  <span><h3>Stock:</h3> {{post.stock}}</span><br>
+                  <span><h3>Seller:</h3> {{name}}</span><br>
+                  <span><h3>Price:</h3> ${{post.price}}</span><br>
+                  <span><h3>Reviews:</h3></span>
+                  
+                  <div class="notShow" v-show="NotshowBoth">
+                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4>
+                    <br>
+                    <span v-if="review.comment.length>200">{{review.comment.slice(0, 200)}}
+                      <button type="text"  @click="activateReadMore" >
+                      Read More</button>
+                    </span>
+                    <span v-else>{{review.comment}}</span>
+
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                    <span v-if="reviewList.length>3">
+                      <button type="text"  @click="activateShowMore" >
+                    Show full comment</button></span>
+                  </div>
+                  
+                  <div class="Show" v-show="showMoreActivated">
+                    <span  v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index" > 
+                    <h4>Comment:{{index+1}}</h4>
+                    <br>
+                    <span v-if="review.comment.length>200">{{review.comment.slice(0, 200)}}
+                      <button type="text"  @click="activateReadMore" >
+                      Read More</button>
+                    </span>
+                    <span v-else>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                  </div>
+                  
+                  <div class="notShow" v-show="readMoreActivated">
+                    <span v-for="(review,index) in reviewList.slice(0,3)" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4><br>
+                    <span>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                    <span v-if="reviewList.length>3">
+                    <button type="text"  @click="activateShowMore" >Show full comment</button></span>
+                  </div>
+
+                   <div class="notShow" v-show="showBoth">
+                    <span v-for="(review,index) in reviewList" v-bind:item="review" v-bind:index="index">
+                    <h4>Comment:{{index+1}}</h4><br>
+                    <span>{{review.comment}}</span>
+                    <br>————{{review.reviewer}}
+                    (rating:{{review.rating}})<br></span>
+                  </div>
+
+                  
+                  
+                  <div class="bottom clearfix">
+                    <el-button type="primary" icon="el-icon-arrow-left" @click="backHome">Back home</el-button>
+                    <el-badge  class="item" :value="post.quantity">
+                    <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
+                    </el-badge>  
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+         </el-row> 
+        </div>
+      <div class="searchItem" v-show="searchItemState">
         <el-row>
             <el-col :span="10" v-for="(post,index) in Item" 
               v-bind:item="post"
@@ -121,7 +199,7 @@
                   
                   
                   <div class="bottom clearfix">
-                    <el-button type="primary" icon="el-icon-arrow-left" @click="back">Back home</el-button>
+                    <el-button type="primary" icon="el-icon-arrow-left" @click="backSearch">Previous page</el-button>
                     <el-badge  class="item" :value="post.quantity">
                     <el-button type="warning" icon="el-icon-star-off" circle @click="add(post)" >Add to Cart</el-button>
                     </el-badge>  
@@ -129,7 +207,8 @@
                 </div>
               </el-card>
             </el-col>
-          </el-row> 
+        </el-row> 
+      </div>
           
       </div>    
 
@@ -148,7 +227,7 @@
                   <img :src="require('../../public/image/'+post.image)" style="width:100%" class="image"  alt="">
                   <span>Price: ${{post.price}}</span> 
                   <div class="bottom clearfix">
-                    <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
+                    <el-button type="text" class="button" v-on:click="Homedetail(post)">More details</el-button>
                   </div>
                 </div>
               </el-card>
@@ -165,7 +244,7 @@
                   <img :src="require('../../public/image/'+post._id.image)"  style="width:100%"  class="image" alt="">
                   <span>Average rating: {{post.avgRating}}</span>
                   <div class="bottom clearfix">
-                    <el-button type="text" class="button" v-on:click="detail(post)">More details</el-button>
+                    <el-button type="text" class="button" v-on:click="Homedetail(post)">More details</el-button>
                   </div>
                 </div>
               </el-card> 
@@ -184,13 +263,13 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 axios.default.withCredentials = true
 axios.withCredentials = true
 export default {
   name: "Home",
-  
+  components: {
+  },
   data:function(){
     
       return{
@@ -208,7 +287,11 @@ export default {
         user:[],
         activeIndex: '1',
         name:'',
-        Item:[],  
+        Item:[],
+        homeItem:[],
+        homeItemState:false,
+        searchItemState:false,
+        
         beforeFilter:[],
         id:"",
         dropdownList:[
@@ -239,7 +322,7 @@ export default {
         this.getCookie()
 
   },
- 
+  
   beforeRouteLeave(to, from, next) {
         if (to.name == "Sign-in"||to.name == "Cart") {
             from.meta.keepAlive = true
@@ -320,6 +403,8 @@ export default {
 
 
       detail(post){
+        this.searchItemState=true
+        this.homeItemState=false
         this.Item=[]
         this.reviewList =[]
         this.homeState=false;
@@ -340,6 +425,40 @@ export default {
         }
           this.reviewList.push(this.Item[0].reviews[i])
         }
+        for(let i = 0; i < this.user.length; i++){
+            if (post.seller == this.user[i]._id) {
+              this.name = this.user[i].firstname +" "+ this.user[i].lastname;
+            }
+        }
+        
+      },
+      Homedetail(post){
+        this.searchItemState=false
+        this.homeItemState=true
+        this.homeItem=[]
+        this.reviewList =[]
+        this.homeState=false;
+        this.searchState=false;
+        this.itemState=true;
+       let i=0
+        let m=0
+        for( i=0;i<1;i++){
+          this.homeItem.push(post)
+        }
+
+        for(i=0;i<this.homeItem[0].reviews.length;i++){
+          for(m=0; m < this.user.length; m++){
+            if(this.homeItem[0].reviews[i].reviewer == this.user[m]._id){
+              this.homeItem[0].reviews[i].reviewer = this.user[m].firstname +" "+ this.user[i].lastname;
+  
+            }
+        }
+          this.reviewList.push(this.homeItem[0].reviews[i])
+        }
+        // if (this.reviewList.length>3) {
+        //   this.showMoreActivated = true
+        // }
+     
         for(let i = 0; i < this.user.length; i++){
             if (post.seller == this.user[i]._id) {
               this.name = this.user[i].firstname +" "+ this.user[i].lastname;
@@ -493,8 +612,12 @@ export default {
           this.showMoreActivated = false
         }
       },
-      back(){
+      backHome(){
         this.homeState=true;
+        this.itemState=false;
+      },
+      backSearch(){
+        this.searchState=true;
         this.itemState=false;
       },
       cart(){

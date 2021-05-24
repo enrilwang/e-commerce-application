@@ -75,11 +75,6 @@
                         <span><p>Display: 
                           
                            <el-switch v-model="post.disabled" @change='changeStatus($event,post,index)' ></el-switch> 
-
-                            
-
-                            <!-- <input type="checkbox"  @click="check($event,post)" :value="checked" v-model="post[index]"> -->
-                         
                           </p>
                           </span>
 
@@ -164,6 +159,7 @@ export default {
                   if(res.status === 200){
                     
                     alert("Your profile has been updated successfully")
+                    this.$router.push('Sign-in')
                   }else if(res.status ===201){
                     alert("Sorry, password is not correct")
                   }else {
