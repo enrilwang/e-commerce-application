@@ -1,4 +1,4 @@
-# assignment2
+# Assignment2
 # Project Title
 ```
 eCommerce Web Application
@@ -22,7 +22,8 @@ open another terminal and type npm install.
 ```
 ### How to run project 
 ```
-Open IDE, change the directory to login server and type command node app.js, so the server will be run. Then open a new terminal, type command npm run serve and then open localhost//8080.
+Open IDE, change the directory to login server and type command node app.js, so the server will be run. 
+Then open a new terminal, type command npm run serve and then open localhost//8080.
 ```
 
 ### Project setup
