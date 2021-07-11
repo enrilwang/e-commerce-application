@@ -1,4 +1,4 @@
-# Assignment2
+
 # Project Title
 ```
 eCommerce Web Application
